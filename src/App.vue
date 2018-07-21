@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Navheader/>
-    <Logoin v-show='Showlogin'/>
     <Register v-show='ShowRegister'/>
        <router-view></router-view>
     <Navfooter/>
@@ -10,7 +9,6 @@
 <script>
 import Navfooter from '@/components/Navfooter';
 import Navheader from '@/components/Navheader';
-// import Logoin from '@/components/Logoin';
 import Register from '@/components/Register';
 import Home from '@/page/Home';
 import Hub from '@/components/Hub';
@@ -20,7 +18,6 @@ name: 'App',
     Navfooter,
     Navheader,
     Home,
-    Logoin,
     Register,
   },
   data(){

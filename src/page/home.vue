@@ -7,7 +7,7 @@
 <script>
 
   import Hub from '@/components/Hub';
-  import VideoListContentLeft from '@/components/VideoList';
+  import VideoList from '@/components/VideoList';
 export default {
   data() {
     return {
