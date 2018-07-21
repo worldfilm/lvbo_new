@@ -13,7 +13,8 @@ const network=function(url,data,fun){
     fetch(url).then(function(response){
      return response.json();
     }).then(function(data){
-     console.log('2')
+      console.log('2')
+     console.log(data)
     }).catch(function(e){
      console.log("error")
     })

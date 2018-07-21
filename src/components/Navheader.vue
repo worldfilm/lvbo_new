@@ -1,39 +1,43 @@
 <!--头部-->
 <template>
-<div class='header'>
-  <div class="header-top">
-    <div class="container">
-      <a class="logo">
-					   <img src='../../static/logo.png' >
-					</a>
-      <div class="searchForm">
-        <i class="fa fa-search"></i>
-        <form action="">
-          <input type="text" class="searchIpt" placeholder="请输入您喜欢的大片~">
-          <input type="submit" class='submit' value="搜索">
-        </form>
+<div class="header">
+  <nav class="xingyu-topnav">
+    <div class="v-container">
+      <div class="topnav-mainnav">
+        <div class="mainnav-nav-div">
+          <ul>
+            <li><a>VIP</a></li>
+            <li><a>上传</a></li>
+            <li><a target="_blank">領紅包</a></li>
+            <li><a class="main-nav-tag">标签</a></li>
+          </ul>
+        </div>
       </div>
-      <ul class="btn-group">
-        <li><a class="btn signInBtn signInCre" @click="login">登陆</a></li>
-        <li><a class="btn signUpBtn signUpCre" @click="register">注册</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="header-btm">
-    <div class="container">
-      <ul class="navbar">
-        <li @click='home' class="nav-item active"><a>网站首页</a></li>
-        <li @click='movies' class="nav-item"><a>国产自拍</a></li>
-        <li @click='movies' class="nav-item"><a>黄金正片</a></li>
-        <li @click='movies' class="nav-item"><a>日本无码</a></li>
-        <li @click='movies' class="nav-item"><a>欧美大片</a></li>
-        <li @click='movies' class="nav-item"><a>动漫动画</a></li>
-        <li @click='vipag' class="nav-item"><a>获取VIP特权</a></li>
-      </ul>
-    </div>
-  </div>
-</div> 
+      <ul class="topnav-mainnav-right">
+        <li class="xingyu-search">
+          <input type="text" class="form-control" name="title" placeholder="">
+          <button type="button" name="button"><span class="el-icon-search"></span></button>
+        </li>
+        <li class="top-main-nav-collection">
+          <i class="el-icon-star-on"></i> <span>收藏书签</span>
+        </li>
 
+        <li class="top-nav-guide">
+          <a target="_blank">地址发布页</a>
+        </li>
+        <li class="xingyu-topnav-btn-group">
+          <a href="/login" name="btn-login" class="xingyu-btn-login">登录</a>
+          <a href="/register" name="btn-register" class="xingyu-btn-register">注册</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="topnav-fix-nav-logo">
+    <div class="nav-logo">
+
+    </div>
+  </div>
+</div>
 </template>
 <script>
 import Hub from '@/components/Hub';
@@ -43,27 +47,33 @@ export default {
   data() {
     return {
       title: '首页',
-      Showlogin:false,
-      ShowRegister:false,
+      Showlogin: false,
+      ShowRegister: false,
     }
   },
   methods: {
     home() {
-    this.$router.push({path:'/Home'})
+      this.$router.push({
+        path: '/Home'
+      })
     },
     movies() {
-    	this.$router.push({path:'/videoList'})
+      this.$router.push({
+        path: '/videoList'
+      })
     },
     vipag() {
-    this.$router.push({path:'/Vip'})
+      this.$router.push({
+        path: '/Vip'
+      })
     },
-    login(){
-    	Hub.$emit('change1','true');
-    	this.Showlogin=true
+    login() {
+      Hub.$emit('change1', 'true');
+      this.Showlogin = true
     },
-    register(){
-    	Hub.$emit('change2','true');
-    	this.ShowRegister=true
+    register() {
+      Hub.$emit('change2', 'true');
+      this.ShowRegister = true
     }
   },
   props: [],
@@ -71,131 +81,124 @@ export default {
     Hub.$on('change1', (data) => {
       this.title = data
     });
-    Hub.$on('change2', (data) => { 
+    Hub.$on('change2', (data) => {
       this.title = data
     });
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 .header {
-    background: #fff;
-    .header-top {
-        padding: 5px 0;
-        height: 80px;
-        border-bottom: 1px solid #d6e5ef;
-        .container {
-            width: 1200px;
+    .xingyu-topnav {
+        background-color: #58b59d;
+        height: 60px;
+        .v-container {
+            width: 1080px;
             margin: 0 auto;
-            .logo {
+            height: 60px;
+            .topnav-mainnav {
                 float: left;
-                padding-left: 20px;
-                img {
-                    width: 65px;
-                    height: 65px;
-                }
-            }
-            .searchForm {
-                float: left;
-                position: relative;
-                width: 499px;
-                height: 42px;
-                margin-left: 255px;
-                margin-top: 11px;
-                background: #fdfdfe;
-                border: 1px solid #008def;
-                border-radius: 42px;
-                form {
-                    margin-left: 35px;
-                    .searchIpt {
-                        border: none;
-                        width: 379px;
-                        height: 40px;
-                        line-height: 40px;
-                    }
-                    .submit {
-                        position: relative;
-                        left: 1px;
-                        width: 80px;
-                        height: 42px;
-                        line-height: 42px;
-                        border-radius: 0 42px 42px 0;
-                        border: none;
-                        background: #008def;
-                        color: #fff;
-                        letter-spacing: 2px;
-                        font-size: 15px;
-                        cursor: pointer;
+                display: table;
+                .mainnav-nav-div {
+                    display: table-cell;
+                    vertical-align: middle;
+                    ul {
+                        font-size: 0;
+                        line-height: 0;
+                        li {
+                            width: 85px;
+                            text-align: center;
+                            height: 60px;
+                            line-height: 60px;
+                            font-size: 16px;
+                            color: #fff;
+                            display: inline-block;
+                            cursor: pointer;
+                        }
                     }
                 }
             }
-            .btn-group {
-                padding-right: 20px;
-                padding-left: 20px;
+            .topnav-mainnav-right {
                 float: right;
-                display:block;
+                line-height: 60px;
+                height: 60px;
                 li {
                     display: inline-block;
-                    padding-top: 18px;
-                    margin-left: 10px;
-                        .signInBtn {
-                            background: #008def;
-                            position: relative;
-                            display: block;
-                            width: 80px;
-                            height: 34px;
-                            line-height: 34px;
-                            text-align: center;
-                            font-size: 14px;
-                            color: #fff;
-                            letter-spacing: 3px;
-                            border-radius: 34px;
-                            z-index: 1;
-                            transition: 0.5s;
-                        }
-                        .signUpBtn {
-                            background: #f1592a;
-                            position: relative;
-                            display: block;
-                            width: 80px;
-                            height: 34px;
-                            line-height: 34px;
-                            text-align: center;
-                            font-size: 14px;
-                            color: #fff;
-                            letter-spacing: 3px;
-                            border-radius: 34px;
-                            z-index: 1;
-                            transition: 0.5s;
-                        }
-                }
-            }
-        }
-    }
-    .header-btm {
-        box-shadow: 0 3px 10px #ddd;
-        .container {
-            width: 1200px;
-            margin: 0 auto;
-            .navbar {
-                padding-bottom: 1px;
-                .nav-item {
-                    display: inline-block;
-                    padding: 18px 18px 15px;
-                    margin-right: 18px;
-                    transition: 0.3s;
-                    border-bottom: 2px solid #fff;
+                    height: 32px;
+                    line-height: 32px;
+                    color: #fff;
                     cursor: pointer;
-                    transition: 0.3s;
-                    a {
-                        font-size: 15px;
-                        color: #818486;
-                        transition: 0.3s;
+                    overflow: hidden;
+                }
+                .xingyu-search {
+                    width: 210px;
+                    border: 1px solid #fff;
+                    text-align: center;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    display: inline-block;
+                    input {
+                        outline: none;
+                        background: none;
+                        border: none;
+                    }
+                    button {
+                        height: 32px;
+                        width: 37px;
+                        border: none;
+                        position: relative;
+                        right: -16px;
+                        outline: none;
+                        background: #fff;
+                        span {
+                            font-size: 19px;
+                            font-weight: bold;
+                            color: #6f6b6b;
+                        }
                     }
                 }
             }
+            .top-main-nav-collection {
+                width: 110px;
+                background-color: #4fa28d;
+                text-align: center;
+                border-radius: 4px;
+                margin: 0 30px;
+                font-size: 14px;
+                display: inline-block;
+            }
+            .top-nav-guide {
+                width: 100px;
+                background-color: #4fa28d;
+                text-align: center;
+                border-radius: 4px;
+            }
+            .xingyu-topnav-btn-group {
+                width: 170px;
+                display: table;
+                padding-top: 13px;
+                a {
+                    background-color: #4fa28d;
+                    color: #fff;
+                    border-radius: 4px;
+                    margin-left: 30px;
+                    font-size: 14px;
+                    text-align: center;
+                    padding: 5px 11px;
+                }
+            }
         }
     }
+    .topnav-fix-nav-logo{background-color: #2c2c2c;
+      height:80px;
+     margin: 0 auto;
+     .nav-logo{
+       width: 184px;
+ height: 70px;
+ margin: 0 auto;
+ background: url(/static/logo.png)no-repeat 0px 4px;
 
+     }
+    }
 }
 </style>

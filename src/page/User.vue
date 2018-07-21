@@ -1,7 +1,6 @@
 <template>
 	<div class="user">
        <p>useruseruseruseruseruseruser</p>
-       <FormLogoin/>
 	</div>
 </template>
 
@@ -24,4 +23,3 @@ import FormLogoin from '@/components/FormLogoin.vue';
     overflow-x: hidden;
     overflow-y: scroll;
 }
-

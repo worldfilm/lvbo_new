@@ -8,11 +8,11 @@
   </div>
 </template>
 <script>
-import Navfooter from '@/components/Navfooter.vue';
-import Navheader from '@/components/Navheader.vue';
-import Logoin from '@/components/Logoin';
+import Navfooter from '@/components/Navfooter';
+import Navheader from '@/components/Navheader';
+// import Logoin from '@/components/Logoin';
 import Register from '@/components/Register';
-import Home from '@/page/Home.vue';
+import Home from '@/page/Home';
 import Hub from '@/components/Hub';
 export default {
 name: 'App',

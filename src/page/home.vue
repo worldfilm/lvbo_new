@@ -1,22 +1,20 @@
 <template>
 <div class="home">
-  <VideoListContentLeft/>
-  <VideoListContentRight/>
+  <VideoList/>
 </div>
 </template>
 
 <script>
 
   import Hub from '@/components/Hub';
-  import VideoListContentLeft from '@/components/VideoListContentLeft';
-	import VideoListContentRight from '@/components/VideoListContentRight';
+  import VideoListContentLeft from '@/components/VideoList';
 export default {
   data() {
     return {
 
     }
   },
-  components: {VideoListContentLeft,VideoListContentRight}
+  components: {VideoList,}
 }
 </script>
 
