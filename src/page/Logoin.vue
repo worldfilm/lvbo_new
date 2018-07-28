@@ -1,8 +1,7 @@
 <template>
-<div class="register-pop hide">
+<div class="register-pop ">
   <div class="register-pop-container">
     <div class="login-title">注册
-      <div class="loginclose close" @click="closed"></div>
     </div>
     <div class="register-pop-content">
       <form role="form" id="signUpForm" novalidate="novalidate">
@@ -58,15 +57,10 @@ export default {
       verifycode: null,
       tex: null,
       data: {},
-      chose:true,
       disable:'disable',
     }
   },
   methods: {
-    closed() {
-      Hub.$emit('closed', false);
-
-    },
     checkd(){
       this.chose?(this.chose=false):(this.chose=true);
     },

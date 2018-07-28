@@ -6,7 +6,7 @@
       <div class="topnav-mainnav">
         <div class="mainnav-nav-div">
           <ul>
-            <li><a>VIP</a></li>
+            <li @click='vipag'><a>VIP</a></li>
             <li><a>上传</a></li>
             <li><a target="_blank">領紅包</a></li>
             <li><a class="main-nav-tag">标签</a></li>
@@ -26,14 +26,14 @@
           <a target="_blank">地址发布页</a>
         </li>
         <li class="xingyu-topnav-btn-group">
-          <a href="/login" name="btn-login" class="xingyu-btn-login">登录</a>
-          <a href="/register" name="btn-register" class="xingyu-btn-register">注册</a>
+          <a href="/Logoin" name="btn-login" class="xingyu-btn-login" @click="login">登录</a>
+          <a href="/Register" name="btn-register" class="xingyu-btn-register" @click="register">注册</a>
         </li>
       </ul>
     </div>
   </nav>
   <div class="topnav-fix-nav-logo">
-    <div class="nav-logo">
+    <div class="nav-logo" @click='home'>
 
     </div>
   </div>
@@ -47,8 +47,6 @@ export default {
   data() {
     return {
       title: '首页',
-      Showlogin: false,
-      ShowRegister: false,
     }
   },
   methods: {
@@ -68,12 +66,14 @@ export default {
       })
     },
     login() {
-      Hub.$emit('change1', 'true');
-      this.Showlogin = true
+      this.$router.push({
+        path: '/Logoin'
+      })
     },
     register() {
-      Hub.$emit('change2', 'true');
-      this.ShowRegister = true
+      this.$router.push({
+        path: '/Register'
+      })
     }
   },
   props: [],
@@ -189,16 +189,17 @@ export default {
             }
         }
     }
-    .topnav-fix-nav-logo{background-color: #2c2c2c;
-      height:80px;
-     margin: 0 auto;
-     .nav-logo{
-       width: 184px;
- height: 70px;
- margin: 0 auto;
- background: url(/static/logo.png)no-repeat 0px 4px;
-
-     }
+    .topnav-fix-nav-logo {
+        background-color: #2c2c2c;
+        height: 80px;
+        margin: 0 auto;
+        .nav-logo {
+            width: 184px;
+            height: 80px;
+            line-height: 80px;
+            margin: 0 auto;
+            background: url("/static/logo.png") no-repeat 0 5px;
+        }
     }
 }
 </style>

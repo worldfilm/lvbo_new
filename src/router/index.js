@@ -3,6 +3,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/page/Home'
 import Vip from '@/page/Vip'
+import Logoin from '@/page/Logoin'
+import Register from '@/page/Register'
 
 export default new Router({
   routes: [
@@ -18,6 +20,14 @@ export default new Router({
       path: '/Vip',
       name: 'Vip',
       component: Vip
+    },{
+      path: '/Logoin',
+      name: 'Logoin',
+      component: Logoin
+    },{
+      path: '/Register',
+      name: 'Register',
+      component: Register
     }
   ]
 })

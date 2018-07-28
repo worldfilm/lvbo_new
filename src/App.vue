@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Navheader/>
-    <Register v-show='ShowRegister'/>
        <router-view></router-view>
     <Navfooter/>
   </div>
@@ -9,21 +8,15 @@
 <script>
 import Navfooter from '@/components/Navfooter';
 import Navheader from '@/components/Navheader';
-import Register from '@/components/Register';
-import Home from '@/page/Home';
 import Hub from '@/components/Hub';
 export default {
 name: 'App',
   components: {
     Navfooter,
     Navheader,
-    Home,
-    Register,
   },
   data(){
   	return {
-  		Showlogin:false,
-      ShowRegister:false,
   	}
   },
   methods: {
@@ -32,15 +25,11 @@ name: 'App',
   props: [],
   created() {
   	Hub.$on('closed', (data) => {
-      this.Showlogin = data
-      this.ShowRegister = data
     });
     Hub.$on('change1', (data) => {
-      this.Showlogin = data
 
     });
     Hub.$on('change2', (data) => {
-      this.ShowRegister = data
     });
   }
 }

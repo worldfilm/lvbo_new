@@ -6,132 +6,84 @@
       <span class='title_span'>美女直播</span>
       <a class="more">查看更多&gt;</a>
     </h4>
+    <ul class="nav">
+      <li class="item" v-for='item in navlist' @click='videonav(item.name)'>{{item.name}}</li>
+    </ul>
     <ul class="videos-cont">
       <li v-for="item in list" class="item">
         <div class="videos-info">
-          <img class="video-cover" :src="item.src">
+          <img class="video-cover" :src="item.thumb_href">
           <div class="playContrl">
             <a href=""><i class="fa fa-youtube-play"></i></a>
           </div>
         </div>
         <p class="title" v-text='item.title'></p>
-        <p class="play-info">
-          <span v-text='item.viewtime'></span>次观看
-          <span v-text='item.day'></span><span>天前</span>
-        </p>
-      </li>
-    </ul>
-  </div>
-
-  <div class='content_1'>
-    <h4 class="videos-title">
-      <i class="fa fa-anchor" ></i>
-      <span class='title_span'>欧美大片</span>
-      <a class="more">查看更多&gt;</a>
-    </h4>
-    <ul class="videos-cont">
-      <li v-for="item in list2" class="item">
-        <div class="videos-info">
-          <img class="video-cover" :src="item.src">
-          <div class="playContrl">
-            <a href=""><i class="fa fa-youtube-play"></i></a>
+        <div class="v-mask-layer">
+          <div class="v-mask-layer-left">人观看 </div>
+          <div class="v-mask-layer-right">
+            <i class="xyvideo-icon"></i>{{item.duration}}
           </div>
         </div>
-        <p class="title" v-text='item.title'></p>
-        <p class="play-info">
-          <span v-text='item.viewtime'></span>次观看
-          <span v-text='item.day'></span><span>天前</span>
-        </p>
-      </li>
-    </ul>
-  </div>
-
-  <div class='content_1'>
-    <h4 class="videos-title">
-      <i class="fa fa-anchor" ></i>
-      <span class='title_span'>日本无码</span>
-      <a class="more">查看更多&gt;</a>
-    </h4>
-    <ul class="videos-cont">
-      <li v-for="item in list2" class="item">
-        <div class="videos-info">
-          <img class="video-cover" :src="item.src">
-          <div class="playContrl">
-            <a href=""><i class="fa fa-youtube-play"></i></a>
-          </div>
-        </div>
-        <p class="title" v-text='item.title'></p>
-        <p class="play-info">
-          <span v-text='item.viewtime'></span>次观看
-          <span v-text='item.day'></span><span>天前</span>
-        </p>
       </li>
     </ul>
   </div>
 </div>
 </template>
 <script>
+import {network} from '@/config/config';
+// import newlist from '@/data/newlist';
 export default {
   data() {
     return {
       title: 'home',
-      list2: [{
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, {
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, {
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, ],
-      list: [{
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, {
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, {
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, {
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, {
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }, {
-        viewtime: '12312',
-        title: '超絶倫巨乳少女！ 3 突然出来た妹は超ヤリマン女子校に通う女子校生！',
-        src: '../static/v-cover-1.jpg',
-        day: '1'
-      }]
+      list:{},
+      navlist: [{
+          name: '最新'
+        }, {
+          name: '大陆'
+        }, {
+          name: '无套内射'
+        }, {
+          name: '口爆'
+        },
+        {
+          name: '人妻'
+        }, {
+          name: '巨乳'
+        }, {
+          name: '3p'
+        }, {
+          name: '肛交'
+        }, {
+          name: '后入'
+        }, {
+          name: '欧美'
+        }, {
+          name: '动漫'
+        }]
     }
   },
   name: 'home',
-  components: {}
+  components:{},
+  methods:{
+    videonav(e){
+      console.log(this.list)
+      network('http://192.168.0.110:3000/NavList', {title:e}, data => {
+        this.list=data.data
+      })
+    },
+  },
+  mounted(){
+    network('http://192.168.0.110:3000/videoList', null, data => {
+      this.list = data.data
+    })
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .VideoList {
-    width: 900px;
+    width: 1200px;
     float: left;
     .videos-title {
         width: 98%;
@@ -141,13 +93,24 @@ export default {
         height: 30px;
         line-height: 42px;
         padding-left: 9px;
-        padding-bottom: 5px;border-bottom: 1px solid #58b59d;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #58b59d;
         .title_span {
             float: left;
             color: #58b59d;
         }
         .more {
-            float: right;color: #58b59d;font-size: 14px;cursor: pointer;
+            float: right;
+            color: #58b59d;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    }
+    .nav {
+        text-align: left;
+        .item {
+            text-align: center;
+            width: 60px;
         }
     }
     .item {
@@ -157,7 +120,14 @@ export default {
         padding: 10px;
         border-radius: 5px;
         box-shadow: 0 0 10px #ddd;
-        display: inline-block;cursor: pointer;
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+        p {
+            height: 32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .videos-info {
             position: relative;
             img {
@@ -177,30 +147,31 @@ export default {
 
         }
         .title {
-            width: 100%;
-            height: 20px;
-            line-height: 25px;
-            margin: 10px 0 5px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        .play-info {
-            position: absolute;
-            display: none;
-            left: 0;
-            top: 0;
             // width: 100%;
-            // height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            i {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                margin-left: -23px;
-                margin-top: -23px;
-                color: #e4f4ff;
-                font-size: 55px;
+            // height: 20px;
+            // line-height: 25px;
+            // margin: 10px 0 5px;
+            // overflow: hidden;
+            // white-space: nowrap;
+            // text-overflow: ellipsis;
+
+        }
+        .v-mask-layer {
+            position: absolute;
+            width: 266px;
+            margin: 0 auto;
+            height: 30px;
+            background-color: #000;
+            top: 158px;
+            line-height: 30px;
+            opacity: 0.6;
+                color: #fff;
+            .v-mask-layer-left {
+                width: 50%;
+                float: left;
+            }
+            .v-mask-layer-right {
+                .xyvideo-icon {}
             }
         }
     }
