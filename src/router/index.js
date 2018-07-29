@@ -5,6 +5,8 @@ import Home from '@/page/Home'
 import Vip from '@/page/Vip'
 import Logoin from '@/page/Logoin'
 import Register from '@/page/Register'
+import Zhibo from '@/page/Zhibo'
+import Protocol from '@/page/Protocol'
 
 export default new Router({
   routes: [
@@ -28,6 +30,14 @@ export default new Router({
       path: '/Register',
       name: 'Register',
       component: Register
+    },{
+      path: '/Zhibo',
+      name: 'Zhibo',
+      component: Zhibo
+    },{
+      path: '/Protocol',
+      name: 'Protocol',
+      component: Protocol
     }
   ]
 })

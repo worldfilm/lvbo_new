@@ -1,8 +1,8 @@
 <template>
 <div class="vip">
   <Paytop/>
-  <Paypackge/>
   <Payicons/>
+  <Paypackge/>
   <payContain v-show='ShowPayContain'/>
 
 </div>

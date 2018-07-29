@@ -11,10 +11,18 @@
         </div>
       </div>
       <div class="pay-top-right">
-        <div class="top-right-no-login">
+        <div class="top-right-no-login" v-show='ShowNoLogin'>
           <p>加入VIP,畅享特权</p>
           <span>最低1.20元/天</span>
           <div class="loginbtn please-login signInBtn signInCre" @click='login'>登录
+          </div>
+        </div>
+        <div class="first-right-login" v-show='ShowLoginUser'>
+          <img src="http://img.d1w8.space:80/user_head/default_1_1.jpg">
+          <div>
+            <a>guo555</a>
+            <p>加入VIP，畅想特权</p>
+            <span>最低1.20元/天</span>
           </div>
         </div>
       </div>
@@ -45,15 +53,22 @@ export default {
         {
           text: '多屏共享,移动\PC端会员权益共享'
         },
-      ]
-
-
+      ],
+      ShowLoginUser: false,
+      ShowNoLogin: true,
     }
   },
   methods: {
-    login(){
-      Hub.$emit('change1','true');
-      this.Showlogin=true
+    login() {
+      // Hub.$emit('change1','true');
+      let istrue = false
+      if (istrue) {
+
+      } else {
+        this.$router.push({
+          path: '/Logoin'
+        })
+      }
     },
   },
   components: {}
@@ -109,7 +124,7 @@ export default {
                     width: 240px;
                     height: 38px;
                     line-height: 38px;
-                    background-color: #f07;
+                    background-color: #58b59d;
                     color: #fff;
                     border-radius: 2px;
                     font-size: 16px;
@@ -119,6 +134,40 @@ export default {
                         font-size: 16px;
                         color: #333;
                         margin-bottom: 3px;
+                    }
+                    span {
+                        font-size: 14px;
+                        color: #666;
+                    }
+                }
+            }
+            .first-right-login {
+                img {
+                    float: left;
+                    width: 100px;
+                    height: 100px;
+                    border: 1px solid #ddd;
+                    border-radius: 50%;
+                    vertical-align: middle;
+                }
+                div {
+                    float: left;
+                    margin-left: 10px;
+                    vertical-align: middle;
+                    text-align: left;
+                    a {
+                        font-size: 26px;
+                        color: #58b59d;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        max-width: 215px;
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                    p {
+                        font-size: 16px;
+                        color: #333;
                     }
                     span {
                         font-size: 14px;

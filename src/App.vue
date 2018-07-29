@@ -1,36 +1,33 @@
 <template>
-  <div id="app">
-    <Navheader/>
-       <router-view></router-view>
-    <Navfooter/>
-  </div>
+<div id="app">
+  <Navheader/>
+  <router-view></router-view>
+  <Navfooter/>
+</div>
 </template>
 <script>
 import Navfooter from '@/components/Navfooter';
 import Navheader from '@/components/Navheader';
 import Hub from '@/components/Hub';
 export default {
-name: 'App',
+  name: 'App',
   components: {
     Navfooter,
     Navheader,
   },
-  data(){
-  	return {
-  	}
+  data() {
+    return {}
   },
   methods: {
 
   },
   props: [],
   created() {
-  	Hub.$on('closed', (data) => {
-    });
+    Hub.$on('closed', (data) => {});
     Hub.$on('change1', (data) => {
 
     });
-    Hub.$on('change2', (data) => {
-    });
+    Hub.$on('change2', (data) => {});
   }
 }
 </script>
@@ -41,13 +38,15 @@ name: 'App',
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  width:100%;
+  width: 100%;
 }
+
 * {
   margin: 0;
   padding: 0;
   font-family: 微软雅黑;
 }
+
 a {
   text-decoration: none;
 }
@@ -61,9 +60,14 @@ li {
 }
 
 label {
-    display: inline-block;
-    max-width: 100%;
-    margin-bottom: 5px;
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+}
+
+button {
+  border: none;
+  outline: none;
 }
 
 body {
@@ -72,11 +76,18 @@ body {
   color: #333;
   display: block;
 }
+
 .clearfix:after {
-    content: "";
-    display: block;
-    clear: both;
+  content: "";
+  display: block;
+  clear: both;
 }
-.pull-left{float:left}
-.pull-right{float:right}
+
+.pull-left {
+  float: left
+}
+
+.pull-right {
+  float: right
+}
 </style>

@@ -3,7 +3,7 @@
   <div class='content_1'>
     <h4 class="videos-title">
       <i class="fa fa-anchor" ></i>
-      <span class='title_span'>最新视频</span>
+      <span class='title_span'>美女直播</span>
       <a class="more">查看更多&gt;</a>
     </h4>
     <ul class="nav">
@@ -98,7 +98,7 @@ export default {
         border-bottom: 1px solid #58b59d;
         .title_span {
             float: left;
-            color: #58b59d;font-size: 22px;
+            color: #58b59d;
         }
         .more {
             float: right;

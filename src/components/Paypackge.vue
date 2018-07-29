@@ -47,11 +47,19 @@ export default {
   },
   methods: {
     fastjoin(){
-      if(this.logoState){
-        Hub.$emit('change1','true');
-        this.Showlogin=true
-      }else{
-        Hub.$emit('change3','true');
+      // if(this.logoState){
+      //   Hub.$emit('change1','true');
+      //   this.Showlogin=true
+      // }else{
+      //   Hub.$emit('change3','true');
+      // }
+      let istrue=false
+      if(istrue){
+
+      }else {
+        this.$router.push({
+          path: '/Logoin'
+        })
       }
     },
   },
@@ -96,7 +104,7 @@ export default {
                             margin-top: 45px;
                             span {
                                 font-size: 30px;
-                                color: #f07;
+                                color: #58b59d;
                                 padding: 0 5px;
                             }
                         }
@@ -113,7 +121,7 @@ export default {
                             color: #fff;
                             border-radius: 2px;
                             text-align: center;
-                            background-color: #f07;
+                            background-color: #58b59d;
                             margin: 12px auto;
                         }
                         .package-tip {

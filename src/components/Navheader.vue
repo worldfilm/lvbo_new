@@ -26,8 +26,17 @@
           <a target="_blank">地址发布页</a>
         </li>
         <li class="xingyu-topnav-btn-group">
-          <a href="/Logoin" name="btn-login" class="xingyu-btn-login" @click="login">登录</a>
-          <a href="/Register" name="btn-register" class="xingyu-btn-register" @click="register">注册</a>
+          <div  v-show='ShowLog'>
+            <a class="xingyu-btn-login" @click="login">登录</a>
+            <a  class="xingyu-btn-register" @click="register">注册</a>
+          </div>
+          <div v-show='ShowOnline'>
+            <span>欢迎</span>
+            <ul>
+              <li></li>
+            </ul>
+            <span>退出</span>
+          </div>
         </li>
       </ul>
     </div>
@@ -47,6 +56,8 @@ export default {
   data() {
     return {
       title: '首页',
+      ShowLog:true,
+      ShowOnline:false,
     }
   },
   methods: {
@@ -78,11 +89,11 @@ export default {
   },
   props: [],
   created() {
-    Hub.$on('change1', (data) => {
-      this.title = data
+    Hub.$on('ShowLog', (data) => {
+      this.ShowLog = data
     });
-    Hub.$on('change2', (data) => {
-      this.title = data
+    Hub.$on('ShowOnline', (data) => {
+      this.ShowOnline = data
     });
   }
 }
@@ -199,6 +210,7 @@ export default {
             line-height: 80px;
             margin: 0 auto;
             background: url("/static/logo.png") no-repeat 0 5px;
+            cursor: pointer;
         }
     }
 }
