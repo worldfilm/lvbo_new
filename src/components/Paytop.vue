@@ -32,6 +32,7 @@
 </template>
 <script>
 import Hub from '@/components/Hub';
+import {  network} from '@/config/config';
 export default {
   data() {
     return {
@@ -60,17 +61,24 @@ export default {
   },
   methods: {
     login() {
-      // Hub.$emit('change1','true');
       let istrue = false
-      if (istrue) {
-
-      } else {
+      if (!istrue){
         this.$router.push({
           path: '/Logoin'
         })
       }
     },
   },
+	mounted() {
+    network('http://192.168.0.110:3000/online', {
+    },data=>{
+      if(data.status==1){
+        this.ShowNoLogin = false
+       this.ShowLoginUser = true
+      }
+    })
+
+},
   components: {}
 }
 </script>

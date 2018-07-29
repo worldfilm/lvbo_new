@@ -72,6 +72,11 @@ export default {
       })
     },
     vipag() {
+      if(this.ShowOnline){
+        console.log('xxx')
+        Hub.$emit('ShowLog', false);
+        Hub.$emit('ShowOnline', true);
+      }
       this.$router.push({
         path: '/Vip'
       })
