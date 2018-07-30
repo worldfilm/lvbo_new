@@ -2,6 +2,5 @@ Natvie-App/
 node_modules/
 .DS_Store
 .idea/
-index.html
 webpack.config.js
 package-lock.json

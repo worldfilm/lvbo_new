@@ -130,7 +130,7 @@ export default {
       }else {
         if (this.chose) {
           this.tex = "注册成功~";
-          network('http://192.168.0.110:3000/regist', {
+          network('regist', {
             username: this.username,
             email: this.email,
             password: this.password,

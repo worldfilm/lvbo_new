@@ -1,7 +1,9 @@
 const network = function(url, data, fun) {
+  // let ip='http://192.168.0.110:3000/'
+  let ip='http://192.168.254.104:3000/'
   if (data) {
     let method = 'post'
-    fetch(url, {
+    fetch(ip+url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -16,7 +18,7 @@ const network = function(url, data, fun) {
       console.log("POSTerror")
     })
   } else {
-    fetch(url, {
+    fetch(ip+url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

@@ -83,7 +83,7 @@ export default {
         if (this.chose) {
           this.texusername=null;
           this.texpassword=null;
-          network('http://192.168.0.110:3000/Login', {
+          network('Login', {
             username: this.username,
             password: this.password,
           },data=>{
