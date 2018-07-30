@@ -71,7 +71,7 @@ button {
 }
 
 body {
-  background: #f5f4f5;
+  background: #f7f7f8;
   font-size: 14px;
   color: #333;
   display: block;

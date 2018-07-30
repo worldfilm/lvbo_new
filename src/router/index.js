@@ -7,6 +7,7 @@ import Logoin from '@/page/Logoin'
 import Register from '@/page/Register'
 import Zhibo from '@/page/Zhibo'
 import Protocol from '@/page/Protocol'
+import UserCenter from '@/page/UserCenter'
 
 export default new Router({
   routes: [
@@ -38,6 +39,10 @@ export default new Router({
       path: '/Protocol',
       name: 'Protocol',
       component: Protocol
+    },{
+      path: '/UserCenter',
+      name: 'UserCenter',
+      component: UserCenter
     }
   ]
 })

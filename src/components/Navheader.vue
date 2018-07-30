@@ -25,15 +25,17 @@
         <li class="top-nav-guide">
           <a target="_blank">地址发布页</a>
         </li>
-        <li class="xingyu-topnav-btn-group">
-          <div  v-show='ShowLog'>
+        <li class="topnav-btn-group">
+          <div v-show='ShowLog'>
             <a class="xingyu-btn-login" @click="login">登录</a>
-            <a  class="xingyu-btn-register" @click="register">注册</a>
+            <a class="xingyu-btn-register" @click="register">注册</a>
           </div>
-          <div v-show='ShowOnline'>
+          <div v-show='ShowOnline' class="showonline">
             <span>欢迎</span>
-            <ul>
-              <li></li>
+            <span class="username">{{username}}</span>
+            <span class="arrow el-icon-caret-bottom" @click="showuserlist"></span>
+            <ul class="userdeitllist" v-show="ulist" >
+              <li v-for='item in usercenterlist' @click="userpag(item.component)">{{item.name}}</li>
             </ul>
             <span>退出</span>
           </div>
@@ -42,9 +44,7 @@
     </div>
   </nav>
   <div class="topnav-fix-nav-logo">
-    <div class="nav-logo" @click='home'>
-
-    </div>
+    <div class="nav-logo" @click='home'></div>
   </div>
 </div>
 </template>
@@ -56,8 +56,13 @@ export default {
   data() {
     return {
       title: '首页',
-      ShowLog:true,
-      ShowOnline:false,
+      ShowLog: true,
+      ShowOnline: false,
+      username: 'null',
+      ulist: false,
+      usercenterlist:[
+        {name:'我的账户',component:'Accunt'},{name:'我的视频',component:'Video'},{name:'我的资料',component:'Info'},{name:'我的收藏',component:'Favorite'},{name:'账户安全',component:'Safety'},
+      ]
     }
   },
   methods: {
@@ -72,8 +77,7 @@ export default {
       })
     },
     vipag() {
-      if(this.ShowOnline){
-        console.log('xxx')
+      if (this.ShowOnline) {
         Hub.$emit('ShowLog', false);
         Hub.$emit('ShowOnline', true);
       }
@@ -90,7 +94,16 @@ export default {
       this.$router.push({
         path: '/Register'
       })
-    }
+    },
+    showuserlist() {
+      this.ulist = true
+    },
+    userpag(component){
+      Hub.$emit('component', component);
+      this.$router.push({
+        path: '/UserCenter'
+      })
+    },
   },
   props: [],
   created() {
@@ -100,6 +113,11 @@ export default {
     Hub.$on('ShowOnline', (data) => {
       this.ShowOnline = data
     });
+    document.addEventListener('click', (e) => {
+      if (!this.$el.contains(e.target)){
+          this.ulist = false;
+      }
+    })
   }
 }
 </script>
@@ -144,7 +162,8 @@ export default {
                     line-height: 32px;
                     color: #fff;
                     cursor: pointer;
-                    overflow: hidden;
+                    float: left;
+                    margin: 14px 8px;
                 }
                 .xingyu-search {
                     width: 210px;
@@ -152,7 +171,7 @@ export default {
                     text-align: center;
                     border-radius: 4px;
                     font-size: 14px;
-                    display: inline-block;
+                    overflow: hidden;
                     input {
                         outline: none;
                         background: none;
@@ -173,34 +192,73 @@ export default {
                         }
                     }
                 }
-            }
-            .top-main-nav-collection {
-                width: 110px;
-                background-color: #4fa28d;
-                text-align: center;
-                border-radius: 4px;
-                margin: 0 30px;
-                font-size: 14px;
-                display: inline-block;
-            }
-            .top-nav-guide {
-                width: 100px;
-                background-color: #4fa28d;
-                text-align: center;
-                border-radius: 4px;
-            }
-            .xingyu-topnav-btn-group {
-                width: 170px;
-                display: table;
-                padding-top: 13px;
-                a {
+                .top-main-nav-collection {
+                    width: 110px;
                     background-color: #4fa28d;
-                    color: #fff;
-                    border-radius: 4px;
-                    margin-left: 30px;
-                    font-size: 14px;
                     text-align: center;
-                    padding: 5px 11px;
+                    border-radius: 4px;
+                    font-size: 14px;
+                }
+                .top-nav-guide {
+                    width: 100px;
+                    background-color: #4fa28d;
+                    text-align: center;
+                    border-radius: 4px;
+                }
+                .topnav-btn-group {
+                    font-size: 16px;
+                    a {
+                        background-color: #4fa28d;
+                        color: #fff;
+                        border-radius: 4px;
+                        margin-left: 30px;
+                        font-size: 14px;
+                        text-align: center;
+                        padding: 5px 11px;
+                    }
+                    .showonline {
+                        padding: 0 10px;
+                        float: left;
+                        position: relative;
+                        span {
+                            display: inline-block;
+                            float: left;padding: 0 3px;
+    border-radius: 5px;
+                        }
+                        span:hover{
+                              box-shadow: 3px 1px 10px 0px #5f5a5a;
+                        }
+                        .arrow{
+                          width:30px;
+                          height:30px;line-height: 32px;
+                        }
+                        .userdeitllist {
+                            display: inline-block;
+                            width: 100px;
+                            float: left;
+                            position: absolute;
+                            left: 60px;
+                            top: 32px;
+                            background: #58b59d;
+                            z-index: 1;
+                            border-radius: 5px;
+                            box-shadow: 1px -1px 7px -1px #5f5a5a;
+                            li {
+                                overflow: inherit;
+                                margin: 0;
+                                width: 100px;
+                            }
+                            li:hover{
+                              background: #93c5b8;
+                            }
+
+                        }
+                        .username {
+                            height: 30px;
+                            width: 80px;
+                            text-align: center;
+                        }
+                    }
                 }
             }
         }
