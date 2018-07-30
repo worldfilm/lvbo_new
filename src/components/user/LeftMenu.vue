@@ -77,7 +77,7 @@ export default {
     width: 280px;
     height: 450px;
     background: #fff;
-
+        display: inline-block;
     .info {
         border-bottom: 1px dashed;
         width: 240px;

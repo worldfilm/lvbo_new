@@ -25,6 +25,6 @@ export default {
 <style lang="scss" scoped>
 .info{
   width: 900px;
-height: auto;
+height: auto;    float: right;
 }
 </style>

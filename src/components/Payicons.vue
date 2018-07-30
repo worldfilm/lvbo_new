@@ -1,6 +1,5 @@
 <template>
 <div class="pay-middle-icons v-container clearfix">
-  <div class="container">
     <div class="bottom-package-title">
       VIP特权
     </div>
@@ -13,7 +12,6 @@
         </div>
       </li>
     </ul>
-  </div>
 </div>
 </template>
 
@@ -54,9 +52,6 @@ export default {
 
 <style lang="scss" scoped>
 .pay-middle-icons {
-    .container {
-        width: 1200px;
-        margin: 0 auto;
         .bottom-package-title {
             width: 100%;
             font-size: 28px;
@@ -98,6 +93,5 @@ export default {
                 }
             }
         }
-    }
 }
 </style>

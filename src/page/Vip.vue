@@ -3,7 +3,7 @@
   <Paytop/>
   <Payicons/>
   <Paypackge/>
-  <payContain v-show='ShowPayContain'/>
+  <!-- <payContain v-show='ShowPayContain'/> -->
 
 </div>
 </template>
@@ -37,5 +37,7 @@ export default {
 <style lang="scss" scoped>
 .vip {
     overflow: hidden;
+    width: 1200px; 
+    margin: 0 auto;
 }
 </style>
