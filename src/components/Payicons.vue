@@ -1,22 +1,21 @@
 <template>
 <div class="pay-middle-icons v-container clearfix">
-    <div class="bottom-package-title">
-      VIP特权
-    </div>
-    <ul>
-      <li v-for='item in list'>
-        <img :src="item.src">
-        <div>
-          <p v-text='item.title'></p>
-          <span v-text='item.tex'></span>
-        </div>
-      </li>
-    </ul>
+  <div class="bottom-package-title">
+    会员特权
+  </div>
+  <ul>
+    <li v-for='item in list'>
+      <img :src="item.src">
+      <div>
+        <p v-text='item.title'></p>
+        <span v-text='item.tex'></span>
+      </div>
+    </li>
+  </ul>
 </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -52,46 +51,43 @@ export default {
 
 <style lang="scss" scoped>
 .pay-middle-icons {
-        .bottom-package-title {
-            width: 100%;
-            font-size: 28px;
-            color: #333;
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 20px;
-            height: 45px;
-            line-height: 45px;
-            padding-left: 20px;
-        }
-        ul {
-            li {
-                float: left;
-                width: 23%;
-                height: 100px;
-                background-color: #fff;
-                margin-right: 1.41%;
-                margin-bottom: 50px;
-                padding-top: 3%;
-                padding-left: 8%;
-                img {
-                    width: 58px;
-                    height: 58px;
-                    margin-right: 18px;
-                    vertical-align: bottom;
+    .bottom-package-title {
+        width: 100%;
+        font-size: 22px;
+        color: #58b59d;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+        height: 45px;
+        line-height: 45px;
+        text-align: left;
+    }
+    ul {
+        li {
+            width: 23%;
+            background-color: #fff;
+            padding: 3%;
+            margin: 2%;
+            display: inline-block;
+            border: 1px solid #ddd;
+            img {
+                width: 58px;
+                height: 58px;
+                margin-right: 18px;
+            }
+            div {
+                color: #666;
+                display: inline-block;
+                text-align: left;
+                font-family: 微软雅黑;
+                p {
+                    font-size: 22px;
+                    margin-bottom: 5px;
                 }
-                div {
-                    color: #666;
-                    display: inline-block;
-                    text-align: left;
-                    font-family: 微软雅黑;
-                    p {
-                        font-size: 22px;
-                        margin-bottom: 5px;
-                    }
-                    span {
-                        font-size: 16px;
-                    }
+                span {
+                    font-size: 84%;
                 }
             }
         }
+    }
 }
 </style>

@@ -12,7 +12,7 @@ import Hub from '@/components/Hub';
 import Paytop from '@/components/Paytop.vue';
 import Paypackge from '@/components/Paypackge.vue';
 import Payicons from '@/components/Payicons.vue';
-import payContain from '@/components/payContain.vue';
+// import payContain from '@/components/payContain.vue';
 export default {
   data(){
     return {
@@ -20,7 +20,8 @@ export default {
     }
   },
   components: {
-    Paytop,Paypackge,Payicons,payContain
+    Paytop,Paypackge,Payicons,
+    // payContain
   },
   created() {
     Hub.$on('change3', (data) => {
@@ -37,7 +38,7 @@ export default {
 <style lang="scss" scoped>
 .vip {
     overflow: hidden;
-    width: 1200px; 
+    width: 1200px;
     margin: 0 auto;
 }
 </style>

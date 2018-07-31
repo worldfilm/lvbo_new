@@ -1,7 +1,7 @@
 <template>
-<div class="favorite">
+<div class="Oder">
   <div class="myvideo-title">
-    <span>我的收藏</span>
+    <span>我的订单</span>
   </div>
   <div class="myvideo-videolist-box">
     <div class="myvideo-nothing">
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.favorite {
+.Oder {
     width: 900px;
     display: inline-block;
     height: auto;    min-height: 600px;

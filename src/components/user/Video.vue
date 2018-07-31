@@ -34,8 +34,8 @@ export default {
 <style lang="scss" scoped>
 .video {
     width: 900px;
-    float: right;
-    height: auto;
+    display: inline-block;
+    height: auto;    min-height: 600px;
     .myvideo-title {
         width: 900px;
         height: 40px;

@@ -1,21 +1,26 @@
 <template>
 <div class="home">
   <VideoList/>
+  <Barrage v-show="barrage"/>
 </div>
 </template>
 
 <script>
-
   import Hub from '@/components/Hub';
   import VideoList from '@/components/VideoList';
-export default {
-  data() {
-    return {
+  import Barrage from '@/components/Barrage';
+  export default {
+    data() {
+      return {
+         barrage:true,
+      }
+    },
+    methods:{
 
-    }
-  },
-  components: {VideoList,}
-}
+    },
+
+    components: {VideoList,Barrage}
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -25,3 +30,8 @@ export default {
     margin: 0 auto;
 }
 </style>
+  <!-- function(){
+    setTimeout(function() {
+      this.barrage=false
+    }, 1500)
+  } -->

@@ -63,7 +63,7 @@ export default {
 .safety {
     width: 900px;
     height: auto;
-    float: right;
+    display: inline-block;    min-height: 600px;
     .center-right-title {
         width: 100%;
         font-size: 20px;

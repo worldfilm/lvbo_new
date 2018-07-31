@@ -1,6 +1,6 @@
 <template>
 <div class="pay-bottom-package v-container">
-  <div class="bottom-package-title">选择套餐</div>
+  <div class="bottom-package-title">会员充值</div>
   <div class="bottom-package-container clearfix">
     <ul>
       <li v-for='item in list' class="package-content" data-type-id="0">
@@ -69,13 +69,13 @@ export default {
     margin-bottom: 30px;
     .bottom-package-title {
         width: 100%;
-        font-size: 28px;
-        color: #333;
+        font-size: 22px;
+        color: #58b59d;
         border-bottom: 1px solid #ccc;
         margin-bottom: 20px;
         height: 45px;
         line-height: 45px;
-
+        text-align: left;
     }
     .bottom-package-container {
         width: 100%;
@@ -91,6 +91,7 @@ export default {
                 text-align: center;
                 margin-right: 1.4%;
                 font-family: 微软雅黑;
+                border: 1px solid #ddd;
                 .package-money {
                     font-size: 20px;
                     color: #333;

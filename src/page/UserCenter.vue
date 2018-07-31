@@ -12,6 +12,9 @@ import Info from '@/components/user/Info';
 import LeftMenu from '@/components/user/LeftMenu';
 import Safety from '@/components/user/Safety';
 import Video from '@/components/user/Video';
+import Oder from '@/components/user/Oder';
+import RedemptionCode from '@/components/user/RedemptionCode';
+import Transaction from '@/components/user/Transaction';
 
 export default {
   data() {
@@ -26,7 +29,10 @@ export default {
     Info,
     LeftMenu,
     Safety,
-    Video
+    Video,
+    Oder,
+    RedemptionCode,
+    Transaction,
   },
   created() {
     Hub.$on('component', (data) => {

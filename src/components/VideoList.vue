@@ -7,7 +7,7 @@
       <a class="more">查看更多&gt;</a>
     </h4>
     <ul class="nav">
-      <li class="item" v-for='(item,index) in navlist' @click='videonav(item.name,index)'  :class="{isactive:index == num}">{{item.name}}</li>
+      <li class="item" v-for='(item,index) in navlist' @click='videonav(item.name,index)' :class="{isactive:index == num}">{{item.name}}</li>
     </ul>
     <ul class="videos-cont">
       <li v-for="item in list" class="item">
@@ -30,14 +30,16 @@
 </div>
 </template>
 <script>
-import {network} from '@/config/config';
+import {
+  network
+} from '@/config/config';
 // import newlist from '@/data/newlist';
 export default {
   data() {
     return {
       title: 'home',
-      list:{},
-      num:0,
+      list: {},
+      num: 0,
       navlist: [{
           name: '最新'
         }, {
@@ -61,20 +63,23 @@ export default {
           name: '欧美'
         }, {
           name: '动漫'
-        }]
+        }
+      ]
     }
   },
   name: 'home',
-  components:{},
-  methods:{
-    videonav(e,index){
+  components: {},
+  methods: {
+    videonav(e, index) {
       this.num = index
-      network('NavList', {title:e}, data => {
-        this.list=data.data
+      network('NavList', {
+        title: e
+      }, data => {
+        this.list = data.data
       })
     },
   },
-  mounted(){
+  mounted() {
     network('videoList', null, data => {
       this.list = data.data
     })
@@ -98,7 +103,8 @@ export default {
         border-bottom: 1px solid #58b59d;
         .title_span {
             float: left;
-            color: #58b59d;font-size: 22px;
+            color: #58b59d;
+            font-size: 22px;
         }
         .more {
             float: right;
@@ -113,17 +119,17 @@ export default {
             text-align: center;
             width: 60px;
         }
-        .item:hover{
-          background-color: #58b59d;
-          color: #eef1f0;
+        .item:hover {
+            background-color: #58b59d;
+            color: #eef1f0;
         }
-        .isactive{
-          background-color: #58b59d;
-          color: #eef1f0;
+        .isactive {
+            background-color: #58b59d;
+            color: #eef1f0;
         }
     }
     .item {
-        width: 266px;
+        width: 160px;
         margin: 0 7px 14px;
         background: #fff;
         padding: 10px;
@@ -141,8 +147,7 @@ export default {
             position: relative;
             img {
                 position: relative;
-                width: 266px;
-                height: 178px;
+                width: 150px;
             }
             .playContrl {
                 position: absolute;
@@ -167,14 +172,14 @@ export default {
         }
         .v-mask-layer {
             position: absolute;
-            width: 266px;
+            width: 150px;
             margin: 0 auto;
-            height: 30px;
             background-color: #000;
-            top: 158px;
+            top: 70px;
             line-height: 30px;
             opacity: 0.6;
-                color: #fff;
+            color: #fff;
+            left: 15px;
             .v-mask-layer-left {
                 width: 50%;
                 float: left;
