@@ -9,7 +9,7 @@
             <li @click='vipag'><a>VIP</a></li>
             <li><a>上传</a></li>
             <li><a target="_blank">領紅包</a></li>
-            <li><a class="main-nav-tag">标签</a></li>
+            <li @click='maskerc'><a class="main-nav-tag">标签</a></li>
           </ul>
         </div>
       </div>
@@ -34,7 +34,7 @@
             <span>欢迎</span>
             <span class="username">{{username}}</span>
             <span class="arrow el-icon-caret-bottom" @click="showuserlist"></span>
-            <ul class="userdeitllist" v-show="ulist" >
+            <ul class="userdeitllist" v-show="ulist">
               <li v-for='item in usercenterlist' @click="userpag(item.component)">{{item.name}}</li>
             </ul>
             <span>退出</span>
@@ -46,13 +46,15 @@
   <div class="topnav-fix-nav-logo">
     <div class="nav-logo" @click='home'></div>
   </div>
+  <MaskerNav v-show='ShowMask'/>
 </div>
 </template>
 <script>
 import Hub from '@/components/Hub';
+import MaskerNav from '@/components/MaskerNav.vue';
 export default {
   name: 'Navheader',
-  components: {},
+  components: {MaskerNav},
   data() {
     return {
       title: '首页',
@@ -60,12 +62,30 @@ export default {
       ShowOnline: false,
       username: 'null',
       ulist: false,
-      usercenterlist:[
-        {name:'我的账户',component:'Accunt'},{name:'我的视频',component:'Video'},{name:'我的资料',component:'Info'},{name:'我的收藏',component:'Favorite'},{name:'账户安全',component:'Safety'},
-      ]
+      ShowMask:false,
+      usercenterlist: [{
+        name: '我的账户',
+        component: 'Accunt'
+      }, {
+        name: '我的视频',
+        component: 'Video'
+      }, {
+        name: '我的资料',
+        component: 'Info'
+      }, {
+        name: '我的收藏',
+        component: 'Favorite'
+      }, {
+        name: '账户安全',
+        component: 'Safety'
+      }, ]
     }
   },
   methods: {
+    maskerc(){
+      console.log('ShowMask')
+      this.ShowMask=true
+    },
     home() {
       this.$router.push({
         path: '/Home'
@@ -98,7 +118,7 @@ export default {
     showuserlist() {
       this.ulist = true
     },
-    userpag(component){
+    userpag(component) {
       Hub.$emit('component', component);
       this.$router.push({
         path: '/UserCenter'
@@ -114,8 +134,8 @@ export default {
       this.ShowOnline = data
     });
     document.addEventListener('click', (e) => {
-      if (!this.$el.contains(e.target)){
-          this.ulist = false;
+      if (!this.$el.contains(e.target)) {
+        this.ulist = false;
       }
     })
   }
@@ -148,6 +168,10 @@ export default {
                             color: #fff;
                             display: inline-block;
                             cursor: pointer;
+                        }
+                        li:hover {
+                            background: #fff;
+                            color: #58b59d;
                         }
                     }
                 }
@@ -222,15 +246,17 @@ export default {
                         position: relative;
                         span {
                             display: inline-block;
-                            float: left;padding: 0 3px;
-    border-radius: 5px;
+                            float: left;
+                            padding: 0 3px;
+                            border-radius: 5px;
                         }
-                        span:hover{
-                              box-shadow: 3px 1px 10px 0px #5f5a5a;
+                        span:hover {
+                            box-shadow: 3px 1px 10px 0 #5f5a5a;
                         }
-                        .arrow{
-                          width:30px;
-                          height:30px;line-height: 32px;
+                        .arrow {
+                            width: 30px;
+                            height: 30px;
+                            line-height: 32px;
                         }
                         .userdeitllist {
                             display: inline-block;
@@ -248,8 +274,8 @@ export default {
                                 margin: 0;
                                 width: 100px;
                             }
-                            li:hover{
-                              background: #93c5b8;
+                            li:hover {
+                                background: #93c5b8;
                             }
 
                         }

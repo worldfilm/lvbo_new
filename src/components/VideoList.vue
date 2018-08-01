@@ -11,19 +11,9 @@
     </ul>
     <ul class="videos-cont">
       <li v-for="item in list" class="item">
-        <div class="videos-info">
-          <img class="video-cover" :src="item.thumb_href">
-          <div class="playContrl">
-            <a href=""><i class="fa fa-youtube-play"></i></a>
-          </div>
-        </div>
+        <img class="video-cover" :src="item.thumb_href">
         <p class="title" v-text='item.title'></p>
-        <div class="v-mask-layer">
-          <div class="v-mask-layer-left">人观看 </div>
-          <div class="v-mask-layer-right">
-            <i class="xyvideo-icon"></i>{{item.duration}}
-          </div>
-        </div>
+        <p class="v-mask-layer"><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span> </p>
       </li>
     </ul>
   </div>
@@ -118,6 +108,9 @@ export default {
         .item {
             text-align: center;
             width: 60px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
         }
         .item:hover {
             background-color: #58b59d;
@@ -129,64 +122,35 @@ export default {
         }
     }
     .item {
-        width: 160px;
+        width: 220px;
         margin: 0 7px 14px;
-        background: #fff;
-        padding: 10px;
-        border-radius: 5px;
         box-shadow: 0 0 10px #ddd;
         display: inline-block;
         position: relative;
         cursor: pointer;
         p {
-            height: 32px;
-            overflow: hidden;
+            height: 30px;
+            line-height: 30px;
             text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
-        .videos-info {
+        img {
             position: relative;
-            img {
-                position: relative;
-                width: 150px;
-            }
-            .playContrl {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,.5);
-                display: none;
-            }
-
-        }
-        .title {
-            // width: 100%;
-            // height: 20px;
-            // line-height: 25px;
-            // margin: 10px 0 5px;
-            // overflow: hidden;
-            // white-space: nowrap;
-            // text-overflow: ellipsis;
-
+            width: 220px;
+            height: 130px;
         }
         .v-mask-layer {
-            position: absolute;
-            width: 150px;
             margin: 0 auto;
-            background-color: #000;
-            top: 70px;
             line-height: 30px;
-            opacity: 0.6;
-            color: #fff;
-            left: 15px;
-            .v-mask-layer-left {
+            text-align: left;
+            padding-left: 5px;
+            span {}
+            .peoplenum {
                 width: 50%;
                 float: left;
             }
-            .v-mask-layer-right {
-                .xyvideo-icon {}
-            }
+            .beforeday {}
         }
     }
 
