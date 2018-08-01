@@ -1,7 +1,7 @@
 
 <template>
 <div class="pay-layer">
-  <div class="pay-layer-container">
+  <div class="pay-layer-container" @click="closeimg">
   </div>
 </div>
 </template>
@@ -9,10 +9,12 @@
 import Hub from '@/components/Hub';
 export default {
   data() {
-    return {
-    }
+    return {}
   },
   methods: {
+    closeimg() {
+       Hub.$emit('closed', false);
+    }
   },
   components: {}
 }
@@ -28,13 +30,13 @@ export default {
     z-index: 200011;
     overflow: auto;
     .pay-layer-container {
-        max-width: 980px;
-        height: auto;
-        margin: 160px auto;
-        background-color: #fff;
-        padding: 50px 35px;
-        position: relative;
-
+      max-width: 510px;
+      height: 470px;
+      margin: 160px auto;
+      background-color: #fff;
+      padding: 50px 35px;
+      position: relative;
+      background: url(/static/warning18.png) no-repeat 1px 29px;
     }
 }
 </style>

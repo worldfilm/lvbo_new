@@ -16,10 +16,17 @@
       }
     },
     methods:{
-
+       autoclosed(){
+         this.barrage = false
+       }
     },
-
-    components: {VideoList,Barrage}
+    created() {
+      Hub.$on('closed', (data) => {
+        setTimeout(()=> {this.barrage = data}, 1500)
+      });
+      setTimeout(()=> {this.autoclosed()}, 2000)
+    },
+    components: {VideoList,Barrage},
   }
 </script>
 
