@@ -11,7 +11,7 @@
           <p class="up">设置一个包含数字和字母，且长度超过6位以上的密码更安全；并建议你定期更换密码。</p>
         </li>
         <li class="right">
-          <a>修改</a>
+          <a @click='changepsw'>修改</a>
         </li>
       </ul>
     </div>
@@ -25,7 +25,7 @@
           <p class="up">hghg@gh.kjkj</p>
         </li>
         <li class="right">
-          <a>修改</a>
+          <a @click='changeemail'>修改</a>
         </li>
       </ul>
     </div>
@@ -37,7 +37,7 @@
         </li>
         <li></li>
         <li class="right">
-          <a>设置支付密码</a>
+          <a @click='changepaypsw'>设置支付密码</a>
         </li>
       </ul>
     </div>
@@ -53,7 +53,15 @@ export default {
     }
   },
   methods: {
-
+    changepsw(){
+      Hub.$emit('component', 'ChangePsw');
+    },
+    changeemail(){
+      Hub.$emit('component', 'ChangeEmail');
+    },
+    changepaypsw(){
+      Hub.$emit('component', 'ChangePayPsw');
+    },
   },
   components: {}
 }
@@ -89,7 +97,7 @@ export default {
                 height: 100%;
                 display: inline-block;
                 position: relative;
-                margin-right: 50px;
+                margin-right:8%;
                 text-align: left;
                 p {
                     height: 50px;

@@ -21,9 +21,8 @@
 </div>
 </template>
 <script>
-import {
-  network
-} from '@/config/config';
+import Hub from '@/components/Hub';
+import  {network} from '@/config/config';
 import VideoNav from '@/components/VideoNav';
 export default {
   data() {
@@ -36,11 +35,28 @@ export default {
   components: {
     VideoNav
   },
-  methods: {},
+  methods: {
+    initial(){
+      network('videoList', null, data => {
+        this.list = data.data
+      })
+    },
+    navquery(data){
+      network('NavList', {
+        title: data
+      }, data => {
+        this.list = data.data
+      })
+    }
+  },
   mounted() {
-    network('videoList', null, data => {
+    this.initial()
+  },
+  created() {
+    Hub.$on('videonav', (data) => {
       this.list = data.data
-    })
+      this.navquery(data)
+    });
 
   },
 }

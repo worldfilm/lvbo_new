@@ -49,6 +49,7 @@ export default {
 
 a {
   text-decoration: none;
+      cursor: pointer;
 }
 
 input {

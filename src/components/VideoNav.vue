@@ -7,6 +7,7 @@
 </div>
 </template>
 <script>
+import  {network} from '@/config/config';
 import Hub from '@/components/Hub';
 export default {
   data() {
@@ -40,13 +41,9 @@ export default {
     }
   },
   methods: {
-    videonav(e, index) {
+    videonav(name, index) {
       this.num = index
-      network('NavList', {
-        title: e
-      }, data => {
-        this.list = data.data
-      })
+        Hub.$emit('videonav', name);
     },
   },
   components: {}

@@ -15,6 +15,9 @@ import Video from '@/components/user/Video';
 import Oder from '@/components/user/Oder';
 import RedemptionCode from '@/components/user/RedemptionCode';
 import Transaction from '@/components/user/Transaction';
+import ChangeEmail from '@/components/user/ChangeEmail';
+import ChangePayPsw from '@/components/user/ChangePayPsw';
+import ChangePsw from '@/components/user/ChangePsw';
 
 export default {
   data() {
@@ -33,6 +36,9 @@ export default {
     Oder,
     RedemptionCode,
     Transaction,
+    ChangeEmail,
+    ChangePayPsw,
+    ChangePsw,
   },
   created() {
     Hub.$on('component', (data) => {

@@ -117,6 +117,7 @@ export default {
     },
     showuserlist() {
       this.ulist = true
+      setTimeout(()=> {this.ulist = false}, 5000)
     },
     userpag(component) {
       Hub.$emit('component', component);
@@ -132,6 +133,9 @@ export default {
     });
     Hub.$on('ShowOnline', (data) => {
       this.ShowOnline = data
+    });
+    Hub.$on('closed', (data) => {
+      this.ShowMask = data
     });
     document.addEventListener('click', (e) => {
       if (!this.$el.contains(e.target)) {

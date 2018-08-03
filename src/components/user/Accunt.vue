@@ -243,7 +243,7 @@ export default {
                 position: relative;
                 .active{
                       border: 1px solid #58b59d;
-                      background: url(/static/selected.png) no-repeat 37px 17px;
+                      background: url(/static/selected.png) no-repeat 38px 17px;
                 }
                 span {
                     height: 35px;
@@ -276,11 +276,11 @@ export default {
                 }
                 .up {
                     right: 1px;
-                    top: 5px;
+                    top: 4px;
                 }
                 .down {
                     right: 1px;
-                    top: 22px;
+                    top: 21px;
                 }
             }
             p {
