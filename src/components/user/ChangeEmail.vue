@@ -16,7 +16,7 @@
     <div class="form-group">
       <span>确认密码：</span><input type="button" class="form-control rePassword" value='发送'>
     </div>
-    <p class="personal-warn"><span class="warn passwordtex" v-text='passwordtex' style="display:none"></span></p>
+    <p class="personal-warn"><span class="warn passwordtex" v-text='emailtext' style="display:none"></span></p>
     <button type="button" class="surebtn changePassword">下一步</button>
   </div>
 </div>
@@ -26,9 +26,8 @@ import Hub from '@/components/Hub';
 export default {
   data() {
     return {
-      list: [{}, ]
-
-
+      list: [{}, ],
+      emailtext:null,
     }
   },
   methods: {

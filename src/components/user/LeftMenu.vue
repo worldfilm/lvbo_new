@@ -14,7 +14,7 @@
           <p v-text="integral"></p>
         </li>
         <li>
-          <p>视频</p>
+          <p @click='videolink' class="videolink">视频</p>
           <p v-text="videonum"></p>
         </li>
         <li>
@@ -67,6 +67,9 @@ export default {
     userlist(component) {
       Hub.$emit('component', component);
     },
+    videolink(){
+      Hub.$emit('component', 'Video');
+    }
   },
   components: {}
 }
@@ -113,6 +116,9 @@ export default {
                     p {
                         height: 30px;
                         line-height: 30px;
+                    }
+                    .videolink{
+                      cursor: pointer;
                     }
                 }
             }

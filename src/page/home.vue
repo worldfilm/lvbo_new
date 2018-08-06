@@ -1,5 +1,6 @@
 <template>
 <div class="home">
+  <AdvertisHome v-show="ShowAdvertisHome"/>
   <VideoList/>
   <Barrage v-show="barrage"/>
 </div>
@@ -9,10 +10,12 @@
   import Hub from '@/components/Hub';
   import VideoList from '@/components/VideoList';
   import Barrage from '@/components/Barrage';
+  import AdvertisHome from '@/components/AdvertisHome';
   export default {
     data() {
       return {
          barrage:true,
+         ShowAdvertisHome:false,
       }
     },
     methods:{
@@ -22,11 +25,11 @@
     },
     created() {
       Hub.$on('closed', (data) => {
-        setTimeout(()=> {this.barrage = data}, 1500)
+        setTimeout(()=> {this.barrage = data}, 500)
       });
       setTimeout(()=> {this.autoclosed()}, 2000)
     },
-    components: {VideoList,Barrage},
+    components: {VideoList,Barrage,AdvertisHome},
   }
 </script>
 
@@ -37,8 +40,3 @@
     margin: 0 auto;
 }
 </style>
-  <!-- function(){
-    setTimeout(function() {
-      this.barrage=false
-    }, 1500)
-  } -->

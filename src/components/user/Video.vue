@@ -5,7 +5,7 @@
   </div>
   <div class="myvideo-upload">
     <div class="myvideo-upload-desc">
-      <a class="myvideo-upload-desc-img"><i class="fas fa-cloud-upload-alt" ></i>我要上传</a>
+      <a @click="uploadvideo" class="myvideo-upload-desc-img"><i class="fas fa-cloud-upload-alt" ></i>我要上传</a>
     </div>
   </div>
   <div class="myvideo-videolist-box">
@@ -25,7 +25,9 @@ export default {
     }
   },
   methods: {
-
+    uploadvideo(){
+      console.log('uploadvideo')
+    }
   },
   components: {}
 }

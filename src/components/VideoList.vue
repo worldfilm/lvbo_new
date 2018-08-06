@@ -4,17 +4,17 @@
     <p class="videos-title">
       <i class="fas fa-newspaper"></i>
       <span class='title_span'>最新视频</span>
-      <a class="more">查看更多&gt;</a>
+      <a class="more" @click='more'>查看更多&gt;</a>
     </p>
     <VideoNav/>
     <ul class="videos-cont">
-      <li v-for="(item,idx) in list" class="item">
+      <li v-for="(item,idx) in list" class="item" @click='openvideo(item)'>
         <img class="video-cover" :src="item.thumb_href">
         <a class="hide">
           <img src="/static/playbtn.png" alt="">
         </a>
         <p class="title" v-text='item.title'></p>
-        <p class="v-mask-layer"><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span> </p>
+        <p class="v-mask-layer"><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span></p>
       </li>
     </ul>
   </div>
@@ -47,7 +47,17 @@ export default {
       }, data => {
         this.list = data.data
       })
-    }
+    },
+    more(){
+      this.$router.push({
+        path: '/VideoMore'
+      })
+    },
+    openvideo(item){
+      this.$router.push({
+        path: '/VideoDetil'
+      })
+    },
   },
   mounted() {
     this.initial()
@@ -57,7 +67,6 @@ export default {
       this.list = data.data
       this.navquery(data)
     });
-
   },
 }
 </script>

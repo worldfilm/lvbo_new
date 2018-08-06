@@ -8,6 +8,8 @@ import Register from '@/page/Register'
 import Zhibo from '@/page/Zhibo'
 import Protocol from '@/page/Protocol'
 import UserCenter from '@/page/UserCenter'
+import VideoMore from '@/page/VideoMore'
+import VideoDetil from '@/page/VideoDetil'
 
 export default new Router({
   routes: [
@@ -43,6 +45,14 @@ export default new Router({
       path: '/UserCenter',
       name: 'UserCenter',
       component: UserCenter
+    },{
+      path: '/VideoMore',
+      name: 'VideoMore',
+      component: VideoMore
+    },{
+      path: '/VideoDetil',
+      name: 'VideoDetil',
+      component: VideoDetil
     }
   ]
 })

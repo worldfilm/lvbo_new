@@ -26,11 +26,14 @@
 .footer {
     background: #ddd;
     text-align: center;
+    float: left;
+    width: 100%;
+    margin-top: 5px;
     .container {
         width: 1200px;
         margin: 0 auto;
         p {
-            line-height: 1.8em;
+            line-height: 20px;
             margin-bottom: 10px;
             padding-top: 10px;
             font-size: 13px;

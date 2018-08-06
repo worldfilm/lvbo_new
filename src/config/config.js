@@ -1,6 +1,6 @@
 const network = function(url, data, fun) {
-  // let ip='http://192.168.0.110:3000/'
-  let ip='http://192.168.254.104:3000/'
+  let ip='http://192.168.0.110:3000/'
+  // let ip='http://192.168.254.104:3000/'
   if (data) {
     let method = 'post'
     fetch(ip+url, {
