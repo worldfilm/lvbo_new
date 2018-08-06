@@ -56,6 +56,7 @@ export default {
     padding: 5px;
     p {
         font-size: 15px;
+        padding-left: 10px;
         img {
             margin-top: 20px;
             height: 80px;
