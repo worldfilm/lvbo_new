@@ -70,13 +70,13 @@ export default {
     },
   },
 	mounted() {
-    network('http://192.168.0.110:3000/online', {
-    },data=>{
-      if(data.status==1){
-        this.ShowNoLogin = false
-       this.ShowLoginUser = true
-      }
-    })
+    // network('http://192.168.0.110:3000/online', {
+    // },data=>{
+    //   if(data.status==1){
+    //     this.ShowNoLogin = false
+    //    this.ShowLoginUser = true
+    //   }
+    // })
 
 },
   components: {}
