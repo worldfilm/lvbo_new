@@ -10,6 +10,8 @@ import Protocol from '@/page/Protocol'
 import UserCenter from '@/page/UserCenter'
 import VideoMore from '@/page/VideoMore'
 import VideoDetil from '@/page/VideoDetil'
+import LineStation from '@/page/LineStation'
+import Upload from '@/page/Upload'
 
 export default new Router({
   routes: [
@@ -53,6 +55,14 @@ export default new Router({
       path: '/VideoDetil',
       name: 'VideoDetil',
       component: VideoDetil
+    },{
+      path: '/LineStation',
+      name: 'LineStation',
+      component: LineStation
+    },{
+      path: '/Upload',
+      name: 'Upload',
+      component: Upload
     }
   ]
 })

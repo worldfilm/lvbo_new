@@ -6,7 +6,7 @@
     <div class="navlist" v-for='item in navlist'>
       <p class="navtitle" v-text='item.title'></p>
       <ul>
-        <li v-for='(ite,idx) in item.list' v-text='ite'></li>
+        <li v-for='(ite,idx) in item.list' v-text='ite' @click='sendname(ite)'></li>
       </ul>
     </div>
   </div>
@@ -51,7 +51,11 @@ export default {
   methods: {
     closed() {
       Hub.$emit('closed', false);
-    }
+    },
+    sendname(name){
+      Hub.$emit('sendingname', name);
+      // Hub.$emit('closed', false);
+    },
   },
   components: {}
 }

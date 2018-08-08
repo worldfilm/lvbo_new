@@ -7,7 +7,7 @@
         <div class="mainnav-nav-div">
           <ul>
             <li @click='vipag'><a>VIP</a></li>
-            <li><a>上传</a></li>
+            <li @click='upload'><a>上传</a></li>
             <li><a target="_blank">領紅包</a></li>
             <li @click='maskerc'><a class="main-nav-tag">标签</a></li>
           </ul>
@@ -22,7 +22,7 @@
           <i class="el-icon-star-on"></i> <span>收藏书签</span>
         </li>
 
-        <li class="top-nav-guide">
+        <li class="top-nav-guide" @click='networkadress'>
           <a target="_blank">地址发布页</a>
         </li>
         <li class="topnav-btn-group">
@@ -82,8 +82,17 @@ export default {
     }
   },
   methods: {
+    upload(){
+      this.$router.push({
+        path: '/Upload'
+      })
+    },
+    networkadress(){
+      this.$router.push({
+        path: '/LineStation'
+      })
+    },
     maskerc(){
-      console.log('ShowMask')
       this.ShowMask=true
     },
     home() {
@@ -137,6 +146,10 @@ export default {
     Hub.$on('closed', (data) => {
       this.ShowMask = data
     });
+    Hub.$on('ShowMask', (data) => {
+      this.ShowMask=true
+    });
+
     document.addEventListener('click', (e) => {
       if (!this.$el.contains(e.target)) {
         this.ulist = false;

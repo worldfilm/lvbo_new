@@ -69,6 +69,7 @@ label {
 button {
   border: none;
   outline: none;
+  cursor: pointer;
 }
 
 body {
