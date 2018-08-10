@@ -1,4 +1,4 @@
-
+<!-- 18岁提示框 -->
 <template>
 <div class="pay-layer">
   <div class="pay-layer-container" @click="closeimg">
@@ -16,7 +16,10 @@ export default {
        Hub.$emit('closed', false);
     }
   },
-  components: {}
+  components: {},
+  created() {
+    
+  },
 }
 </script>
  <style lang="scss" scoped>

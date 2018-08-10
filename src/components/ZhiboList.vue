@@ -69,15 +69,15 @@ export default {
   methods:{
     videonav(e,index){
       this.num = index
-      network('http://192.168.0.110:3000/NavList', {title:e}, data => {
-        this.list=data.data
-      })
+      // network('http://192.168.0.110:3000/NavList', {title:e}, data => {
+      //   this.list=data.data
+      // })
     },
   },
   mounted(){
-    network('http://192.168.0.110:3000/videoList', null, data => {
-      this.list = data.data
-    })
+    // network('http://192.168.0.110:3000/videoList', null, data => {
+    //   this.list = data.data
+    // })
   },
 }
 </script>

@@ -36,7 +36,7 @@ import Hub from '@/components/Hub';
 export default {
   data() {
     return {
-      username: 'guo555',
+      username: null,
       registetime: '2018/05/12',
       videonum: '999',
       integral: '999',
@@ -71,7 +71,13 @@ export default {
       Hub.$emit('component', 'Video');
     }
   },
-  components: {}
+  components: {},
+  created() {
+    let username=sessionStorage.getItem('username')
+    if(username){
+        this.username=username
+    }
+  },
 }
 </script>
 

@@ -130,15 +130,16 @@ export default {
       }else {
         if (this.chose) {
           this.tex = "注册成功~";
-          network('regist', {
+          network('/api/user/register/pc', {
             username: this.username,
             email: this.email,
             password: this.password,
-            confirmPassword:this.confirmPassword,
           },data=>{
-            if(data.status==1){
-              Hub.$emit('ShowLog', false);
-              Hub.$emit('ShowOnline', true);
+            console.log(data)
+            if(data.status==0){
+              
+              sessionStorage.setItem('TOKEN_KEY',data.data.api_token)
+              sessionStorage.setItem('username',data.data.username)
               this.$router.push({
                 path: '/Home'
               })

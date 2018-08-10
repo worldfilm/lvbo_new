@@ -29,7 +29,7 @@
         </p>
         <p class="warn" v-text='logintex'></p>
         <p class="butn"><button type="button" class="btn signUpBtn" id="btnRegister" @click='btnLogin' :disable='disable'>登&nbsp;&nbsp;录</button></p>
-        <p><span>还没有账户?</span><span @click="goregister">点此注册</span> </p>
+        <p class="goregister"><span>还没有账户?</span><span @click="goregister" class="movetoregister">点此注册</span> </p>
       </form>
     </div>
   </div>
@@ -52,8 +52,8 @@ export default {
       data: {},
       disable: 'disable',
       chose: true,
-      texusername:null,
-      texpassword:null,
+      texusername: null,
+      texpassword: null,
     }
   },
   methods: {
@@ -72,25 +72,29 @@ export default {
       let verifycodeReg = /^[a-zA-Z0-9]{4,12}$/;
       let userReg = /^[a-zA-Z0-9]{6,12}$/;
       let pwdReg = /^[a-zA-Z0-9]{6,12}$/;
-      let emailReg=/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+      let emailReg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
       if (!userReg.test(this.username)) {
-        this.texusername="请检查您输入的用户名~";
-        this.texpassword=null;
-      }  else if (!pwdReg.test(this.password)) {
-        this.texusername=null;
-        this.texpassword="请检查您输入的密码~";
+        this.texusername = "请检查您输入的用户名~";
+        this.texpassword = null;
+      } else if (!pwdReg.test(this.password)) {
+        this.texusername = null;
+        this.texpassword = "请检查您输入的密码~";
       } else {
         if (this.chose) {
-          this.texusername=null;
-          this.texpassword=null;
-          network('Login', {
+          this.texusername = null;
+          this.texpassword = null;
+          network('/api/user/login/pc', {
             username: this.username,
             password: this.password,
-          },data=>{
+          }, data => {
             this.logintex = data.resMsg;
-            if(data.status==1){
+            if (data.status == 0) {
+              console.log(data.data)
               Hub.$emit('ShowLog', false);
               Hub.$emit('ShowOnline', true);
+              Hub.$emit('username', data.data.username);
+              sessionStorage.setItem('TOKEN_KEY', data.data.api_token)
+              sessionStorage.setItem('username', data.data.username)
               this.$router.push({
                 path: '/Home'
               })
@@ -102,9 +106,9 @@ export default {
       }
       if (!this.username) {
         this.texusername = "用户名不得为空!";
-        this.texpassword=null;
-      }else if (!this.password) {
-        this.texusername=null;
+        this.texpassword = null;
+      } else if (!this.password) {
+        this.texusername = null;
         this.texpassword = "密码不得为空!";
       }
     }
@@ -132,7 +136,8 @@ export default {
         height: 545px;
         margin: 44px 0;
         float: right;
-        margin-right: 80px;background-color: #fff;
+        margin-right: 80px;
+        background-color: #fff;
         .login-title {
             position: relative;
             height: 38px;
@@ -155,7 +160,8 @@ export default {
     }
     .register-pop-content {
 
-        form {color: #909090;
+        form {
+            color: #909090;
             padding: 60px 0;
             .form-group {
                 margin-left: -15px;
@@ -185,9 +191,11 @@ export default {
                     height: 30px;
                     line-height: 30px;
                     margin-top: 10px;
-                    label{
-                      font-size: 13px;
-                      width: 123px;    padding: 0;color: #f07;
+                    label {
+                        font-size: 13px;
+                        width: 123px;
+                        padding: 0;
+                        color: #f07;
                     }
                 }
             }
@@ -220,6 +228,18 @@ export default {
                     border-radius: 2px;
                     color: #fff;
 
+                }
+            }
+            .goregister {
+                height: 38px;
+                line-height: 38px;
+                font-size: 14px;
+                span {
+                    padding: 0 10px;
+                }
+                .movetoregister {
+                    color: #fb0505;
+                    cursor: pointer;
                 }
             }
         }

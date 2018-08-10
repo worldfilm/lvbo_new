@@ -18,7 +18,7 @@
           <input type="text" class="form-control" name="title" placeholder="">
           <button type="button" name="button"><span class="el-icon-search"></span></button>
         </li>
-        <li class="top-main-nav-collection">
+        <li class="top-main-nav-collection" @click='addBookmark'>
           <i class="el-icon-star-on"></i> <span>收藏书签</span>
         </li>
 
@@ -37,7 +37,7 @@
             <ul class="userdeitllist" v-show="ulist">
               <li v-for='item in usercenterlist' @click="userpag(item.component)">{{item.name}}</li>
             </ul>
-            <span>退出</span>
+            <span @click='logout'>退出</span>
           </div>
         </li>
       </ul>
@@ -46,15 +46,18 @@
   <div class="topnav-fix-nav-logo">
     <div class="nav-logo" @click='home'></div>
   </div>
-  <MaskerNav v-show='ShowMask'/>
+  <MaskerNav v-show='ShowMask' />
 </div>
 </template>
 <script>
 import Hub from '@/components/Hub';
 import MaskerNav from '@/components/MaskerNav.vue';
+import {  network} from '@/config/config';
 export default {
   name: 'Navheader',
-  components: {MaskerNav},
+  components: {
+    MaskerNav
+  },
   data() {
     return {
       title: '首页',
@@ -62,7 +65,7 @@ export default {
       ShowOnline: false,
       username: 'null',
       ulist: false,
-      ShowMask:false,
+      ShowMask: false,
       usercenterlist: [{
         name: '我的账户',
         component: 'Accunt'
@@ -82,33 +85,35 @@ export default {
     }
   },
   methods: {
-    upload(){
+    upload() {
+      this.checkuser()
       this.$router.push({
         path: '/Upload'
       })
     },
-    networkadress(){
+    networkadress() {
+      this.checkuser()
       this.$router.push({
         path: '/LineStation'
       })
     },
-    maskerc(){
-      this.ShowMask=true
+    maskerc() {
+      this.checkuser()
+      this.ShowMask = true
     },
     home() {
+      this.checkuser()
       this.$router.push({
         path: '/Home'
       })
     },
-    movies() {
-      this.$router.push({
-        path: '/videoList'
-      })
-    },
     vipag() {
+      this.checkuser()
       if (this.ShowOnline) {
         Hub.$emit('ShowLog', false);
         Hub.$emit('ShowOnline', true);
+        Hub.$emit('username', this.username);
+        Hub.$emit('ShowNoLogin', this.username);
       }
       this.$router.push({
         path: '/Vip'
@@ -119,6 +124,17 @@ export default {
         path: '/Logoin'
       })
     },
+    logout() {
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      network('/api/user/loginout?api_token='+api_token, null,data => {
+        if (data.status == 0) {
+          console.log('logout')
+          sessionStorage.removeItem('username')
+          sessionStorage.removeItem('TOKEN_KEY')
+          this.checkuser()
+        }
+      })
+    },
     register() {
       this.$router.push({
         path: '/Register'
@@ -126,7 +142,9 @@ export default {
     },
     showuserlist() {
       this.ulist = true
-      setTimeout(()=> {this.ulist = false}, 5000)
+      setTimeout(() => {
+        this.ulist = false
+      }, 5000)
     },
     userpag(component) {
       Hub.$emit('component', component);
@@ -134,9 +152,50 @@ export default {
         path: '/UserCenter'
       })
     },
+    checkuser() {
+      let username = sessionStorage.getItem('username')
+      if (username) {
+        this.ShowOnline = true
+        this.ShowLog = false
+        this.username = username
+      } else {
+        this.ShowOnline = false
+        this.ShowLog = true
+        this.username = null
+      }
+    },
+    addBookmark() {
+      let url = window.location.href;
+      let title
+      if (!url) {
+        url = window.location
+      }
+      if (!title) {
+        title = document.title
+      }
+      var browser = navigator.userAgent.toLowerCase();
+      if (window.sidebar) { // Mozilla, Firefox, Netscape
+        window.sidebar.addPanel(title, url, "");
+      } else if (window.external) { // IE or chrome
+        if (browser.indexOf('chrome') == -1) { // ie
+          window.external.AddFavorite(url, title);
+        } else { // chrome
+          alert('加入收藏失败，请使用Ctrl+D进行添加');
+        }
+      } else if (window.opera && window.print) {
+        return true;
+      } else if (browser.indexOf('konqueror') != -1) {
+        alert('加入收藏失败，请使用CTRL+B进行添加');
+      } else if (browser.indexOf('webkit') != -1) {
+        alert('加入收藏失败，请使用CTRL+B 或者 Command+D 进行添加');
+      } else {
+        alert('Your browser cannot add bookmarks using this link. Please add this link manually.')
+      }
+    }
   },
   props: [],
   created() {
+    this.checkuser()
     Hub.$on('ShowLog', (data) => {
       this.ShowLog = data
     });
@@ -147,15 +206,18 @@ export default {
       this.ShowMask = data
     });
     Hub.$on('ShowMask', (data) => {
-      this.ShowMask=true
+      this.ShowMask = true
     });
-
+    Hub.$on('username', (data) => {
+      this.username = data
+    });
     document.addEventListener('click', (e) => {
       if (!this.$el.contains(e.target)) {
         this.ulist = false;
       }
     })
-  }
+  },
+
 }
 </script>
 <style lang="scss" >

@@ -78,6 +78,12 @@ export default {
   },
   components: {},
   created() {
+    let username=sessionStorage.getItem('username')
+    if(!username){
+      this.$router.push({
+        path: '/Logoin'
+      })
+    }
     let arr=''
     Hub.$on('sendingname', (data) => {
       arr+='<span style="padding:5px 10px;background: #58b59d;border-radius: 5px;margin: 0 5px;color:#fff;">'+data+'</span>'

@@ -63,9 +63,9 @@ export default {
   },
   methods: {
     initial() {
-      network('videoList', null, data => {
-        this.list = data.data
-      })
+      // network('videoList', null, data => {
+      //   this.list = data.data
+      // })
     },
     openvideo(item){
       this.$router.push({

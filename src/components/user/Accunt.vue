@@ -139,7 +139,7 @@ export default {
     },
   },
   created() {
-    Hub.$on('closed', (data) => {
+    Hub.$on('PayDialog', (data) => {
     this.ShowpayContain = data
     });
   },

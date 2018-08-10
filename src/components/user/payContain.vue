@@ -1,12 +1,12 @@
 
 <template>
-<div class="pay-layer">
+<div class="pay">
   <div class="pay-layer-container">
     <div class="pay-layer-close  close" @click='closed'><i class="fas fa-times"></i> </div>
     <div class="layer-order-user-info">
       <img src="http://img.cksource.space/user_head/default_4_4.jpg">
       <div>
-        <span class="info-username">guo555</span>
+        <span class="info-username" v-text='username'></span>
         <span>下单时间：2018-06-28 11:13:12</span>
       </div>
     </div>
@@ -41,6 +41,7 @@ export default {
     return {
       zhifubao: '1',
       weixin: false,
+      username:null,
       list: [{
           name: '7天vip',
           month: '',
@@ -74,7 +75,7 @@ export default {
   },
   methods: {
     closed() {
-      Hub.$emit('closed', false);
+      Hub.$emit('PayDialog', false);
     },
     zhifubaoc() {
       this.zhifubao = true
@@ -93,12 +94,19 @@ export default {
       }
     },
   },
-
+  created() {
+    let username=sessionStorage.getItem('username')
+    if(username){
+      this.username=username
+    }else{
+      this.username=null
+    }
+  },
   components: {}
 }
 </script>
  <style lang="scss" scoped>
-.pay-layer {
+.pay{
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,.5);

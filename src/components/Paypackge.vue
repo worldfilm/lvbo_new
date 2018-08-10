@@ -45,16 +45,20 @@ export default {
   },
   methods: {
     fastjoin() {
-      // if(this.logoState){
-      //   Hub.$emit('change1','true');
-      //   this.Showlogin=true
-      // }else{
-      //   Hub.$emit('change3','true');
-      // }
-      let istrue = false
-      if (istrue) {
-
-      } else {
+      this.checkuser()
+    },
+    checkuser(){
+      console.log('xxxxxsssss')
+      let username=sessionStorage.getItem('username')
+      if(username){
+        this.ShowOnline=true
+        this.ShowLog=false
+        this.username=username
+        Hub.$emit('PayDialog', true);
+      }else{
+        this.ShowOnline=false
+        this.ShowLog=true
+        this.username=null
         this.$router.push({
           path: '/Logoin'
         })

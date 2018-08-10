@@ -41,6 +41,12 @@ export default {
     ChangePsw,
   },
   created() {
+    let username=sessionStorage.getItem('username')
+    if(!username){
+      this.$router.push({
+        path: '/Logoin'
+      })
+    }
     Hub.$on('component', (data) => {
       console.log(data)
       this.togglecomponent=data

@@ -20,7 +20,7 @@
         <div class="first-right-login" v-show='ShowLoginUser'>
           <img src="http://img.d1w8.space:80/user_head/default_1_1.jpg">
           <div>
-            <a>guo555</a>
+            <a v-text='username'></a>
             <p>加入VIP，畅想特权</p>
             <span>最低1.20元/天</span>
           </div>
@@ -57,6 +57,7 @@ export default {
       ],
       ShowLoginUser: false,
       ShowNoLogin: true,
+      username:null,
     }
   },
   methods: {
@@ -70,16 +71,16 @@ export default {
     },
   },
 	mounted() {
-    // network('http://192.168.0.110:3000/online', {
-    // },data=>{
-    //   if(data.status==1){
-    //     this.ShowNoLogin = false
-    //    this.ShowLoginUser = true
-    //   }
-    // })
+    let username=sessionStorage.getItem('username')
+    if(username){
+      this.ShowLoginUser=true
+      this.ShowNoLogin=false
+      this.username=username
+    }
+ },
+ props: {msg: String },
+ components: {},
 
-},
-  components: {}
 }
 </script>
 

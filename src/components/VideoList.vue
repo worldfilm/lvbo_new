@@ -37,16 +37,16 @@ export default {
   },
   methods: {
     initial(){
-      network('videoList', null, data => {
-        this.list = data.data
-      })
+      // network('videoList', null, data => {
+      //   this.list = data.data
+      // })
     },
     navquery(data){
-      network('NavList', {
-        title: data
-      }, data => {
-        this.list = data.data
-      })
+      // network('NavList', {
+      //   title: data
+      // }, data => {
+      //   this.list = data.data
+      // })
     },
     more(){
       this.$router.push({
