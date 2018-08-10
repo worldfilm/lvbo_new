@@ -22,7 +22,7 @@
           <p>已绑定</p>
         </li>
         <li>
-          <p class="up">hghg@gh.kjkj</p>
+          <p class="up" v-text='emailtext'></p>
         </li>
         <li class="right">
           <a @click='changeemail'>修改</a>
@@ -49,6 +49,7 @@ import Hub from '@/components/Hub';
 export default {
   data() {
     return {
+      emailtext:'null',
       list: [{}, ]
     }
   },

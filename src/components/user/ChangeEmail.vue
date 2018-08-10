@@ -8,16 +8,15 @@
       <i>1</i><span>验证原邮箱</span><i>2</i><span>绑定新邮箱</span><i>3</i><span>修改完成</span>
     </div>
     <div class="form-group">
-      <span>安全邮箱：</span><input type="text" class="form-control oldpassword" placeholder="请输入邮箱">
+      <span>安全邮箱：</span><input type="text" class="form-control oldpassword" placeholder="请输入邮箱" v-model='newEmail'>
     </div>
     <div class="form-group">
-      <span>验证码：</span><input type="text" class="form-control newPassword" placeholder="请输入验证码">
+      <span>验证码：</span>
+      <input type="text" class="form-control verification" placeholder="请输入验证码" v-model='verification' maxlength='4'>
+      <input type="button" class="form-control sending" value='发送' @click='sending'>
     </div>
-    <div class="form-group">
-      <span>确认密码：</span><input type="button" class="form-control rePassword" value='发送'>
-    </div>
-    <p class="personal-warn"><span class="warn passwordtex" v-text='emailtext' style="display:none"></span></p>
-    <button type="button" class="surebtn changePassword">下一步</button>
+    <p class="personal-warn"><span class="warn passwordtex" v-text='warningtex' style="display:none"></span></p>
+    <button type="button" class="surebtn changePassword" @click='changePassword'>下一步</button>
   </div>
 </div>
 </template>
@@ -26,12 +25,17 @@ import Hub from '@/components/Hub';
 export default {
   data() {
     return {
-      list: [{}, ],
-      emailtext:null,
+      warningtex: null,
+      newEmail: null,
+      verification:null,
     }
   },
   methods: {
-
+    sending() {},
+    changePassword() {
+      console.log(this.newEmail)
+      console.log(this.verification)
+    },
   },
   components: {}
 }
@@ -90,6 +94,16 @@ export default {
                 color: #fff;
                 background-color: #aaa;
                 text-align: center;
+            }
+            .verification {
+                width: 100px;
+            }
+            .sending {
+                width: 124px;
+                background-color: #58b49d;
+                border: 1px solid #58b49d;
+                color: #fff;
+                cursor: pointer;
             }
         }
         button {
