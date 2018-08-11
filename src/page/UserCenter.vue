@@ -40,6 +40,8 @@ export default {
     ChangePayPsw,
     ChangePsw,
   },
+  methods:{
+  },
   created() {
     let username=sessionStorage.getItem('username')
     if(!username){

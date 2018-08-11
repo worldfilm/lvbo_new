@@ -63,6 +63,13 @@ export default {
     changepaypsw(){
       Hub.$emit('component', 'ChangePayPsw');
     },
+    getemail(){
+      let email = sessionStorage.getItem('email')
+      this.emailtext=email
+    },
+  },
+  created() {
+    this.getemail()
   },
   components: {}
 }

@@ -129,7 +129,6 @@ export default {
         this.texemail="请检查您输入的邮箱~";
       }else {
         if (this.chose) {
-          this.tex = "注册成功~";
           network('/api/user/register/pc', {
             username: this.username,
             email: this.email,
@@ -137,9 +136,14 @@ export default {
           },data=>{
             console.log(data)
             if(data.status==0){
-              
+              this.tex =  data.message;
               sessionStorage.setItem('TOKEN_KEY',data.data.api_token)
               sessionStorage.setItem('username',data.data.username)
+              sessionStorage.setItem('email', data.data.email)
+              sessionStorage.setItem('psw', this.password)
+              Hub.$emit('ShowLog', false);
+              Hub.$emit('ShowOnline', true);
+              Hub.$emit('username', data.data.username);
               this.$router.push({
                 path: '/Home'
               })

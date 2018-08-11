@@ -87,7 +87,7 @@ export default {
             username: this.username,
             password: this.password,
           }, data => {
-            this.logintex = data.resMsg;
+            this.logintex = data.message;
             if (data.status == 0) {
               console.log(data.data)
               Hub.$emit('ShowLog', false);
@@ -95,6 +95,8 @@ export default {
               Hub.$emit('username', data.data.username);
               sessionStorage.setItem('TOKEN_KEY', data.data.api_token)
               sessionStorage.setItem('username', data.data.username)
+              sessionStorage.setItem('email', data.data.email)
+              sessionStorage.setItem('psw', this.password)
               this.$router.push({
                 path: '/Home'
               })

@@ -23,7 +23,13 @@ export default {
   },
   props: [],
   created() {
-    Hub.$on('closed', (data) => {});
+    Hub.$on('home', (data) => {
+      if(data){
+        this.$router.push({
+          path: '/Home'
+        })
+      }
+    });
     Hub.$on('change1', (data) => {
 
     });

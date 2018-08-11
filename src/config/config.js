@@ -13,7 +13,7 @@ const network = function(url, data, fun) {
   }else{
     axios.get(ip+url,null,fun).then(res=>{
          fun(res.data)
-         console.log('getxxxxxxxx')
+         // console.log('getxxxxxxxx')
     }).catch(err=>{
          fun(err)
          console.log('geterror')

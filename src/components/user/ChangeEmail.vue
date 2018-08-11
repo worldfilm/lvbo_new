@@ -5,39 +5,79 @@
   </div>
   <div class="content">
     <div class="form-group">
-      <i>1</i><span>验证原邮箱</span><i>2</i><span>绑定新邮箱</span><i>3</i><span>修改完成</span>
+      <span>验证原邮箱-</span><span>绑定新邮箱-</span><span>修改完成</span>
     </div>
     <div class="form-group">
-      <span>安全邮箱：</span><input type="text" class="form-control oldpassword" placeholder="请输入邮箱" v-model='newEmail'>
+      <span>安全邮箱：</span><input type="text" class="form-control oldpassword" placeholder="请输入邮箱" :value='oldemail' >
     </div>
     <div class="form-group">
       <span>验证码：</span>
-      <input type="text" class="form-control verification" placeholder="请输入验证码" v-model='verification' maxlength='4'>
+      <input type="text" class="form-control verification" placeholder="请输入验证码"  v-model='verification' maxlength='4'>
       <input type="button" class="form-control sending" value='发送' @click='sending'>
     </div>
+    <div class="form-group">
+      <span>新邮箱：</span><input type="text" class="form-control oldpassword" placeholder="请输入新邮箱" v-model='newEmail' >
+    </div>
     <p class="personal-warn"><span class="warn passwordtex" v-text='warningtex' style="display:none"></span></p>
-    <button type="button" class="surebtn changePassword" @click='changePassword'>下一步</button>
+    <button type="button" class="surebtn changePassword" @click='changeEmail'>下一步</button>
+    <p class="warningt" v-text='warningt'></p>
   </div>
 </div>
 </template>
 <script>
 import Hub from '@/components/Hub';
+import {
+  network
+} from '@/config/config';
 export default {
   data() {
     return {
       warningtex: null,
       newEmail: null,
-      verification:null,
+      verification: null,
+      warningt: null,
+      oldemail:null,
     }
   },
   methods: {
-    sending() {},
-    changePassword() {
-      console.log(this.newEmail)
-      console.log(this.verification)
+    sending() {
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      network('/api/user/sendMail?api_token='+api_token, null, data => {
+        if (data.status == 0) {
+          this.warningt=data.message
+        }
+      })
+    },
+    changeEmail() {
+      let emailReg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      if (!emailReg.test(this.newEmail)) {
+        this.warningt = "请检查您输入的邮箱~";
+      }else{
+        console.log(this.verification)
+        network('/api/user/editEmail', {
+          api_token: api_token,
+          new_email: this.newEmail,
+          code:this.verification
+        }, data => {
+          if (data.status == 0) {
+            this.warningt=data.message
+          }
+        })
+      }
+    },
+    getemail(){
+      console.log('oldemail')
+      let email = sessionStorage.getItem('email')
+      this.oldemail=email
     },
   },
-  components: {}
+  components: {},
+
+  mounted() {
+    console.log('mounted')
+    this.getemail()
+  },
 }
 </script>
 
@@ -118,6 +158,13 @@ export default {
             border: none;
             position: relative;
             left: -14px;
+        }
+        .warningt {
+            height: 40px;
+            line-height: 40px;
+            color: #f56c6c;
+            font-size: 16px;
+            padding-top: 20px;
         }
     }
 }

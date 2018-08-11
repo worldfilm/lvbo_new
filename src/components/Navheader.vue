@@ -128,10 +128,11 @@ export default {
       let api_token = sessionStorage.getItem('TOKEN_KEY')
       network('/api/user/loginout?api_token='+api_token, null,data => {
         if (data.status == 0) {
-          console.log('logout')
           sessionStorage.removeItem('username')
+          sessionStorage.removeItem('email')
           sessionStorage.removeItem('TOKEN_KEY')
           this.checkuser()
+            Hub.$emit('home', true);
         }
       })
     },
