@@ -15,8 +15,8 @@
       </div>
       <ul class="topnav-mainnav-right">
         <li class="xingyu-search">
-          <input type="text" class="form-control" name="title" placeholder="">
-          <button type="button" name="button"><span class="el-icon-search"></span></button>
+          <input type="text" class="form-control" name="title" placeholder="请输入关键字" v-model='KeyWord'>
+          <button type="button" name="button" @click='search'><span class="el-icon-search"></span></button>
         </li>
         <li class="top-main-nav-collection" @click='addBookmark'>
           <i class="el-icon-star-on"></i> <span>收藏书签</span>
@@ -66,6 +66,7 @@ export default {
       username: 'null',
       ulist: false,
       ShowMask: false,
+      KeyWord:null,
       usercenterlist: [{
         name: '我的账户',
         component: 'Accunt'
@@ -85,6 +86,20 @@ export default {
     }
   },
   methods: {
+    search(){
+      if(this.KeyWord==null){
+      }else{
+        console.log(this.KeyWord)
+
+        this.$router.push({
+          path: '/VideoMore'
+        })
+        let api_token = sessionStorage.getItem('TOKEN_KEY')
+        // network('/api/user/', {api_token:api_token},data => {
+        //Hub.$emit('SearchResult', data);
+        // })
+      }
+    },
     upload() {
       this.checkuser()
       this.$router.push({

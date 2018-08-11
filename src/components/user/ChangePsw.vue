@@ -20,6 +20,7 @@
 </template>
 <script>
 let Base64 = require('js-base64').Base64;
+
 import md5 from 'js-md5';
 import Hub from '@/components/Hub';
 import {
@@ -49,7 +50,7 @@ export default {
           var repsw = md5(this.replapsw);repsw=Base64.encode(repsw);
           network('/api/user/editPrivate', {
              api_token:api_token,
-             type:'2',
+             type:'1',
              private_str:newpsw,
              new_private_str:repsw,
           }, data => {
@@ -67,10 +68,12 @@ export default {
         let psw = sessionStorage.getItem('psw')
         this.oldpsw=psw
       },
+      
   },
   components: {},
   created() {
     this.getoldpsw()
+
     Hub.$on('psw', (data) => {
        this.oldpsw=data
     });

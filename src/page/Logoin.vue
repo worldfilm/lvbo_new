@@ -120,18 +120,15 @@ export default {
 
 <style lang="scss" scoped>
 .register-pop {
-    // width: 100%;
-    // height: 100%;
-    // position: fixed;
-    // top: 0;
-    // z-index: 2000001;
-    // left: 0;
-    // background-color: rgba(0,0,0,.6);
+    overflow: hidden;
+    width: 1200px;
+    margin: 0 auto;
     .left-m {
         display: inline-block;
         width: 500px;
         height: 545px;
         padding: 44px 0;
+        float: left;
     }
     .register-pop-container {
         width: 500px;
@@ -140,6 +137,7 @@ export default {
         float: right;
         margin-right: 80px;
         background-color: #fff;
+        float: left;
         .login-title {
             position: relative;
             height: 38px;

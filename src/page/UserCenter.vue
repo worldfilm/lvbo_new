@@ -50,7 +50,6 @@ export default {
       })
     }
     Hub.$on('component', (data) => {
-      console.log(data)
       this.togglecomponent=data
     });
   }

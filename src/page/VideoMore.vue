@@ -47,10 +47,12 @@
       </li>
     </ul>
   </div>
+  <Pagination/>
 </div>
 </template>
 <script>
 import Hub from '@/components/Hub';
+import Pagination from '@/components/Pagination';
 import {
   network
 } from '@/config/config';
@@ -80,7 +82,7 @@ export default {
   created() {
 
   },
-  components: {}
+  components: {Pagination}
 }
 </script>
 

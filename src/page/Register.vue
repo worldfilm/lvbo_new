@@ -80,17 +80,17 @@ export default {
       data: {},
       chose: true,
       disable: 'disable',
-      texusername:null,
-      texpassword:null,
-      texconfirmPassword:null,
-      texemail:null,
+      texusername: null,
+      texpassword: null,
+      texconfirmPassword: null,
+      texemail: null,
     }
   },
   methods: {
     closed() {
       Hub.$emit('closed', false);
     },
-    condition(){
+    condition() {
       this.$router.push({
         path: '/Protocol'
       })
@@ -106,39 +106,39 @@ export default {
       let userReg = /^[a-zA-Z0-9]{6,12}$/;
       let nickReg = /^[\u4e00-\u9fa5_a-zA-Z0-9_]{2,8}$/;
       let pwdReg = /^[a-zA-Z0-9]{6,12}$/;
-      let emailReg=/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+      let emailReg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
       if (!userReg.test(this.username)) {
-        this.texusername="请检查您输入的用户名~";
-        this.texpassword=null;
-        this.texconfirmPassword=null;
-        this.texemail=null;
-      }  else if (!pwdReg.test(this.password)) {
-        this.texusername=null;
-        this.texpassword="请检查您输入的密码~";
-        this.texconfirmPassword=null;
-        this.texemail=null;
+        this.texusername = "请检查您输入的用户名~";
+        this.texpassword = null;
+        this.texconfirmPassword = null;
+        this.texemail = null;
+      } else if (!pwdReg.test(this.password)) {
+        this.texusername = null;
+        this.texpassword = "请检查您输入的密码~";
+        this.texconfirmPassword = null;
+        this.texemail = null;
       } else if (this.password != this.confirmPassword) {
-        this.texusername=null;
-        this.texpassword=null;
-        this.texconfirmPassword="两次输入的密码不一致~";
-        this.texemail=null;
-      }else if (!emailReg.test(this.email)) {
-        this.texusername=null;
-        this.texpassword=null;
-        this.texconfirmPassword=null;
-        this.texemail="请检查您输入的邮箱~";
-      }else {
+        this.texusername = null;
+        this.texpassword = null;
+        this.texconfirmPassword = "两次输入的密码不一致~";
+        this.texemail = null;
+      } else if (!emailReg.test(this.email)) {
+        this.texusername = null;
+        this.texpassword = null;
+        this.texconfirmPassword = null;
+        this.texemail = "请检查您输入的邮箱~";
+      } else {
         if (this.chose) {
           network('/api/user/register/pc', {
             username: this.username,
             email: this.email,
             password: this.password,
-          },data=>{
+          }, data => {
             console.log(data)
-            if(data.status==0){
-              this.tex =  data.message;
-              sessionStorage.setItem('TOKEN_KEY',data.data.api_token)
-              sessionStorage.setItem('username',data.data.username)
+            if (data.status == 0) {
+              this.tex = data.message;
+              sessionStorage.setItem('TOKEN_KEY', data.data.api_token)
+              sessionStorage.setItem('username', data.data.username)
               sessionStorage.setItem('email', data.data.email)
               sessionStorage.setItem('psw', this.password)
               Hub.$emit('ShowLog', false);
@@ -155,24 +155,24 @@ export default {
       }
       if (!this.username) {
         this.texusername = "用户名不得为空!";
-        this.texpassword=null;
-        this.texconfirmPassword=null;
-        this.texemail=null;
-      }else if (!this.password) {
-        this.texusername=null;
-        this.texpassword = "密码不得为空!";
-        this.texconfirmPassword=null;
-        this.texemail=null;
-      } else if (this.confirmPassword==''||this.confirmPassword==null) {
-        this.texusername=null;
-        this.texpassword = null;
-        this.texconfirmPassword = "请再次输入密码!";
-        this.texemail=null;
-      } else if (!this.email) {
-        this.texusername=null;
         this.texpassword = null;
         this.texconfirmPassword = null;
-        this.texemail= "邮箱不得为空!";
+        this.texemail = null;
+      } else if (!this.password) {
+        this.texusername = null;
+        this.texpassword = "密码不得为空!";
+        this.texconfirmPassword = null;
+        this.texemail = null;
+      } else if (this.confirmPassword == '' || this.confirmPassword == null) {
+        this.texusername = null;
+        this.texpassword = null;
+        this.texconfirmPassword = "请再次输入密码!";
+        this.texemail = null;
+      } else if (!this.email) {
+        this.texusername = null;
+        this.texpassword = null;
+        this.texconfirmPassword = null;
+        this.texemail = "邮箱不得为空!";
       }
     }
   },
@@ -188,18 +188,15 @@ export default {
 
 <style lang="scss" scoped>
 .register-pop {
-    // width: 100%;
-    // height: 100%;
-    // position: fixed;
-    // top: 0;
-    // z-index: 2000001;
-    // left: 0;
-    // background-color: rgba(0,0,0,.6);
+    overflow: hidden;
+    width: 1200px;
+    margin: 0 auto;
     .left-m {
         display: inline-block;
         width: 500px;
         height: 545px;
         padding: 44px 0;
+        float: left;
     }
     .register-pop-container {
         width: 500px;
@@ -208,6 +205,7 @@ export default {
         float: right;
         background-color: #fff;
         margin-right: 80px;
+        float: left;
         .login-title {
             position: relative;
             height: 38px;
@@ -229,7 +227,8 @@ export default {
         }
     }
     .register-pop-content {
-        form {color: #909090;
+        form {
+            color: #909090;
             padding: 60px 0;
             .form-group {
                 margin-left: -15px;
@@ -259,9 +258,11 @@ export default {
                     height: 30px;
                     line-height: 30px;
                     margin-top: 10px;
-                    label{
-                      font-size: 13px;
-                      width: 123px;    padding: 0;color: #f07;
+                    label {
+                        font-size: 13px;
+                        width: 123px;
+                        padding: 0;
+                        color: #f07;
                     }
                 }
             }
@@ -278,8 +279,9 @@ export default {
                         -webkit-font-smoothing: antialiased;
                     }
                 }
-                .condition{
-                  color: #f07;cursor: pointer;
+                .condition {
+                    color: #f07;
+                    cursor: pointer;
                 }
             }
             .warn {

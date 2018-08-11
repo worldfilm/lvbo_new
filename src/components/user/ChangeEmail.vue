@@ -54,7 +54,6 @@ export default {
       if (!emailReg.test(this.newEmail)) {
         this.warningt = "请检查您输入的邮箱~";
       }else{
-        console.log(this.verification)
         network('/api/user/editEmail', {
           api_token: api_token,
           new_email: this.newEmail,
@@ -67,7 +66,6 @@ export default {
       }
     },
     getemail(){
-      console.log('oldemail')
       let email = sessionStorage.getItem('email')
       this.oldemail=email
     },
@@ -75,7 +73,6 @@ export default {
   components: {},
 
   mounted() {
-    console.log('mounted')
     this.getemail()
   },
 }

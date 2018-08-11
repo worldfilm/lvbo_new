@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.3.2",
+    "fingerprintjs": "^0.5.3",
     "js-base64": "^2.4.8",
     "js-md5": "^0.7.3",
     "path": "^0.12.7",

@@ -17,18 +17,23 @@ import VideoPlayRightList from '@/components/VideoPlayRightList';
 import VideoContentMenu from '@/components/VideoContentMenu';
 import VideoInfo from '@/components/VideoInfo';
 import VideoComment from '@/components/VideoComment';
+
 export default {
   data() {
     return {}
   },
   methods: {
-
+    getFingerprint(){
+      let Fingerprint = require('fingerprintjs');
+      var fingerprint = new Fingerprint().get();
+      console.log(fingerprint)
+    },
   },
   mounted() {
 
   },
   created() {
-
+    this.getFingerprint()
   },
   components: {AdvertisHome,VideoPlay,VideoPlayRightList,VideoContentMenu,VideoInfo,VideoComment}
 }
