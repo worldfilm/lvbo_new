@@ -96,6 +96,7 @@ export default {
             margin: 3px;
             color: #fff;
             float: left;
+            cursor: pointer;
         }
         span:hover {
             background-color: #58b59d;
@@ -103,16 +104,17 @@ export default {
         ul {
             display: inline-block;
             float: left;
-            width: 280px;
+            width: 230px;
             overflow: hidden;height: 40px;
             li {
                 display: inline-block;
-                width: 50px;
+                width: 40px;
                 line-height: 36px;
                 background-color: #aaa;
                 color: #fff;
                 float: left;
                 margin: 3px;
+                cursor: pointer;
             }
             li:hover {
                 background-color: #58b59d;

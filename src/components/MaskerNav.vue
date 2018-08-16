@@ -53,8 +53,12 @@ export default {
       Hub.$emit('closed', false);
     },
     sendname(name){
-      Hub.$emit('sendingname', name);
-      // Hub.$emit('closed', false);
+      Hub.$emit('closed', false);
+      Hub.$emit('sendingnamee', name);
+      this.$router.push({
+        query:{titlename:name},
+        path: '/VideoMore',
+      })
     },
   },
   components: {}

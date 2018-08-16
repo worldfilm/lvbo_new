@@ -24,16 +24,16 @@
       </p>
       <div class="accountInfo-hide" v-show='ShowInfo'><span>1元可购买100积分或10钻石，积分可以用来下载视频，钻石可在直播频道打赏主播。</span></div>
       <p class="recharge-detail">
-        <span v-for="(item,index) in list" v-text='item.name' @click="selectmoney(index)" :class="{active:index == number}"></span>
+        <span v-for="(item,index) in list" v-text='item.name' @click="selectmoney(item.num,index)" :class="{active:index == number}"></span>
         <input type="text" placeholder="自定义" v-model="obj.moneytext" maxlength=13>
         <button type="button" class="up" @click="btnup"><i class="fas fa-caret-up"></i></button>
         <button type="button" class="down" @click="btndown"><i class="fas fa-caret-down"></i></button>
       </p>
       <p class="payment-way">
-        <input type="radio" id="zhi" name="paytype"   value="1" v-model='zhifubao' @click='zhifubaoc'>
-        <label for="zhi" @click='zhifubaoc'>支付宝支付</label>
-        <input type="radio" id="wei" name="paytype" v-model='weixin' @click='weixinc'>
-        <label for="wei" @click='weixinc'>微信支付</label>
+        <input type="radio" id="zhii" name="paytype" :value="valuei" v-model='pick' @click='zhifubaoc'>
+        <label for="zhii" @click='zhifubaoc'><img src="/static/zhifubao.png" alt=""> </label>
+        <input type="radio" id="weii" name="paytype" :value="valuei" v-model='pick' @click='weixinc'>
+        <label for="weii" @click='weixinc'><img src="/static/weixin.png" alt=""> </label>
       </p>
       <p class="btn-p">
         <button class="button-pay" @click='pay'>立即充值</button>
@@ -45,6 +45,7 @@
   <Paypackge/>
   <Payicons/>
   <payContain v-show='ShowpayContain' />
+  <PaySuccess v-show='ShowPaySuccess'/>
 </div>
 </template>
 <script>
@@ -52,28 +53,38 @@ import Hub from '@/components/Hub';
 import Payicons from '@/components/Payicons.vue';
 import Paypackge from '@/components/Paypackge.vue';
 import payContain from '@/components/user/payContain.vue';
+import PaySuccess from '@/components/user/PaySuccess.vue';
 // var i = 0
 export default {
   data() {
     return {
       list: [{
-        name: '10元'
+        name: '10元',
+        num:'10'
       }, {
-        name: '50元'
+        name: '50元',
+        num:'50'
       }, {
-        name: '100元'
+        name: '100元',
+        num:'100'
       }, {
-        name: '150元'
+        name: '150元',
+        num:'150'
       }, {
-        name: '300元'
+        name: '300元',
+        num:'300'
       }, ],
       integraltext: '1000',
       diamondtext: '100',
       ShowInfo: false,
-      zhifubao: '1',
+      zhifubao: true,
       weixin: false,
+      checked: '0',
+      pick:null,
+      valuei:'1',
       ShowpayContain: false,
-      number:'0',
+      ShowPaySuccess: false,
+      number: '0',
       obj: {
         moneytext: '10',
       },
@@ -125,22 +136,28 @@ export default {
       this.weixin = true
     },
     pay() {
+      console.log('checked='+this.checked+',valuei='+this.valuei+',pick='+this.pick)
       if (this.zhifubao) {
-        console.log('zhifubao')
+        console.log('zhifubao+', true);
       }
       if (this.weixin) {
-        console.log('weixin')
+        console.log('weixin+', true);
       }
-      this.ShowpayContain = true
+       this.ShowPaySuccess = true
     },
-    selectmoney(e){
+    selectmoney(e,index) {
       console.log(e)
-      this.number=e
+      this.number = index
+      this.obj.moneytext=e
+      Hub.$emit('paymoney', this.obj.moneytext);
     },
   },
   created() {
     Hub.$on('PayDialog', (data) => {
-    this.ShowpayContain = data
+      this.ShowpayContain = data
+    });
+    Hub.$on('PaySuccessClosed', (data) => {
+      this.ShowPaySuccess = data
     });
   },
   watch: {
@@ -161,10 +178,11 @@ export default {
     Payicons,
     Paypackge,
     payContain,
-  }
+    PaySuccess,
+  },
+
 }
 </script>
-
 <style lang="scss" scoped>
 .accunt {
     width: 900px;
@@ -241,9 +259,9 @@ export default {
             }
             .recharge-detail {
                 position: relative;
-                .active{
-                      border: 1px solid #58b59d;
-                      background: url(/static/selected.png) no-repeat 38px 17px;
+                .active {
+                    border: 1px solid #58b59d;
+                    background: url("/static/selected.png") no-repeat 38px 17px;
                 }
                 span {
                     height: 35px;
@@ -323,6 +341,10 @@ export default {
                     padding-right: 25px;
                     margin-left: 5px;
                     cursor: pointer;
+                    img {
+                        height: 21px;
+                        padding-top: 20px;
+                    }
                 }
             }
         }

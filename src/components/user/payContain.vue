@@ -24,10 +24,10 @@
     </div>
     <div class="layer-pay-type">
       <p class="payment-way">
-        <input type="radio" id="zhii" name="paytype"  value="1" v-model='zhifubao' @click='zhifubaoc'>
-        <label for="zhii" @click='zhifubaoc'><img src="/static/zhifubao.png" alt=""> </label>
-        <input type="radio" id="weii" name="paytype" v-model='weixin' @click='weixinc'>
-        <label for="weii" @click='weixinc'><img src="/static/weixin.png" alt=""> </label>
+        <input type="radio" id="zhi" name="paytype" value="1" v-model='zhifubao' @click='zhifubaoc'>
+        <label for="zhi" @click='zhifubaoc'><img src="/static/zhifubao.png" alt=""> </label>
+        <input type="radio" id="wei" name="paytype" value="2" v-model='weixin' @click='weixinc'>
+        <label for="wei" @click='weixinc'><img src="/static/weixin.png" alt=""> </label>
       </p>
     </div>
     <button @click='pay'>立即支付</button>
@@ -95,6 +95,15 @@ export default {
     },
   },
   created() {
+    Hub.$on('zhifubao', (data) => {
+      console.log(data+'zhifubao')
+    });
+    Hub.$on('weixin', (data) => {
+      console.log(data+'weixin')
+    });
+    Hub.$on('paymoney', (data) => {
+      console.log(data+'paymoney')
+    });
     let username=sessionStorage.getItem('username')
     if(username){
       this.username=username
@@ -113,7 +122,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 200011;
+    z-index: 10;
     overflow: auto;
     .pay-layer-container {
         max-width: 980px;

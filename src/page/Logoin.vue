@@ -97,6 +97,7 @@ export default {
               sessionStorage.setItem('username', data.data.username)
               sessionStorage.setItem('email', data.data.email)
               sessionStorage.setItem('psw', this.password)
+              sessionStorage.setItem('imgsrc', this.avatar)
               this.$router.push({
                 path: '/Home'
               })

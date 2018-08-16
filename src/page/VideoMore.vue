@@ -1,6 +1,6 @@
 <template>
 <div class="VideoMore">
-
+<AdvertisHome v-show="ShowAdvertisHome"/>
   <div class="morevideo-left">
     <p class="videos-title">
       <i class="fas fa-newspaper"></i>
@@ -53,6 +53,7 @@
 <script>
 import Hub from '@/components/Hub';
 import Pagination from '@/components/Pagination';
+import AdvertisHome from '@/components/AdvertisHome';
 import {
   network
 } from '@/config/config';
@@ -61,6 +62,8 @@ export default {
     return {
       list: [],
       data: '最新',
+      title:null,
+      ShowAdvertisHome:true,
     }
   },
   methods: {
@@ -77,12 +80,14 @@ export default {
   },
   mounted() {
     this.initial()
-
+    this.title=this.$route.query.titlename
+    Hub.$on('sendingnamee', (data) => {
+           this.title=data
+    });
+    console.log(this.title)
   },
-  created() {
-
-  },
-  components: {Pagination}
+  created() {},
+  components: {Pagination,AdvertisHome}
 }
 </script>
 

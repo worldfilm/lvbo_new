@@ -2,7 +2,7 @@
 <div class="leftmenu">
   <div class="info">
     <div class="infophoto">
-      <img src="http://img.d1w8.space:80/user_head/default_1_1.jpg">
+      <img :src="imgsrc">
     </div>
     <p class="infoname">
       <span>{{username}}</span>
@@ -36,6 +36,7 @@ import Hub from '@/components/Hub';
 export default {
   data() {
     return {
+      imgsrc:null,
       username: null,
       registetime: '2018/05/12',
       videonum: '999',
@@ -73,6 +74,8 @@ export default {
   },
   components: {},
   created() {
+    let imgsrc=sessionStorage.getItem('imgsrc')
+    this.imgsrc=imgsrc
     let username=sessionStorage.getItem('username')
     if(username){
         this.username=username

@@ -1,6 +1,7 @@
 <template>
 <div class="home">
   <AdvertisHome v-show="ShowAdvertisHome"/>
+  <ZhiboList/>
   <VideoList/>
   <Barrage v-show="barrage"/>
 </div>
@@ -11,11 +12,12 @@
   import VideoList from '@/components/VideoList';
   import Barrage from '@/components/Barrage';
   import AdvertisHome from '@/components/AdvertisHome';
+  import ZhiboList from '@/components/ZhiboList';
   export default {
     data() {
       return {
          barrage:true,
-         ShowAdvertisHome:false,
+         ShowAdvertisHome:true,
       }
     },
     methods:{
@@ -28,8 +30,14 @@
         setTimeout(()=> {this.barrage = data}, 500)
       });
       setTimeout(()=> {this.autoclosed()}, 2000)
+      var warning18=sessionStorage.getItem('warning18')
+      if(warning18==undefined){
+        sessionStorage.setItem('warning18', 'xxxx')
+      }else{
+        this.barrage=false
+      }
     },
-    components: {VideoList,Barrage,AdvertisHome},
+    components: {VideoList,Barrage,AdvertisHome,ZhiboList},
   }
 </script>
 

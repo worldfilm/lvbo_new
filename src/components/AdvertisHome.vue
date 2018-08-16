@@ -1,6 +1,14 @@
 <template>
 <div class="AdvertisHome">
-
+<ul>
+  <li><img src="/static/4.gif" alt=""></li>
+  <li><img src="/static/3.gif" alt=""></li>
+  <li><img src="/static/4.gif" alt=""></li>
+  <li><img src="/static/3.gif" alt=""></li>
+  <li><img src="/static/4.gif" alt=""></li>
+  <li><img src="/static/3.gif" alt=""></li>
+  <li><img src="/static/4.gif" alt=""></li>
+</ul>
 </div>
 </template>
 <script>

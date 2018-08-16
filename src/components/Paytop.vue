@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="first-right-login" v-show='ShowLoginUser'>
-          <img src="http://img.d1w8.space:80/user_head/default_1_1.jpg">
+          <img :src="imgsrc">
           <div>
             <a v-text='username'></a>
             <p>加入VIP，畅想特权</p>
@@ -36,6 +36,7 @@ import {  network} from '@/config/config';
 export default {
   data() {
     return {
+      imgsrc:null,
       list: [{
           text: '海量激情自拍,免费下载到本地'
         },
@@ -72,6 +73,8 @@ export default {
   },
 	mounted() {
     let username=sessionStorage.getItem('username')
+    let imgsrc=sessionStorage.getItem('imgsrc')
+    this.imgsrc=imgsrc
     if(username){
       this.ShowLoginUser=true
       this.ShowNoLogin=false

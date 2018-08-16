@@ -30,10 +30,9 @@ export default {
         })
       }
     });
-    Hub.$on('change1', (data) => {
-
-    });
-    Hub.$on('change2', (data) => {});
+    // Hub.$on('change1', (data) => {});
+    // Hub.$on('change2', (data) => {});
+    
   }
 }
 </script>

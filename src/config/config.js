@@ -19,8 +19,6 @@ const network = function(url, data, fun) {
          console.log('geterror')
     });
   }
-
-
 }
 export {
   network

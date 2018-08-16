@@ -141,6 +141,7 @@ export default {
               sessionStorage.setItem('username', data.data.username)
               sessionStorage.setItem('email', data.data.email)
               sessionStorage.setItem('psw', this.password)
+              sessionStorage.setItem('imgsrc', this.avatar)
               Hub.$emit('ShowLog', false);
               Hub.$emit('ShowOnline', true);
               Hub.$emit('username', data.data.username);

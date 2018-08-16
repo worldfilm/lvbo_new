@@ -67,6 +67,7 @@ export default {
       ulist: false,
       ShowMask: false,
       KeyWord:null,
+      sengdingname:null,
       usercenterlist: [{
         name: '我的账户',
         component: 'Accunt'
@@ -226,6 +227,9 @@ export default {
     });
     Hub.$on('username', (data) => {
       this.username = data
+    });
+    Hub.$on('sendingname', (data) => {
+           this.sengdingname=data
     });
     document.addEventListener('click', (e) => {
       if (!this.$el.contains(e.target)) {
