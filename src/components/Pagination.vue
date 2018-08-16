@@ -71,7 +71,7 @@ export default {
       this.gopage(this.num+'go')
     },
     gopage(e){
-      console.log(e)
+      // console.log(e)
     },
   },
   components: {}

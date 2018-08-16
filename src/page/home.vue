@@ -2,6 +2,10 @@
 <div class="home">
   <AdvertisHome v-show="ShowAdvertisHome"/>
   <ZhiboList/>
+  <ChineseList/>
+  <JanpanList/>
+  <SelfieList/>
+  <MovieList/>
   <VideoList/>
   <Barrage v-show="barrage"/>
 </div>
@@ -9,10 +13,15 @@
 
 <script>
   import Hub from '@/components/Hub';
-  import VideoList from '@/components/VideoList';
   import Barrage from '@/components/Barrage';
   import AdvertisHome from '@/components/AdvertisHome';
-  import ZhiboList from '@/components/ZhiboList';
+  import ZhiboList from '@/components/videolist/ZhiboList';
+  import ChineseList from '@/components/videolist/ChineseList';
+  import JanpanList from '@/components/videolist/JanpanList';
+  import SelfieList from '@/components/videolist/SelfieList';
+  import MovieList from '@/components/videolist/MovieList';
+  import VideoList from '@/components/videolist/VideoList';
+
   export default {
     data() {
       return {
@@ -37,7 +46,7 @@
         this.barrage=false
       }
     },
-    components: {VideoList,Barrage,AdvertisHome,ZhiboList},
+    components: {VideoList,Barrage,AdvertisHome,ZhiboList,ChineseList,JanpanList,SelfieList,MovieList},
   }
 </script>
 
