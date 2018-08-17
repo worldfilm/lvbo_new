@@ -16,10 +16,10 @@
       <ul class="topnav-mainnav-right">
         <li class="xingyu-search">
           <input type="text" class="form-control" name="title" placeholder="请输入关键字" v-model='KeyWord'>
-          <button type="button" name="button" @click='search'><span class="el-icon-search"></span></button>
+          <button type="button" name="button" @click='search'><i class="fas fa-search"></i></button>
         </li>
         <li class="top-main-nav-collection" @click='addBookmark'>
-          <i class="el-icon-star-on"></i> <span>收藏书签</span>
+          <i class="far fa-star"></i> <span>收藏书签</span>
         </li>
 
         <li class="top-nav-guide" @click='networkadress'>
@@ -33,11 +33,11 @@
           <div v-show='ShowOnline' class="showonline">
             <span>欢迎</span>
             <span class="username">{{username}}</span>
-            <span class="arrow el-icon-caret-bottom" @click="showuserlist"></span>
+            <i class="fas fa-chevron-circle-down hover" @click="showuserlist"></i>
             <ul class="userdeitllist" v-show="ulist">
               <li v-for='item in usercenterlist' @click="userpag(item.component)">{{item.name}}</li>
             </ul>
-            <span @click='logout'>退出</span>
+            <span @click='logout' class="hover">退出</span>
           </div>
         </li>
       </ul>
@@ -52,7 +52,9 @@
 <script>
 import Hub from '@/components/Hub';
 import MaskerNav from '@/components/MaskerNav.vue';
-import {  network} from '@/config/config';
+import {
+  network
+} from '@/config/config';
 export default {
   name: 'Navheader',
   components: {
@@ -66,8 +68,8 @@ export default {
       username: 'null',
       ulist: false,
       ShowMask: false,
-      KeyWord:null,
-      sengdingname:null,
+      KeyWord: null,
+      sengdingname: null,
       usercenterlist: [{
         name: '我的账户',
         component: 'Accunt'
@@ -87,9 +89,8 @@ export default {
     }
   },
   methods: {
-    search(){
-      if(this.KeyWord==null){
-      }else{
+    search() {
+      if (this.KeyWord == null) {} else {
         console.log(this.KeyWord)
 
         this.$router.push({
@@ -142,13 +143,13 @@ export default {
     },
     logout() {
       let api_token = sessionStorage.getItem('TOKEN_KEY')
-      network('/api/user/loginout?api_token='+api_token, null,data => {
+      network('/api/user/loginout?api_token=' + api_token, null, data => {
         if (data.status == 0) {
           sessionStorage.removeItem('username')
           sessionStorage.removeItem('email')
           sessionStorage.removeItem('TOKEN_KEY')
           this.checkuser()
-            Hub.$emit('home', true);
+          Hub.$emit('home', true);
         }
       })
     },
@@ -229,7 +230,7 @@ export default {
       this.username = data
     });
     Hub.$on('sendingname', (data) => {
-           this.sengdingname=data
+      this.sengdingname = data
     });
     document.addEventListener('click', (e) => {
       if (!this.$el.contains(e.target)) {
@@ -308,10 +309,13 @@ export default {
                         right: -16px;
                         outline: none;
                         background: #fff;
-                        span {
+                        i {
                             font-size: 19px;
                             font-weight: bold;
                             color: #6f6b6b;
+                            width: 20px;
+                            height: 20px;
+                            padding-right: 5px;
                         }
                     }
                 }
@@ -327,6 +331,13 @@ export default {
                     background-color: #4fa28d;
                     text-align: center;
                     border-radius: 4px;
+                }
+                .top-main-nav-collection:hover,
+                .top-nav-guide:hover,
+                .xingyu-btn-login:hover,
+                .xingyu-btn-register:hover {
+                    background-color: #fff;
+                    color: #4fa28d;
                 }
                 .topnav-btn-group {
                     font-size: 16px;
@@ -349,8 +360,18 @@ export default {
                             padding: 0 3px;
                             border-radius: 5px;
                         }
-                        span:hover {
+                        .hover:hover {
                             box-shadow: 3px 1px 10px 0 #5f5a5a;
+                        }
+                        i {
+                            display: inline-block;
+                            float: left;
+                            padding: 0 3px;
+                            border-radius: 5px;
+                            height: 21px;
+                            width: 27px;
+                            padding-top: 8px;
+                            margin-right: 5px;
                         }
                         .arrow {
                             width: 30px;

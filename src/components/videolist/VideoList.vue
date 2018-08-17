@@ -2,7 +2,7 @@
 <div class='VideoList'>
   <div class='content_1'>
     <p class="videos-title">
-      <i class="fas fa-newspaper"></i>
+      <i class="fas fa-gift"></i>
       <span class='title_span'>最新视频</span>
       <a class="more" @click='more'>查看更多&gt;</a>
     </p>

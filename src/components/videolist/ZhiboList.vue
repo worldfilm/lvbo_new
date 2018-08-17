@@ -2,7 +2,7 @@
 <div class='ZhiboList'>
   <div class='content_1'>
     <h4 class="videos-title">
-      <i class="fas fa-tv" ></i>
+      <i class="fab fa-youtube" ></i>
       <span class='title_span'>美女直播</span>
       <a class="more" @click='more'>查看更多&gt;</a>
     </h4>

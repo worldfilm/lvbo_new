@@ -53,7 +53,7 @@ import Hub from '@/components/Hub';
 import Payicons from '@/components/Payicons.vue';
 import Paypackge from '@/components/Paypackge.vue';
 import payContain from '@/components/user/payContain.vue';
-import PaySuccess from '@/components/user/PaySuccess.vue';
+import PaySuccess from '@/components/Alert/PaySuccess.vue';
 // var i = 0
 export default {
   data() {

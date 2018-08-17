@@ -25,15 +25,8 @@ export default {
     closed() {
       Hub.$emit('PaySuccessClosed', false);
     },
-
-    pay() {
-
-    },
   },
   created() {
-    Hub.$on('zhifubao', (data) => {
-
-    });
   },
   components: {}
 }

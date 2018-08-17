@@ -13,7 +13,7 @@
 
 <script>
   import Hub from '@/components/Hub';
-  import Barrage from '@/components/Barrage';
+  import Barrage from '@/components/Alert/Barrage';
   import AdvertisHome from '@/components/AdvertisHome';
   import ZhiboList from '@/components/videolist/ZhiboList';
   import ChineseList from '@/components/videolist/ChineseList';

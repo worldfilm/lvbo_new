@@ -1,6 +1,7 @@
 import axios from 'axios'
 const network = function(url, data, fun) {
   let ip='http://192.168.0.106/web_api_php/public'
+  // let ip='http://192.168.0.110:3000'
   if(data){
     axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
     axios.defaults.headers.post['X-Requested-With']='XMLHttpRequest';

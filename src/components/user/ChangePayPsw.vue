@@ -16,8 +16,8 @@
 </div>
 </template>
 <script>
-let Base64 = require('js-base64').Base64;
-import md5 from 'js-md5';
+// let Base64 = require('js-base64').Base64;
+// import md5 from 'js-md5';
 import Hub from '@/components/Hub';
 import {
   network
@@ -40,9 +40,10 @@ export default {
     },
     sendingpswdata(){
       if(this.newpsw==this.replapsw){
+        let sha1 = require('sha1');
         let api_token = sessionStorage.getItem('TOKEN_KEY');
-        var newpsw = md5(this.newpsw);newpsw=Base64.encode(newpsw);
-        var repsw = md5(this.replapsw);repsw=Base64.encode(repsw);
+        var newpsw = sha1(this.newpsw);
+        var repsw = sha1(this.replapsw);
         network('/api/user/editPrivate', {
            api_token:api_token,
            type:'2',
