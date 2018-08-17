@@ -1,56 +1,117 @@
 <template>
-	<div class="Slider">
-	  <el-carousel :interval="5000" arrow="always">
-	    <el-carousel-item v-for="item in list" :key="item">
-	      <img :src='item.src'/>
-	    </el-carousel-item>
-	  </el-carousel>
-	</div>
+  <div class="slide" v-on:mouseover="stop()" v-on:mouseout="move()">
+    <div class="slideshow">
+      <transition-group tag="ul" name="image">
+        <li v-for="(img, index) in imgArray" v-show="index===mark" :key="index">
+          <a href="#">
+            <img :src='img'>
+          </a>
+        </li>
+      </transition-group>
+    </div>
+    <div class="bullet">
+      <span v-for="(item, index) in imgArray" :class="{ 'active':index===mark }"
+      @click="change(index)" :key="index"></span>
+    </div>
+  </div>
 </template>
-<script type="text/javascript">
-	export default {
-		data(){
-			return {
-				list:[
-				{
-					src:'../../static/1.png'
-				},{
-					src:'../../static/2.jpg'
-				},{
-					src:'../../static/3.png'
-				}
-				]
-			}
-		},
-	  components: {
-	  },
-		methods:{
 
-		}
-	}
+<script>
+export default {
+  data () {
+    return {
+      timer: null, //定时器
+      mark: 0, //比对图片索引的变量
+      imgArray: [
+        '../static/timg1.jpg',
+        '../static/timg2.jpg',
+        '../static/timg3.jpg',
+        '../static/timg4.jpg'
+      ]
+    }
+  },
+  methods: {
+    autoPlay () {
+      this.mark++;
+      if (this.mark === 4) {
+        this.mark = 0
+      }
+    },
+    play () {
+      this.timer = setInterval(this.autoPlay, 2500)
+    },
+    change (i) {
+      this.mark = i
+    },
+    stop () {
+      clearInterval(this.timer)
+    },
+    move () {
+      this.timer = setInterval(this.autoPlay, 2500)
+    }
+  },
+  created () {
+    this.play()
+  }
+}
 </script>
 <style>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 150px;
-  margin: 0;
-}
-.el-carousel__item img {
-  height: 150px;
-}
+ * {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .slide {
+    width: 1024px;
+    height: 320px;
+    margin: 0 auto;
+    margin-top: 50px;
+    overflow: hidden;
+    position: relative;
+  }
+  .slideshow {
+    width: 1024px;
+    height: 320px;
+  }
+  li {
+    position: absolute;
+  }
+  img {
+    width: 1024px;
+    height: 320px;
+  }
+  .bar {
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    margin: 0 auto;
+    z-index: 10;
+    text-align: center;
+  }
+  .bar span {
+    width: 20px;
+    height: 5px;
+    border: 1px solid;
+    background: white;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .active {
+    background: red !important;
+  }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
-
-.el-carousel__container{
-	height: 150px;
-}
-
+.image-enter-active {
+    transform: translateX(0);
+    transition: all 1.5s ease;
+  }
+  .image-leave-active {
+    transform: translateX(-100%);
+    transition: all 1.5s ease;
+  }
+  .image-enter {
+    transform: translateX(100%);
+  }
+  .image-leave {
+    transform: translateX(0);
+  }
 </style>

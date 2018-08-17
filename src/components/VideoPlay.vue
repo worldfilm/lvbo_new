@@ -1,5 +1,5 @@
 <template>
-<div class="VideoPlay">
+<div class="不用的">
 </div>
 </template>
 <script>

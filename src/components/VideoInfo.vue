@@ -1,5 +1,5 @@
 <template>
-<div class="VideoInfo">
+<div class="不用的">
   <p>
     <img src="http://img.d1w8.space:80/user_head/default_1_1.jpg">
     <span>dsfss</span>

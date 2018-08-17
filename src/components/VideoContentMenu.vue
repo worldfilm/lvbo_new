@@ -1,5 +1,5 @@
 <template>
-<div class="VideoContentMenu">
+<div class="不用的">
   <ul class="left">
     <li>
       <p><i class="far fa-thumbs-up"></i> 喜欢</p>
