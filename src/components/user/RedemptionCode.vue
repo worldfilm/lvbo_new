@@ -12,6 +12,7 @@
 </div>
 </template>
 <script>
+import {  network} from '@/config/config';
 import Hub from '@/components/Hub';
 export default {
   data() {
@@ -26,7 +27,16 @@ export default {
   methods: {
 
   },
-  components: {}
+  components: {},
+  created() {
+    let api_token = sessionStorage.getItem('TOKEN_KEY')
+    network('/api/user/getExchanges?api_token='+api_token, null, data => {
+      console.log(data)
+      if (data.status == 0) {
+
+      }
+    })
+  },
 }
 </script>
 

@@ -3,6 +3,9 @@
 <div class="header">
   <nav class="xingyu-topnav">
     <div class="v-container">
+      <div class="logo">
+        <div class="nav-logo" @click='home'></div>
+      </div>
       <div class="topnav-mainnav">
         <div class="mainnav-nav-div">
           <ul>
@@ -43,9 +46,7 @@
       </ul>
     </div>
   </nav>
-  <div class="topnav-fix-nav-logo">
-    <div class="nav-logo" @click='home'></div>
-  </div>
+
   <MaskerNav v-show='ShowMask' />
 </div>
 </template>
@@ -247,7 +248,7 @@ export default {
         background-color: #58b59d;
         height: 60px;
         .v-container {
-            width: 1080px;
+            width: 1200px;
             margin: 0 auto;
             height: 60px;
             .topnav-mainnav {
@@ -260,7 +261,7 @@ export default {
                         font-size: 0;
                         line-height: 0;
                         li {
-                            width: 85px;
+                            width: 70px;
                             text-align: center;
                             height: 60px;
                             line-height: 60px;
@@ -409,17 +410,14 @@ export default {
             }
         }
     }
-    .topnav-fix-nav-logo {
-        background-color: #2c2c2c;
-        height: 80px;
-        margin: 0 auto;
+    .logo {
+        height: 60px;float: left;
         .nav-logo {
             width: 184px;
-            height: 80px;
-            line-height: 80px;
-            margin: 0 auto;
+            height: 60px;
+            line-height: 60px;
             background: url("/static/logo.png") no-repeat 0 5px;
-            cursor: pointer;
+            cursor: pointer;display: inline-block;
         }
     }
 }

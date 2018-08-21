@@ -3,30 +3,65 @@
   <div class="myvideo-title">
     <span>我的收藏</span>
   </div>
-  <div class="myvideo-videolist-box">
+  <div class="myvideo-videolist-box" v-show='NoHaveVideo'>
     <div class="myvideo-nothing">
       <span class="fas fa-exclamation-circle"></span> 暂无记录,去
       <a href="/Home">首页</a> 观看视频
     </div>
   </div>
+  <div class="myvideo" v-show='HaveVideo'>
+    <ul class="videos-cont">
+      <li v-for="(item,idx) in list" class="item" @click='openvideo(item)'>
+        <img class="video-cover" :src="item.thumb_href">
+        <a class="hide">
+          <img src="/static/playbtn.png" alt="">
+        </a>
+        <p class="title" v-text='item.title'></p>
+        <p class="v-mask-layer"><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span></p>
+        <p><button type="button" name="button" @click='deletvideo'>取消收藏</button></p>
+      </li>
+    </ul>
+  </div>
 </div>
 </template>
 <script>
 import Hub from '@/components/Hub';
+import {network} from '@/config/config';
 export default {
   data() {
     return {
-      list: [{
-        },
-      ]
-
-
+      list: [],
+      pangnum:1,
+      page_size:10,
+      NoHaveVideo:true,
+      HaveVideo:false,
     }
   },
   methods: {
+    openvideo(item){
+      console.log(item)
+    },
+    deletvideo(){
 
+    },
   },
-  components: {}
+  components: {},
+  created() {
+    let api_token = sessionStorage.getItem('TOKEN_KEY')
+    let pangnum=this.pangnum
+    let page_size=this.page_size
+    network('/api/user/list/collect?api_token='+api_token+'&page='+pangnum+'&page_size='+page_size, null, data => {
+      console.log(data)
+      data.data.list=[]
+      if (data.status == 0) {
+         if(data.data.list.length>0){
+           this.NoHaveVideo=false
+           this.HaveVideo=true
+           this.list=data.data.list
+         }
+      }
+    })
+  },
 }
 </script>
 
@@ -89,6 +124,88 @@ export default {
               color: #58b59d;    cursor: pointer;
             }
         }
+    }
+    .myvideo{
+       .videos-cont{
+            padding:40px;
+         .item {
+             width: 185px;
+             margin: 0 7px 14px;
+             box-shadow: 0 0 10px #ddd;
+             display: inline-block;
+             position: relative;
+             cursor: pointer;
+             float: left;
+             .title:hover {
+                 color: #f07;
+             }
+             p {
+                 height: 20px;
+                 line-height: 20px;
+                 text-overflow: ellipsis;
+                 overflow: hidden;
+                 white-space: nowrap;
+             }
+             img {
+                 position: relative;
+                 width: 185px;
+                 height: 110px;
+             }
+             .v-mask-layer {
+                 margin: 0 auto;
+                 line-height: 30px;
+                 height: 30px;
+                 text-align: left;
+                 padding-left: 5px;
+                 span {}
+                 .peoplenum {
+                     width: 50%;
+                     float: left;
+                 }
+                 .beforeday {}
+             }
+             .hide {
+                 position: absolute;
+                 z-index: 10;
+                 width: 100%;
+                 height: 68%;
+                 top: 0;
+                 left: 0;
+                 background-color: rgba(0,0,0,.5);
+                 transition: all 1s linear;
+                 font-size: 48px;
+                 text-align: center;
+                 color: #FFF;
+                 line-height: 120px;
+                 display: none;
+                 img {
+                     animation: heartbeat 1s infinite;
+                     height: auto;
+                     width: auto;
+                 }
+                 @keyframes heartbeat {
+                     0% {
+                         transform: scale(0.8, 0.8);
+                         opacity: 1;
+                     }
+                     25% {
+                         transform: scale(1, 1);
+                         opacity: 0.8;
+                     }
+                     100% {
+                         transform: scale(0.8, 0.8);
+                         opacity: 1;
+                     }
+                 }
+             }
+         }
+         .item:hover {
+             box-shadow: 5px 4px 7px 1px #aaa;
+         }
+         .item:hover .hide {
+             display: block;
+         }
+       }
     }
 }
 </style>

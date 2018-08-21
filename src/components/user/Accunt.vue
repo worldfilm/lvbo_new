@@ -30,9 +30,9 @@
         <button type="button" class="down" @click="btndown"><i class="fas fa-caret-down"></i></button>
       </p>
       <p class="payment-way">
-        <input type="radio" id="zhii" name="paytype" :value="valuei" v-model='pick' @click='zhifubaoc'>
+        <input type="radio" id="zhii" name="paytype"  v-model='pick' @click='zhifubaoc' >
         <label for="zhii" @click='zhifubaoc'><img src="/static/zhifubao.png" alt=""> </label>
-        <input type="radio" id="weii" name="paytype" :value="valuei" v-model='pick' @click='weixinc'>
+        <input type="radio" id="weii" name="paytype"  v-model='pick' @click='weixinc' >
         <label for="weii" @click='weixinc'><img src="/static/weixin.png" alt=""> </label>
       </p>
       <p class="btn-p">
@@ -81,7 +81,6 @@ export default {
       weixin: false,
       checked: '0',
       pick:null,
-      valuei:'1',
       ShowpayContain: false,
       ShowPaySuccess: false,
       number: '0',
@@ -136,7 +135,7 @@ export default {
       this.weixin = true
     },
     pay() {
-      console.log('checked='+this.checked+',valuei='+this.valuei+',pick='+this.pick)
+      console.log('checked='+this.checked+',pick='+this.pick)
       if (this.zhifubao) {
         console.log('zhifubao+', true);
       }
