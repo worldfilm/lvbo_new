@@ -37,9 +37,10 @@ export default {
   },
   methods: {
     initial(){
-      // network('videoList', null, data => {
-      //   this.list = data.data
-      // })
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      network('/api/category/list?api_token='+api_token, null, data => {
+        console.log(data)
+      })
     },
     navquery(data){
       // network('NavList', {

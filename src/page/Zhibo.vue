@@ -1,33 +1,33 @@
 <template>
-<div class='VideoList'>
-  <div class='content_1'>
-    <h4 class="videos-title">
-      <i class="fa fa-anchor" ></i>
-      <span class='title_span'>美女直播</span>
-      <a class="more">查看更多&gt;</a>
-    </h4>
-    <ul class="nav">
-      <li class="item" v-for='(item,index) in navlist' @click='videonav(item.name,index)'  :class="{isactive:index == num}">{{item.name}}</li>
-    </ul>
-    <ul class="videos-cont">
-      <li v-for="item in list" class="item">
-        <div class="videos-info">
-          <img class="video-cover" :src="item.thumb_href">
-          <div class="playContrl">
-            <a href=""><i class="fa fa-youtube-play"></i></a>
+  <div class='VideoList'>
+    <div class='content_1'>
+      <h4 class="videos-title">
+        <i class="fa fa-anchor" ></i>
+        <span class='title_span'>美女直播</span>
+        <a class="more">查看更多&gt;</a>
+      </h4>
+      <ul class="nav">
+        <li class="item" v-for='(item,index) in navlist' @click='videonav(item.name,index)'  :class="{isactive:index == num}">{{item.name}}</li>
+      </ul>
+      <ul class="videos-cont">
+        <li v-for="item in list" class="item">
+          <div class="videos-info">
+            <img class="video-cover" :src="item.thumb_href">
+            <div class="playContrl">
+              <a href=""><i class="fa fa-youtube-play"></i></a>
+            </div>
           </div>
-        </div>
-        <p class="title" v-text='item.title'></p>
-        <div class="v-mask-layer">
-          <div class="v-mask-layer-left">人观看 </div>
-          <div class="v-mask-layer-right">
-            <i class="xyvideo-icon"></i>{{item.duration}}
+          <p class="title" v-text='item.title'></p>
+          <div class="v-mask-layer">
+            <div class="v-mask-layer-left">人观看 </div>
+            <div class="v-mask-layer-right">
+              <i class="xyvideo-icon"></i>{{item.duration}}
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
 </template>
 <script>
 import {network} from '@/config/config';
