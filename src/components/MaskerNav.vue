@@ -6,7 +6,7 @@
     <div class="navlist" v-for='item in navlist'>
       <p class="navtitle" v-text='item.title'></p>
       <ul>
-        <li v-for='(ite,idx) in item.list' v-text='ite' @click='sendname(ite)'></li>
+        <li v-for='itex in item.childs' v-text='itex.title' @click='sendname(itex.title,itex.id)'></li>
       </ul>
     </div>
   </div>
@@ -14,54 +14,43 @@
 </template>
 <script>
 import Hub from '@/components/Hub';
+import {
+  network
+} from '@/config/config';
 export default {
   data() {
     return {
-      navlist: [{
-          title: '地区',
-          list: ['日本', '大陆', '欧美', '非洲', '韩国', '亚太']
-        },
-        {
-          title: '动作',
-          list: ['69式', '后入式', '女上位', '打飞机', '深喉', '自慰', '肛交', '口爆', '潮吹', '无套内射', '吹萧', '手淫']
-        },
-        {
-          title: '部位',
-          list: ['巨乳', '平胸', '馒头', '黑木耳', '大屁股', '大公鸡', '蝴蝶逼', '巨根']
-        },
-        {
-          title: '癖好',
-          list: ['叫床', '3P', 'SM', '毒龙', '换妻', '恋足', '调教', '异装癖', '人妖', '捆绑', '鞭打', '偷窥', '自拍']
-        },
-        {
-          title: '场景',
-          list: ['KTV', '酒店', '车震', '公共厕所', '办公室', '客厅', '野外', '游泳池', '楼梯口', '教室']
-        },
-        {
-          title: '角色',
-          list: ['护士', '学生', '空姐', '小姐', '警察', '老师', '少妇', '秘书', '女仆', '人妻', '熟女', '新娘', '保姆', '嫩模']
-        },
-        {
-          title: '道具',
-          list: ['丝袜', '蕾丝', '假鸡巴', '跳蛋', '自慰棒', '眼罩', '丁字裤', '皮便', '手铐']
-        }
-      ]
+      navlist: [],
     }
   },
   methods: {
     closed() {
       Hub.$emit('closed', false);
     },
-    sendname(name){
+    sendname(name,id){
       Hub.$emit('closed', false);
-      Hub.$emit('sendingnamee', name);
-      this.$router.push({
-        query:{titlename:name},
-        path: '/VideoMore',
-      })
+      Hub.$emit('sendingnamee', name,id);
+      let path = this.$router.app._route.path
+      if(path!='/Upload'){
+        this.$router.push({
+          query:{titlename:name},
+          path: '/VideoMore',
+        })
+      }
+      console.log()
     },
+    getlist(){
+      network('/api/tag/list',null, data => {
+        if (data.status == 0) {
+          this.navlist=data.data.list
+        }
+      })
+    }
   },
-  components: {}
+  components: {},
+  created(){
+    this.getlist()
+  }
 }
 </script>
  <style lang="scss" scoped>
@@ -133,3 +122,31 @@ export default {
     }
 }
 </style>
+<!-- {
+    title: '地区',
+    list: ['日本', '大陆', '欧美', '非洲', '韩国', '亚太']
+  },
+  {
+    title: '动作',
+    list: ['69式', '后入式', '女上位', '打飞机', '深喉', '自慰', '肛交', '口爆', '潮吹', '无套内射', '吹萧', '手淫']
+  },
+  {
+    title: '部位',
+    list: ['巨乳', '平胸', '馒头', '黑木耳', '大屁股', '大公鸡', '蝴蝶逼', '巨根']
+  },
+  {
+    title: '癖好',
+    list: ['叫床', '3P', 'SM', '毒龙', '换妻', '恋足', '调教', '异装癖', '人妖', '捆绑', '鞭打', '偷窥', '自拍']
+  },
+  {
+    title: '场景',
+    list: ['KTV', '酒店', '车震', '公共厕所', '办公室', '客厅', '野外', '游泳池', '楼梯口', '教室']
+  },
+  {
+    title: '角色',
+    list: ['护士', '学生', '空姐', '小姐', '警察', '老师', '少妇', '秘书', '女仆', '人妻', '熟女', '新娘', '保姆', '嫩模']
+  },
+  {
+    title: '道具',
+    list: ['丝袜', '蕾丝', '假鸡巴', '跳蛋', '自慰棒', '眼罩', '丁字裤', '皮便', '手铐']
+  } -->

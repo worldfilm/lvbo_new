@@ -2,7 +2,7 @@
 <div class="leftmenu">
   <div class="info">
     <div class="infophoto">
-      <img :src="imgsrc">
+      <img :src="imgsrc" @click='changehead'>
     </div>
     <p class="infoname">
       <span>{{username}}</span>
@@ -61,7 +61,7 @@ export default {
         name: '账户安全',
         icon: 'fa-shield-alt',
         component: 'Safety'
-      }, ]
+      }]
     }
   },
   methods: {
@@ -70,7 +70,10 @@ export default {
     },
     videolink(){
       Hub.$emit('component', 'Video');
-    }
+    },
+    changehead(){
+      Hub.$emit('component', 'Changehead');
+    },
   },
   components: {},
   created() {

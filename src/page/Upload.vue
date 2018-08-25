@@ -14,7 +14,7 @@
     <p class="choese">
       <label class="title">内容标签</label>
       <button type="button" name="button" @click='maskerc'>选择标签</button>
-      <label class='sendingtext'  v-html='sendingtext'></label>
+      <label class='sendingtext' v-html='sendingtext'></label>
       <span @click='tageclosed' class="tageclosed"></span>
     </p>
     <p>
@@ -30,15 +30,13 @@
       <label class="title" for="check">我已同意服务条款</label>
     </p>
     <p class="choese">
-      <span class="title">上传</span>
-      <button type="button" name="button" @click='addfile'>添加文件</button>
-      <input type="text" placeholder='请上传文件' class="titletex" v-model='filename'>
-      <span>上传大小:</span><span>/</span><span></span>
-      <span>上传速度:</span><span>/</span>
+      <el-upload class="upload-demo" ref="upload" :action='uploadUrl'  :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        <div slot="tip" class="el-upload__tip">感谢您的每个视频，视频的发布和转换需要一点时间来处理，此过程需要24-48小时， 具体的时间取决与视频容量，格式，服务器负载等，发布完成后，会及时推送信息。</div>
+      </el-upload>
     </p>
-    <p class="infotext">
-      <span>感谢您的每个视频，视频的发布和转换需要一点时间来处理，此过程需要24-48小时， 具体的时间取决与视频容量，格式，服务器负载等，发布完成后，会及时推送信息。</span>
-    </p>
+    <!-- <p class="infotext"></p> -->
     <p class="surep">
       <button type="button" name="button" :disabled='changedisable' class="sureupload" @click='surebtn'>确认上传</button>
     </p>
@@ -53,12 +51,20 @@ import {
 export default {
   data() {
     return {
-      sendingtext:null,
+      tags:[],
+      videoUrl:null,
+      uploadUrl:'http://192.168.0.106/video_web/public/api/video/upload?api_token=',
+      sendingtext: null,
       titletex: null,
       textareatex: null,
       changedisable: false,
-      // changedisable:true,
+      api_token:sessionStorage.getItem('TOKEN_KEY'),
       filename: null,
+      id: 'xx',
+      fileList: [{
+        name: '',
+        url: ''
+      }]
     }
   },
   methods: {
@@ -68,26 +74,61 @@ export default {
     addfile() {
       console.log('addfile')
     },
+    // 确认上传
     surebtn() {
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
       console.log(this.textareatex)
       console.log(this.titletex)
+      if(this.$refs.upload.uploadFiles[1]){
+        console.log(this.$refs.upload.uploadFiles[1].response.data.video_url)
+        this.videoUrl=this.$refs.upload.uploadFiles[1].response.data.video_url
+       console.log(this.$refs.upload.uploadFiles[1].response.message)
+      }
+      network('/api/video/addMyVideo',{
+        api_token:api_token,
+        title:this.titletex,
+        description:this.textareatex,
+        tags:this.tags,
+        is_anonymous:1,
+        video_url:this.videoUrl,
+      }, data => {
+        if (data.status == 0) {
+        }
+      })
     },
-    tageclosed(){
-      this.sendingtext=null
+    tageclosed() {
+      this.sendingtext = null
     },
+    submitUpload() {
+      this.$refs.upload.submit();
+
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+
+
   },
   components: {},
   created() {
-    let username=sessionStorage.getItem('username')
-    if(!username){
+    let api_token = sessionStorage.getItem('TOKEN_KEY')
+    this.uploadUrl='http://192.168.0.106/video_web/public/api/video/upload?api_token='+api_token
+    // this.$refs.upload.name='video_file'
+    let username = sessionStorage.getItem('username')
+    if (!username) {
       this.$router.push({
         path: '/Logoin'
       })
     }
-    let arr=''
-    Hub.$on('sendingname', (data) => {
-      arr+='<span style="padding:5px 10px;background: #58b59d;border-radius: 5px;margin: 0 5px;color:#fff;">'+data+'</span>'
-      this.sendingtext=arr
+    let arr = ''
+    Hub.$on('sendingnamee', (data,id) => {
+      this.tags.push(id)
+
+      arr += '<span style="padding:5px 10px;background: #58b59d;border-radius: 5px;margin: 0 5px;color:#fff;">' + data + '</span>'
+      this.sendingtext = arr
     });
   }
 }
@@ -162,7 +203,7 @@ export default {
 
             span {
                 font-size: 12px;
-                padding:5px;
+                padding: 5px;
             }
         }
         .radio {
@@ -192,19 +233,19 @@ export default {
             line-height: 25px;
         }
         .choese {
-            height: 60px;
-            line-height: 60px;
+            // height: 60px;
+            // line-height: 60px;
             .sendingtext {
                 height: 27px;
                 line-height: 26px;
                 display: inline-block;
                 padding-left: 20px;
                 font-size: 16px;
+               .el-upload__tip{
 
+               }
             }
-            .tageclosed{
-
-            }
+            .tageclosed {}
 
         }
         .textareap {

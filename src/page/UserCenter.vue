@@ -18,6 +18,7 @@ import Transaction from '@/components/user/Transaction';
 import ChangeEmail from '@/components/user/ChangeEmail';
 import ChangePayPsw from '@/components/user/ChangePayPsw';
 import ChangePsw from '@/components/user/ChangePsw';
+import Changehead from '@/components/user/Changehead';
 
 export default {
   data() {
@@ -39,6 +40,7 @@ export default {
     ChangeEmail,
     ChangePayPsw,
     ChangePsw,
+    Changehead,
   },
   methods:{
   },
