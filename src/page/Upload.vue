@@ -125,7 +125,6 @@ export default {
   },
   components: {},
   created() {
-    console.log();
     let api_token = sessionStorage.getItem("TOKEN_KEY");
     this.uploadUrl =
       "http://192.168.0.106/video_web/public/api/video/upload?api_token=" +
@@ -139,7 +138,7 @@ export default {
     let arr = "";
     Hub.$on("sendingnamee", (data, id) => {
       if (this.tags.indexOf(id) > -1) {
-        this.$message("重复标签");
+        this.$alert("重复标签");
         return;
       }
       this.tags.push(id);
