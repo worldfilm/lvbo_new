@@ -43,7 +43,10 @@ export default {
   },
   methods: {
     uploadvideo(){
-      console.log('uploadvideo')
+      console.log('Upload')
+      this.$router.push({
+        path: '/Upload'
+      })
     },
     openvideo(item){
       console.log(item)
