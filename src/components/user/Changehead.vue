@@ -33,57 +33,11 @@ import Hub from '@/components/Hub';
 import {
   network
 } from '@/config/config';
+let api_token = sessionStorage.getItem('TOKEN_KEY')
 export default {
   data() {
     return {
-      list: [{
-          src: 'static/default_1_1.jpg'
-        }, {
-          src: 'static/default_1_2.jpg'
-        },
-        {
-          src: 'static/default_1_3.jpg'
-        },
-        {
-          src: 'static/default_1_4.jpg'
-        },
-        {
-          src: 'static/default_2_1.jpg'
-        },
-        {
-          src: 'static/default_2_2.jpg'
-        },
-        {
-          src: 'static/default_2_3.jpg'
-        },
-        {
-          src: 'static/default_2_4.jpg'
-        },
-        {
-          src: 'static/default_3_1.jpg'
-        },
-        {
-          src: 'static/default_3_2.jpg'
-        },
-        {
-          src: 'static/default_3_3.jpg'
-        },
-        {
-          src: 'static/default_3_4.jpg'
-        },
-        {
-          src: 'static/default_4_1.jpg'
-        },
-        {
-          src: 'static/default_4_2.jpg'
-        },
-        {
-          src: 'static/default_4_3.jpg'
-        },
-        {
-          src: 'static/default_4_4.jpg'
-        },
-
+      list: [
       ],
       numing: null,
       textareatex: null,
@@ -96,19 +50,18 @@ export default {
     }
   },
   methods: {
-    infobtn() {
-      let api_token = sessionStorage.getItem('TOKEN_KEY')
-      // network('/api/user', {
-      //
-      // }, data => {
-      //   console.log(data)
-      // })
-    },
     headclick(index) {
       console.log(index)
       this.numing = index
     },
+    getheadlist(){
+      network('/api/head/list?api_token='+api_token, null, data => {
+        this.list=data.list
+        console.log(this.list)
+      })
+    },
     surebtn() {
+
       // network('/api/user', {
       //
       // }, data => {
@@ -118,6 +71,7 @@ export default {
   },
   components: {},
   created() {
+    this.getheadlist()
     let username = sessionStorage.getItem('username')
     this.username = username
     let imgsrc = sessionStorage.getItem('imgsrc')
