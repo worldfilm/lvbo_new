@@ -30,8 +30,12 @@
         <button type="button" class="down" @click="btndown"><i class="fas fa-caret-down"></i></button>
       </p>
       <p class="payment-way">
-        <el-radio v-model="payType" :label="0">支付宝</el-radio>
-        <el-radio v-model="payType" :label="1">微信</el-radio>
+        <el-radio v-model="payType" :label="0">
+          <img src="/static/zhifubao.png" class="pay-icon" alt="">
+        </el-radio>
+        <el-radio v-model="payType" :label="1">
+          <img src="/static/weixin.png" class="pay-icon" alt="">
+        </el-radio>
       </p>
       <p class="btn-p">
         <button class="button-pay" @click='pay'>立即充值</button>
@@ -347,9 +351,9 @@ export default {
           padding-right: 25px;
           margin-left: 5px;
           cursor: pointer;
-          img {
-            height: 21px;
-            padding-top: 20px;
+          img.pay-icon {
+            height: 22px;
+            vertical-align: middle;
           }
         }
       }

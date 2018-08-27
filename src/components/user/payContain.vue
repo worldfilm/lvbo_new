@@ -24,8 +24,12 @@
     </div>
     <div class="layer-pay-type">
       <p class="payment-way">
-        <el-radio v-model="payType" :label="0">支付宝</el-radio>
-        <el-radio v-model="payType" :label="1">微信</el-radio>
+        <el-radio v-model="payType" :label="0">
+          <img src="/static/zhifubao.png" class="pay-icon" alt="">
+        </el-radio>
+        <el-radio v-model="payType" :label="1">
+          <img src="/static/weixin.png" class="pay-icon" alt="">
+        </el-radio>
       </p>
     </div>
     <button @click='pay'>立即支付</button>
@@ -242,6 +246,10 @@ export default {
                   text-align: center;
                   margin: 0 auto;
             }
+    }
+    .pay-icon {
+      height: 22px;
+      vertical-align: middle;
     }
 }
 </style>
