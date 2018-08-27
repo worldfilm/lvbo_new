@@ -22,9 +22,20 @@
       </div>
       <ul>
         <li>
-          <span class="title">帐号：</span>
-          <label class="checkbox-inline"><input type="radio" name="sex"  checked=""> 男 </label>
-          <label class="checkbox-inline"><input type="radio" name="sex"> 女 </label>
+          <span class="title">性别：</span>
+          <el-radio v-model="sex" :label="0">男</el-radio>
+          <el-radio v-model="sex" :label="1">女</el-radio>
+        </li>
+        <li>
+          <span class="title">出生日期：</span>
+          <el-date-picker
+            v-model="birthday"
+            type="date"
+            placeholder="选择日期"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd"
+            size="small">
+          </el-date-picker>
         </li>
       </ul>
     </div>
@@ -34,7 +45,7 @@
       </div>
       <ul>
         <li class="li-textarea">
-          <span class="title accont">帐号：</span>
+          <span class="title accont">个性签名：</span>
           <textarea class='textarea' placeholder="描述最多可以输入150个字符" maxlength="150" v-model='textareatex'></textarea>
         </li>
         <li class="li-button">
@@ -46,23 +57,30 @@
 </div>
 </template>
 <script>
-import Hub from '@/components/Hub';
-import {  network} from '@/config/config';
+import Hub from "@/components/Hub";
+import { network } from "@/config/config";
 export default {
   data() {
     return {
       list: [],
       textareatex: null,
-      username:null,
-      video:0,
-      selfvideo:0,
-      score:0,
-      nickname:null,
-    }
+      username: null,
+      video: 0,
+      selfvideo: 0,
+      score: 0,
+      nickname: null,
+      sex: '',
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
+      },
+      birthday: ''
+    };
   },
   methods: {
     infobtn() {
-      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      let api_token = sessionStorage.getItem("TOKEN_KEY");
       // network('/api/user', {
       //
       // }, data => {
@@ -72,122 +90,126 @@ export default {
   },
   components: {},
   created() {
-    let username = sessionStorage.getItem('username')
-    this.username=username
-  },
-}
+    let username = sessionStorage.getItem("username");
+    this.username = username;
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 .Info {
-    width: 900px;
-    display: inline-block;
-    height: auto;
-    min-height: 600px;
+  width: 900px;
+  display: inline-block;
+  height: auto;
+  min-height: 600px;
+  .Info-title {
+    width: 880px;
+    height: 40px;
+    background-color: #58b59d;
+    padding-left: 20px;
+    font-size: 18px;
+    color: #fff;
+    line-height: 2.4;
+    text-align: left;
+  }
+  .Info-box {
+    padding-top: 20px;
+    width: 750px;
+    text-align: left;
+    padding-left: 150px;
+    background: #fff;
     .Info-title {
-        width: 880px;
-        height: 40px;
-        background-color: #58b59d;
-        padding-left: 20px;
-        font-size: 18px;
-        color: #FFF;
-        line-height: 2.4;
-        text-align: left;
+      width: 730px;
+      height: 40px;
+      background: none;
+      padding-left: 0;
+      font-size: 18px;
+      color: #58b59d;
+      line-height: 2.4;
+      text-align: left;
+      margin-bottom: 17px;
+      border-bottom: 1px dashed #000;
     }
-    .Info-box {
-        padding-top: 20px;
-        width: 750px;
-        text-align: left;
-        padding-left: 150px;
-        background: #fff;
-        .Info-title {
-            width: 730px;
-            height: 40px;
-            background: none;
-            padding-left: 0;
-            font-size: 18px;
-            color: #58b59d;
-            line-height: 2.4;
-            text-align: left;
-            margin-bottom: 17px;
-            border-bottom: 1px dashed #000;
+    .accton-info {
+      ul {
+        padding: 10px;
+        li {
+          line-height: 30px;
+          height: 30px;
+          .title {
+          }
         }
-        .accton-info {
-            ul {
-                padding: 10px;
-                li {
-                    line-height: 30px;
-                    height: 30px;
-                    .title {}
-                }
-            }
-
-        }
-        .personal-info {
-            ul {
-                padding: 10px;
-                li {
-                    line-height: 30px;
-                    height: 30px;
-                    .title {}
-                    span {}
-                    label {
-                        input {}
-                    }
-                }
-            }
-        }
-        .name-info {
-            ul {
-                padding: 10px;
-                li {
-                    line-height: 30px;
-                    height: 30px;
-                    .title {}
-                    .textarea {
-                        outline: none;
-                        resize: none;
-                        height: 70px;
-                        background-color: #fff;
-                        border: 1px solid #ccc;
-                        padding: 0 16px;
-                        border-radius: 4px;
-                        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-                        transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s;
-                        width: 280px;
-                        margin-top: 10px;
-                        padding: 15px;
-
-                    }
-                    .textarea:focus {
-                        border-color: #58b59d;
-                        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #58b59d;
-                    }
-                    .accont{
-                        position: relative;
-                        bottom: 87px;
-                    }
-                }
-                .li-textarea {
-                    line-height: 150px;
-                    height: 150px;
-                }
-                .li-button {
-                    height: 80px;
-                    text-align: center;
-                    width: 300px;
-                    button {
-                        width: 200px;
-                        height: 39px;
-                        font-size: 16px;
-                        padding: 6px;
-                        border-radius: 4px;
-                        background: #58b59d;
-                        color: #fff;
-                    }
-                }
-            }
-        }
+      }
     }
+    .personal-info {
+      ul {
+        padding: 10px;
+        li {
+          line-height: 30px;
+          height: 30px;
+          .title {
+          }
+          span {
+          }
+          label {
+            input {
+            }
+          }
+        }
+      }
+    }
+    .name-info {
+      ul {
+        padding: 10px;
+        li {
+          line-height: 30px;
+          height: 30px;
+          .title {
+          }
+          .textarea {
+            outline: none;
+            resize: none;
+            height: 70px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 0 16px;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            transition: border-color ease-in-out 0.15s,
+              box-shadow ease-in-out 0.15s;
+            width: 280px;
+            margin-top: 10px;
+            padding: 15px;
+          }
+          .textarea:focus {
+            border-color: #58b59d;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #58b59d;
+          }
+          .accont {
+            position: relative;
+            bottom: 87px;
+          }
+        }
+        .li-textarea {
+          line-height: 150px;
+          height: 150px;
+        }
+        .li-button {
+          height: 80px;
+          text-align: center;
+          width: 300px;
+          button {
+            width: 200px;
+            height: 39px;
+            font-size: 16px;
+            padding: 6px;
+            border-radius: 4px;
+            background: #58b59d;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
 }
 </style>
