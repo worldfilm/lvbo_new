@@ -51,11 +51,10 @@ export default {
       })
     },
   },
-  mounted(){
-    // network('http://192.168.0.110:3000/videoList', null, data => {
-    //   this.list = data.data
-    // })
+  created(){
+    
   },
+
 }
 </script>
 

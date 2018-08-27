@@ -1,12 +1,12 @@
 <template>
-<div class='VideoList'>
-  <div class='content_1'>
+<div class='VideoList' >
+  <div class='content_1' v-for='item in list'>
     <p class="videos-title">
       <i class="fas fa-gift"></i>
-      <span class='title_span'>最新视频</span>
+      <span class='title_span' v-text='item.name'>最新视频</span>
       <a class="more" @click='more'>查看更多&gt;</a>
     </p>
-    <VideoNav/>
+    <!-- <VideoNav/> -->
     <ul class="videos-cont">
       <li v-for="(item,idx) in list" class="item" @click='openvideo(item)'>
         <img class="video-cover" :src="item.thumb_href">
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       title: 'home',
-      list: {},
+      list: [],
     }
   },
   name: 'home',
@@ -36,18 +36,23 @@ export default {
     VideoNav
   },
   methods: {
-    initial(){
-      let api_token = sessionStorage.getItem('TOKEN_KEY')
-      network('/api/category/list', null, data => {
-        console.log(data)
-      })
-    },
     navquery(data){
       // network('NavList', {
       //   title: data
       // }, data => {
       //   this.list = data.data
       // })
+    },
+    // 获取分类列表
+    getlist(){
+      network('/api/category/list', null, data => {
+        console.log(data.data)
+        this.list=data.data
+
+      })
+    },
+    getdetillist(){
+
     },
     more(){
       this.$router.push({
@@ -60,14 +65,12 @@ export default {
       })
     },
   },
-  mounted() {
-    this.initial()
-  },
   created() {
     Hub.$on('videonav', (data) => {
       this.list = data.data
       this.navquery(data)
     });
+    this.getlist();
   },
 }
 </script>

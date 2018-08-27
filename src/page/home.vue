@@ -21,6 +21,7 @@
   import SelfieList from '@/components/videolist/SelfieList';
   import MovieList from '@/components/videolist/MovieList';
   import VideoList from '@/components/videolist/VideoList';
+  import  {network} from '@/config/config';
 
   export default {
     data() {
@@ -45,6 +46,10 @@
       }else{
         this.barrage=false
       }
+      network('/api/category/list', null, data => {
+        console.log(data)
+        this.list=data.data.list
+      })
     },
     components: {VideoList,Barrage,AdvertisHome,ZhiboList,ChineseList,JanpanList,SelfieList,MovieList},
   }

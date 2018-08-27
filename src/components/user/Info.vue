@@ -23,8 +23,8 @@
       <ul>
         <li>
           <span class="title">性别：</span>
-          <el-radio v-model="sex" :label="0">男</el-radio>
-          <el-radio v-model="sex" :label="1">女</el-radio>
+          <el-radio v-model="sex" :label="1">男</el-radio>
+          <el-radio v-model="sex" :label="2">女</el-radio>
         </li>
         <li>
           <span class="title">出生日期：</span>
@@ -69,7 +69,7 @@ export default {
       selfvideo: 0,
       score: 0,
       nickname: null,
-      sex: '',
+      sex: 0,
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
@@ -81,11 +81,15 @@ export default {
   methods: {
     infobtn() {
       let api_token = sessionStorage.getItem("TOKEN_KEY");
-      // network('/api/user', {
-      //
-      // }, data => {
-      //   console.log(data)
-      // })
+      network('/api/user/edit', {
+        api_token:api_token,
+         sex:this.sex,
+         birthday:this.birthday,
+         signature:this.textareatex,
+         type:1,
+      }, data => {
+        console.log(data)
+      })
     }
   },
   components: {},
