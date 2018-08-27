@@ -54,6 +54,7 @@ export default {
       chose: true,
       texusername: null,
       texpassword: null,
+        imgsrc:null,
     }
   },
   methods: {
@@ -90,6 +91,8 @@ export default {
             this.logintex = data.message;
             if (data.status == 0) {
               console.log(data.data)
+              this.imgsrc=data.data.avatar
+              sessionStorage.setItem('imgsrc', this.imgsrc)
               Hub.$emit('ShowLog', false);
               Hub.$emit('ShowOnline', true);
               Hub.$emit('username', data.data.username);
@@ -97,7 +100,7 @@ export default {
               sessionStorage.setItem('username', data.data.username)
               sessionStorage.setItem('email', data.data.email)
               sessionStorage.setItem('psw', this.password)
-              sessionStorage.setItem('imgsrc', this.avatar)
+
               this.$router.push({
                 path: '/Home'
               })

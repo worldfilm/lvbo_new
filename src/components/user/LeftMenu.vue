@@ -83,6 +83,12 @@ export default {
     if(username){
         this.username=username
     }
+    Hub.$on('changeheader', data => {
+      if(data){
+        let imgsrc=sessionStorage.getItem('imgsrc')
+        this.imgsrc=imgsrc
+      }
+    });
   },
 }
 </script>

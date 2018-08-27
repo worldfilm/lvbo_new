@@ -78,6 +78,7 @@ export default {
       this.videoUrl = response.data.video_url;
     },
     maskerc() {
+      console.log(this.tags)
       Hub.$emit("ShowMask", true);
     },
     // 添加文件
@@ -114,10 +115,10 @@ export default {
       this.tags.splice(index, 1);
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      // console.log(file, fileList);
     },
     handlePreview(file) {
-      console.log(file);
+      // console.log(file);
     }
   },
   mounted() {
@@ -125,7 +126,6 @@ export default {
   },
   components: {},
   created() {
-    console.log();
     let api_token = sessionStorage.getItem("TOKEN_KEY");
     this.uploadUrl =
       "http://192.168.0.106/video_web/public/api/video/upload?api_token=" +
@@ -139,7 +139,7 @@ export default {
     let arr = "";
     Hub.$on("sendingnamee", (data, id) => {
       if (this.tags.indexOf(id) > -1) {
-        this.$message("重复标签");
+        // this.$message("重复标签");
         return;
       }
       this.tags.push(id);
@@ -235,10 +235,11 @@ export default {
             margin-top: 20px;
         }
         button {
-            padding: 6px;
+            padding: 6px 12px;
             border-radius: 4px;
             background: #58b59d;
             color: #fff;
+            font-size: 12px;
         }
         .infotext {
             height: 80px;

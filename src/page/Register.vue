@@ -84,6 +84,7 @@ export default {
       texpassword: null,
       texconfirmPassword: null,
       texemail: null,
+      imgsrc:null,
     }
   },
   methods: {
@@ -137,6 +138,8 @@ export default {
             console.log(data)
             if (data.status == 0) {
               this.tex = data.message;
+              this.imgsrc=data.data.avatar
+              sessionStorage.setItem('imgsrc', this.imgsrc)
               sessionStorage.setItem('TOKEN_KEY', data.data.api_token)
               sessionStorage.setItem('username', data.data.username)
               sessionStorage.setItem('email', data.data.email)

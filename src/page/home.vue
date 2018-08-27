@@ -36,7 +36,7 @@
     },
     created() {
       Hub.$on('closed', (data) => {
-        setTimeout(()=> {this.barrage = data}, 500)
+        this.barrage = data
       });
       setTimeout(()=> {this.autoclosed()}, 2000)
       var warning18=sessionStorage.getItem('warning18')

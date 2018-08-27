@@ -38,7 +38,7 @@ export default {
   methods: {
     initial(){
       let api_token = sessionStorage.getItem('TOKEN_KEY')
-      network('/api/category/list?api_token='+api_token, null, data => {
+      network('/api/category/list', null, data => {
         console.log(data)
       })
     },

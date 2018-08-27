@@ -19,26 +19,27 @@
       </div>
       <p>请选择一个新照片进行上传编辑，投稿箱保存后，您可能需要刷新一下本界面（按F5键），才能查看最新的头像效果</p>
       <ul>
-        <li v-for='(item,index) in list' @click='headclick(index)' :class="{activeimg:index==numing}"><img :src="item.src" alt=""> </li>
+        <li v-for='(item,index) in list' @click='headclick(index,item.id,item.img_url)'><span :class="{ 'fas fa-check-circle activeimg':index==numing}"></span><img :src="item.img_url" alt=""></li>
       </ul>
       <p class="surep">
         <button type="button" name="button" class="sureupload" @click='surebtn'>确认修改</button>
       </p>
     </div>
   </div>
+  <AlertMsg v-show='ShowOk'/>
 </div>
 </template>
 <script>
 import Hub from '@/components/Hub';
+import AlertMsg from '@/components/Alert/AlertMsg';
 import {
   network
 } from '@/config/config';
-let api_token = sessionStorage.getItem('TOKEN_KEY')
 export default {
   data() {
     return {
-      list: [
-      ],
+      list: [],
+      ShowOk:false,
       numing: null,
       textareatex: null,
       username: null,
@@ -47,35 +48,57 @@ export default {
       score: 0,
       nickname: null,
       imgsrc: null,
+      choeseId: null,
+      imgUrl:null,
     }
   },
   methods: {
-    headclick(index) {
-      console.log(index)
+    headclick(index, id, imgUrl) {
       this.numing = index
+      this.choeseId = id
+      this.imgUrl=imgUrl
     },
-    getheadlist(){
-      network('/api/head/list?api_token='+api_token, null, data => {
-        this.list=data.list
-        console.log(this.list)
+    gethead(){
+      let imgsrc = sessionStorage.getItem('imgsrc')
+      this.imgsrc = imgsrc
+    },
+    getheadlist() {
+      let imgsrc = sessionStorage.getItem('imgsrc')
+      this.imgsrc = imgsrc
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      network('/api/head/list?api_token=' + api_token, null, data => {
+        if (data.status == 0) {
+          this.list = data.data
+        }
       })
     },
     surebtn() {
-
-      // network('/api/user', {
-      //
-      // }, data => {
-      //   console.log(data)
-      // })
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      network('/api/user/edit', {
+        api_token: api_token,
+        avatar: this.imgsrc,
+        type: 2,
+      }, data => {
+        if(data.status == 0){
+          sessionStorage.setItem('imgsrc', this.imgUrl)
+          this.gethead()
+          Hub.$emit('changeheader', true);
+          Hub.$emit('changMsg', '头像修改成功!');
+          this.ShowOk=true
+          setTimeout(()=> {this.ShowOk=false}, 1000)
+        }
+      })
     },
   },
-  components: {},
+  components: {AlertMsg},
   created() {
     this.getheadlist()
     let username = sessionStorage.getItem('username')
     this.username = username
-    let imgsrc = sessionStorage.getItem('imgsrc')
-    this.imgsrc = imgsrc
+    Hub.$on('ShowOk', data => {
+
+      this.ShowOk=data
+    });
   },
 }
 </script>
@@ -151,11 +174,26 @@ export default {
                     height: 30px;
                     margin-right: 20px;
                     margin-top: 18px;
+                    position: relative;
                     img {
                         width: 66px;
                         height: 66px;
                         border-radius: 35px;
                     }
+                }
+                .activeimg {
+                    font-size: 23px;
+                    color: #58b59d;
+                    text-align: center;
+                    vertical-align: middle;
+                    padding-left: 3px;
+                    position: absolute;
+                    height: 30px;
+                    width: 27px;
+                    line-height: 30px;
+                    border-radius: 30px;
+                    top: 40px;
+                    left: 40px;
                 }
             }
         }

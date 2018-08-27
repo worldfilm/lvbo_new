@@ -23,9 +23,13 @@ export default {
   methods: {
     closed() {
       Hub.$emit('PaySuccessClosed', false);
+      Hub.$emit('ShowOk', false);
     },
   },
   created() {
+    Hub.$on('changMsg', data => {
+      this.msg=data
+    });
   },
   components: {}
 }
@@ -45,7 +49,7 @@ export default {
         height: auto;
         margin: 300px auto;
         background-color: #fff;
-        height: 170px;
+        // height: 170px;
         position: relative;
         .title {
             background-color: #58b59d;
