@@ -24,10 +24,8 @@
     </div>
     <div class="layer-pay-type">
       <p class="payment-way">
-        <input type="radio" id="zhi" name="paytype" value="1" v-model='zhifubao' @click='zhifubaoc'>
-        <label for="zhi" @click='zhifubaoc'><img src="/static/zhifubao.png" alt=""> </label>
-        <input type="radio" id="wei" name="paytype" value="2" v-model='weixin' @click='weixinc'>
-        <label for="wei" @click='weixinc'><img src="/static/weixin.png" alt=""> </label>
+        <el-radio v-model="payType" :label="0">支付宝</el-radio>
+        <el-radio v-model="payType" :label="1">微信</el-radio>
       </p>
     </div>
     <button @click='pay'>立即支付</button>
@@ -70,7 +68,8 @@ export default {
           gift: '特惠充值6个月会员免费续赠25天',
           Promotions: '火爆1元/天'
         },
-      ]
+      ],
+      payType: 0
     }
   },
   methods: {

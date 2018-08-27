@@ -24,16 +24,14 @@
       </p>
       <div class="accountInfo-hide" v-show='ShowInfo'><span>1元可购买100积分或10钻石，积分可以用来下载视频，钻石可在直播频道打赏主播。</span></div>
       <p class="recharge-detail">
-        <span v-for="(item,index) in list" v-text='item.name' @click="selectmoney(item.num,index)" :class="{active:index == number}"></span>
+        <span v-for="(item,index) in list" :key="index" v-text='item.name' @click="selectmoney(item.num,index)" :class="{active:index == number}"></span>
         <input type="text" placeholder="自定义" v-model="obj.moneytext" maxlength=13>
         <button type="button" class="up" @click="btnup"><i class="fas fa-caret-up"></i></button>
         <button type="button" class="down" @click="btndown"><i class="fas fa-caret-down"></i></button>
       </p>
       <p class="payment-way">
-        <input type="radio" id="zhii" name="paytype"  v-model='pick' @click='zhifubaoc' >
-        <label for="zhii" @click='zhifubaoc'><img src="/static/zhifubao.png" alt=""> </label>
-        <input type="radio" id="weii" name="paytype"  v-model='pick' @click='weixinc' >
-        <label for="weii" @click='weixinc'><img src="/static/weixin.png" alt=""> </label>
+        <el-radio v-model="payType" :label="0">支付宝</el-radio>
+        <el-radio v-model="payType" :label="1">微信</el-radio>
       </p>
       <p class="btn-p">
         <button class="button-pay" @click='pay'>立即充值</button>
@@ -49,304 +47,313 @@
 </div>
 </template>
 <script>
-import Hub from '@/components/Hub';
-import Payicons from '@/components/Payicons.vue';
-import Paypackge from '@/components/Paypackge.vue';
-import payContain from '@/components/user/payContain.vue';
-import PaySuccess from '@/components/Alert/PaySuccess.vue';
+import Hub from "@/components/Hub";
+import Payicons from "@/components/Payicons.vue";
+import Paypackge from "@/components/Paypackge.vue";
+import payContain from "@/components/user/payContain.vue";
+import PaySuccess from "@/components/Alert/PaySuccess.vue";
 // var i = 0
 export default {
   data() {
     return {
-      list: [{
-        name: '10元',
-        num:'10'
-      }, {
-        name: '50元',
-        num:'50'
-      }, {
-        name: '100元',
-        num:'100'
-      }, {
-        name: '150元',
-        num:'150'
-      }, {
-        name: '300元',
-        num:'300'
-      }, ],
-      integraltext: '1000',
-      diamondtext: '100',
+      list: [
+        {
+          name: "10元",
+          num: "10"
+        },
+        {
+          name: "50元",
+          num: "50"
+        },
+        {
+          name: "100元",
+          num: "100"
+        },
+        {
+          name: "150元",
+          num: "150"
+        },
+        {
+          name: "300元",
+          num: "300"
+        }
+      ],
+      payType: 0, // 支付方式
+      integraltext: "1000",
+      diamondtext: "100",
       ShowInfo: false,
       zhifubao: true,
       weixin: false,
-      checked: '0',
-      pick:null,
+      checked: "0",
+      pick: null,
       ShowpayContain: false,
       ShowPaySuccess: false,
-      number: '0',
+      number: "0",
       obj: {
-        moneytext: '10',
-      },
-    }
+        moneytext: "10"
+      }
+    };
   },
 
   methods: {
     order() {
-      Hub.$emit('component', 'Oder');
+      Hub.$emit("component", "Oder");
     },
     transaction() {
-      Hub.$emit('component', 'Transaction');
+      Hub.$emit("component", "Transaction");
     },
     redemptionCode() {
-      Hub.$emit('component', 'RedemptionCode');
+      Hub.$emit("component", "RedemptionCode");
     },
     btnup() {
-      var i = 0
-      i += 10
-      this.obj.moneytext = parseInt(this.obj.moneytext) + i
-      this.integraltext = 1000 + i
-      this.diamondtext = 100 + i
+      var i = 0;
+      i += 10;
+      this.obj.moneytext = parseInt(this.obj.moneytext) + i;
+      this.integraltext = 1000 + i;
+      this.diamondtext = 100 + i;
     },
     btndown() {
-      var i = 0
-      if (parseInt(this.obj.moneytext) < 10 && parseInt(this.obj.moneytext) > 0) {
-        this.obj.moneytext = 0
+      var i = 0;
+      if (
+        parseInt(this.obj.moneytext) < 10 &&
+        parseInt(this.obj.moneytext) > 0
+      ) {
+        this.obj.moneytext = 0;
       }
 
       if (parseInt(this.obj.moneytext) > 9) {
-        i += 10
-        this.obj.moneytext = parseInt(this.obj.moneytext) - i
-        this.integraltext = this.integraltext - 10
-        this.diamondtext = this.diamondtext - 10
+        i += 10;
+        this.obj.moneytext = parseInt(this.obj.moneytext) - i;
+        this.integraltext = this.integraltext - 10;
+        this.diamondtext = this.diamondtext - 10;
       }
     },
     dataDetails(e) {
-      this.ShowInfo = true
+      this.ShowInfo = true;
     },
     hiddenDetail(e) {
-      this.ShowInfo = false
+      this.ShowInfo = false;
     },
     zhifubaoc() {
-      this.zhifubao = true
-      this.weixin = false
+      this.zhifubao = true;
+      this.weixin = false;
     },
     weixinc() {
-      this.zhifubao = false
-      this.weixin = true
+      this.zhifubao = false;
+      this.weixin = true;
     },
     pay() {
-      console.log('checked='+this.checked+',pick='+this.pick)
+      console.log("checked=" + this.checked + ",pick=" + this.pick);
       if (this.zhifubao) {
-        console.log('zhifubao+', true);
+        console.log("zhifubao+", true);
       }
       if (this.weixin) {
-        console.log('weixin+', true);
+        console.log("weixin+", true);
       }
-       this.ShowPaySuccess = true
+      this.ShowPaySuccess = true;
     },
-    selectmoney(e,index) {
-      console.log(e)
-      this.number = index
-      this.obj.moneytext=e
-      Hub.$emit('paymoney', this.obj.moneytext);
-    },
+    selectmoney(e, index) {
+      console.log(e);
+      this.number = index;
+      this.obj.moneytext = e;
+      Hub.$emit("paymoney", this.obj.moneytext);
+    }
   },
   created() {
-    Hub.$on('PayDialog', (data) => {
-      this.ShowpayContain = data
+    Hub.$on("PayDialog", data => {
+      this.ShowpayContain = data;
     });
-    Hub.$on('PaySuccessClosed', (data) => {
-      this.ShowPaySuccess = data
+    Hub.$on("PaySuccessClosed", data => {
+      this.ShowPaySuccess = data;
     });
   },
   watch: {
     obj: {
       handler(newName, oldName) {
-        this.integraltext = this.obj.moneytext * 100
-        this.diamondtext = this.obj.moneytext * 10
+        this.integraltext = this.obj.moneytext * 100;
+        this.diamondtext = this.obj.moneytext * 10;
         if (parseInt(this.obj.moneytext) < 0) {
-          this.integraltext = 0
-          this.diamondtext = 0
+          this.integraltext = 0;
+          this.diamondtext = 0;
         }
       },
       immediate: true,
       deep: true
-    },
+    }
   },
   components: {
     Payicons,
     Paypackge,
     payContain,
-    PaySuccess,
-  },
-
-}
+    PaySuccess
+  }
+};
 </script>
 <style lang="scss" scoped>
 .accunt {
-    width: 900px;
-    height: auto;
-    display: inline-block;
-    font-size: 15px;
-    min-height: 600px;
-    .accountInfo {
-        width: 100%;
-        height: 225px;
-        border: 1px solid #ddd;
-        margin-bottom: 30px;
-        .account-left {
-            width: 280px;
-            height: 170px;
-            margin: 28px;
-            float: left;
-            border-right: 1px dashed #ddd;
-            .account-title {
-                text-align: left;
-                padding: 5px;
-                height: 40px;
-                line-height: 40px;
-                font-size: 18px;
-            }
-            p {
-                text-align: left;
-                height: 40px;
-                line-height: 40px;
-                i {
-                    font-size: 30px;
-                    color: #58b59d;
-                }
-            }
-            .hreflist {
-                a {
-                    padding: 10px;
-                    cursor: pointer;
-                    padding-left: 0;
-                }
-                a:hover {
-                    color: #58b59d;
-                }
-            }
+  width: 900px;
+  height: auto;
+  display: inline-block;
+  font-size: 15px;
+  min-height: 600px;
+  .accountInfo {
+    width: 100%;
+    height: 225px;
+    border: 1px solid #ddd;
+    margin-bottom: 30px;
+    .account-left {
+      width: 280px;
+      height: 170px;
+      margin: 28px;
+      float: left;
+      border-right: 1px dashed #ddd;
+      .account-title {
+        text-align: left;
+        padding: 5px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 18px;
+      }
+      p {
+        text-align: left;
+        height: 40px;
+        line-height: 40px;
+        i {
+          font-size: 30px;
+          color: #58b59d;
         }
-        .account-right {
-            float: left;
-            height: 180px;
-            padding: 23px;
-            .account-title {
-                text-align: left;
-                padding: 5px;
-                height: 40px;
-                line-height: 40px;
-                font-size: 18px;
-                position: relative;
-            }
-            .accountInfo-hide {
-                position: absolute;
-                background: #ddd;
-                width: 300px;
-                z-index: 1;
-                -webkit-transition: visibility 0.2s;
-                transition: visibility 0.2s;
-                display: inline-block;
-                top: 223px;
-                left: 647px;
-                width: 273px;
-                background-color: rgba(0, 0, 0, 0.8);
-                border-radius: 10px;
-                color: #fff;
-                font-size: 14px;
-                padding: 10px 20px;
-            }
-            .recharge-detail {
-                position: relative;
-                .active {
-                    border: 1px solid #58b59d;
-                    background: url("/static/selected.png") no-repeat 38px 17px;
-                }
-                span {
-                    height: 35px;
-                    width: 56px;
-                    display: inline-block;
-                    border: 1px solid #ddd;
-                    text-align: center;
-                    margin-right: 7px;
-                    position: relative;
-                    cursor: pointer;
-                    top: 3px;
-                }
-                input {
-                    display: inline-block;
-                    width: 81px;
-                    height: 32px;
-                    text-align: left;
-                    padding-left: 5px;
-                }
-                button {
-                    display: inline-block;
-                    position: absolute;
-                    cursor: pointer;
-                    height: 17px;
-                    right: 1px;
-                    i {
-                        width: 20px;
-                        height: 20px;
-                    }
-                }
-                .up {
-                    right: 1px;
-                    top: 4px;
-                }
-                .down {
-                    right: 1px;
-                    top: 21px;
-                }
-            }
-            p {
-                text-align: left;
-                height: 40px;
-                line-height: 40px;
-                overflow: hidden;
-                max-width: 499px;
-                i {
-                    font-size: 20px;
-                    color: #58b59d;
-                    padding: 0 3px;
-                }
-                .info {
-                    font-size: 13px;
-                    color: #7b7b7b;
-                }
-                .button-pay {
-                    font-size: 16px;
-                    width: 100px;
-                    height: 38px;
-                    line-height: 38px;
-                    cursor: pointer;
-                    color: #fff;
-                    border-radius: 2px;
-                    text-align: center;
-                    background-color: #58b59d;
-                    margin: 12px auto;
-                }
-            }
-            .btn-p {
-                height: 50px;
-                line-height: 50px;
-            }
-            .payment-way {
-                label {
-                    height: 20px;
-                    line-height: 20px;
-                    display: inline-block;
-                    padding-right: 25px;
-                    margin-left: 5px;
-                    cursor: pointer;
-                    img {
-                        height: 21px;
-                        padding-top: 20px;
-                    }
-                }
-            }
+      }
+      .hreflist {
+        a {
+          padding: 10px;
+          cursor: pointer;
+          padding-left: 0;
         }
+        a:hover {
+          color: #58b59d;
+        }
+      }
     }
+    .account-right {
+      float: left;
+      height: 180px;
+      padding: 23px;
+      .account-title {
+        text-align: left;
+        padding: 5px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 18px;
+        position: relative;
+      }
+      .accountInfo-hide {
+        position: absolute;
+        background: #ddd;
+        width: 300px;
+        z-index: 1;
+        -webkit-transition: visibility 0.2s;
+        transition: visibility 0.2s;
+        display: inline-block;
+        top: 223px;
+        left: 647px;
+        width: 273px;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 14px;
+        padding: 10px 20px;
+      }
+      .recharge-detail {
+        position: relative;
+        .active {
+          border: 1px solid #58b59d;
+          background: url("/static/selected.png") no-repeat 38px 17px;
+        }
+        span {
+          height: 35px;
+          width: 56px;
+          display: inline-block;
+          border: 1px solid #ddd;
+          text-align: center;
+          margin-right: 7px;
+          position: relative;
+          cursor: pointer;
+          top: 3px;
+        }
+        input {
+          display: inline-block;
+          width: 81px;
+          height: 32px;
+          text-align: left;
+          padding-left: 5px;
+        }
+        button {
+          display: inline-block;
+          position: absolute;
+          cursor: pointer;
+          height: 17px;
+          right: 1px;
+          i {
+            width: 20px;
+            height: 20px;
+          }
+        }
+        .up {
+          right: 1px;
+          top: 4px;
+        }
+        .down {
+          right: 1px;
+          top: 21px;
+        }
+      }
+      p {
+        text-align: left;
+        height: 40px;
+        line-height: 40px;
+        overflow: hidden;
+        max-width: 499px;
+        i {
+          font-size: 20px;
+          color: #58b59d;
+          padding: 0 3px;
+        }
+        .info {
+          font-size: 13px;
+          color: #7b7b7b;
+        }
+        .button-pay {
+          font-size: 16px;
+          width: 100px;
+          height: 38px;
+          line-height: 38px;
+          cursor: pointer;
+          color: #fff;
+          border-radius: 2px;
+          text-align: center;
+          background-color: #58b59d;
+          margin: 12px auto;
+        }
+      }
+      .btn-p {
+        height: 50px;
+        line-height: 50px;
+      }
+      .payment-way {
+        label {
+          height: 20px;
+          line-height: 20px;
+          display: inline-block;
+          padding-right: 25px;
+          margin-left: 5px;
+          cursor: pointer;
+          img {
+            height: 21px;
+            padding-top: 20px;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

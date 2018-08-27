@@ -139,7 +139,7 @@ export default {
     let arr = "";
     Hub.$on("sendingnamee", (data, id) => {
       if (this.tags.indexOf(id) > -1) {
-        // this.$message("重复标签");
+        this.$alert("重复标签");
         return;
       }
       this.tags.push(id);
