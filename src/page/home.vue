@@ -2,10 +2,6 @@
 <div class="home">
   <AdvertisHome v-show="ShowAdvertisHome"/>
   <ZhiboList/>
-  <ChineseList/>
-  <JanpanList/>
-  <SelfieList/>
-  <MovieList/>
   <VideoList/>
   <Barrage v-show="barrage"/>
 </div>
@@ -16,10 +12,6 @@
   import Barrage from '@/components/Alert/Barrage';
   import AdvertisHome from '@/components/AdvertisHome';
   import ZhiboList from '@/components/videolist/ZhiboList';
-  import ChineseList from '@/components/videolist/ChineseList';
-  import JanpanList from '@/components/videolist/JanpanList';
-  import SelfieList from '@/components/videolist/SelfieList';
-  import MovieList from '@/components/videolist/MovieList';
   import VideoList from '@/components/videolist/VideoList';
   import  {network} from '@/config/config';
 
@@ -51,7 +43,7 @@
         this.list=data.data.list
       })
     },
-    components: {VideoList,Barrage,AdvertisHome,ZhiboList,ChineseList,JanpanList,SelfieList,MovieList},
+    components: {VideoList,Barrage,AdvertisHome,ZhiboList},
   }
 </script>
 

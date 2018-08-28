@@ -50,9 +50,7 @@
 </template>
 <script>
 import Hub from "@/components/Hub";
-import {
-  network
-} from "@/config/config";
+import {  network} from "@/config/config";
 import AlertMsg from '@/components/Alert/AlertMsg';
 export default {
   data() {

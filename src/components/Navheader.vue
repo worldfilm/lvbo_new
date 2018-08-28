@@ -149,6 +149,11 @@ export default {
           sessionStorage.removeItem('username')
           sessionStorage.removeItem('email')
           sessionStorage.removeItem('TOKEN_KEY')
+          sessionStorage.removeItem('is_set_pay')
+          sessionStorage.removeItem('salt')
+          sessionStorage.removeItem('imgsrc')
+          sessionStorage.removeItem('psw')
+          sessionStorage.removeItem('warning18')
           this.checkuser()
           Hub.$emit('home', true);
         }

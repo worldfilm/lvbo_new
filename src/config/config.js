@@ -1,6 +1,7 @@
 import axios from 'axios'
 const network = function(url, data, fun) {
-  let ip='http://192.168.0.106/video_web/public'
+  let ip='http://webvideo.6fg645fsd.com'
+  // let ip='http://192.168.0.106/video_web/public'
     // let ip='http://192.168.0.111'
   // let ip='http://192.168.0.110:3000'
   if(data){
