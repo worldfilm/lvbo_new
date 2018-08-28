@@ -45,6 +45,7 @@
       <button type="button" name="button" :disabled='changedisable' class="sureupload" @click='surebtn'>确认上传</button>
     </p>
   </div>
+  <AlertMsg v-show='ShowUmsg'/>
 </div>
 </template>
 <script>
@@ -52,9 +53,11 @@ import Hub from "@/components/Hub";
 import {
   network
 } from "@/config/config";
+import AlertMsg from '@/components/Alert/AlertMsg';
 export default {
   data() {
     return {
+      ShowUmsg:false,
       tags: [],
       tagsName: [],
       videoUrl: null,
@@ -83,6 +86,7 @@ export default {
     },
     // 添加文件
     addfile() {
+      this.$refs.upload.clearFiles();
       console.log(this.$refs.upload);
     },
     //上传到服务器
@@ -106,7 +110,16 @@ export default {
           video_url: this.videoUrl
         },
         data => {
-          if (data.status == 0) {}
+          if (data.status == 0) {
+            Hub.$emit('changMsg', '上传成功!');
+            this.ShowUmsg=true
+            setTimeout(()=> {this.ShowUmsg=false}, 1000)
+          }else{
+            let msg=data.message
+            Hub.$emit('changMsg', msg);
+            this.ShowUmsg=true
+            setTimeout(()=> {this.ShowUmsg=false}, 1000)
+          }
         }
       );
     },
@@ -122,9 +135,9 @@ export default {
     }
   },
   mounted() {
-    this.$refs.upload.clearFiles();
+
   },
-  components: {},
+  components: {AlertMsg},
   created() {
     let api_token = sessionStorage.getItem("TOKEN_KEY");
     this.uploadUrl =
