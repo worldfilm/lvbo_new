@@ -46,20 +46,24 @@
     </p>
   </div>
   <AlertMsg v-show='ShowUmsg'/>
+  <masker-nav @selected="selectMark" @closed="closeMask" v-show="showMask"></masker-nav>
 </div>
 </template>
 <script>
 import Hub from "@/components/Hub";
-import {  network} from "@/config/config";
-import AlertMsg from '@/components/Alert/AlertMsg';
+import { network } from "@/config/config";
+import AlertMsg from "@/components/Alert/AlertMsg";
+import MaskerNav from "@/components/MaskerNav";
 export default {
   data() {
     return {
-      ShowUmsg:false,
+      ShowUmsg: false,
+      showMask: false,
       tags: [],
       tagsName: [],
       videoUrl: null,
-      uploadUrl: "http://192.168.0.106/video_web/public/api/video/upload?api_token=",
+      uploadUrl:
+        "http://192.168.0.106/video_web/public/api/video/upload?api_token=",
       sendingtext: null,
       titletex: null,
       textareatex: null,
@@ -67,10 +71,12 @@ export default {
       api_token: sessionStorage.getItem("TOKEN_KEY"),
       filename: null,
       id: "xx",
-      fileList: [{
-        name: "",
-        url: ""
-      }],
+      fileList: [
+        {
+          name: "",
+          url: ""
+        }
+      ],
       isAnonymous: false
     };
   },
@@ -79,8 +85,7 @@ export default {
       this.videoUrl = response.data.video_url;
     },
     maskerc() {
-      console.log(this.tags)
-      Hub.$emit("ShowMask", true);
+      this.showMask = true;
     },
     // 添加文件
     addfile() {
@@ -99,7 +104,8 @@ export default {
     surebtn() {
       let api_token = sessionStorage.getItem("TOKEN_KEY");
       network(
-        "/api/video/addMyVideo", {
+        "/api/video/addMyVideo",
+        {
           api_token: api_token,
           title: this.titletex,
           description: this.textareatex,
@@ -109,14 +115,18 @@ export default {
         },
         data => {
           if (data.status == 0) {
-            Hub.$emit('changMsg', '上传成功!');
-            this.ShowUmsg=true
-            setTimeout(()=> {this.ShowUmsg=false}, 1000)
-          }else{
-            let msg=data.message
-            Hub.$emit('changMsg', msg);
-            this.ShowUmsg=true
-            setTimeout(()=> {this.ShowUmsg=false}, 1000)
+            Hub.$emit("changMsg", "上传成功!");
+            this.ShowUmsg = true;
+            setTimeout(() => {
+              this.ShowUmsg = false;
+            }, 1000);
+          } else {
+            let msg = data.message;
+            Hub.$emit("changMsg", msg);
+            this.ShowUmsg = true;
+            setTimeout(() => {
+              this.ShowUmsg = false;
+            }, 1000);
           }
         }
       );
@@ -130,12 +140,21 @@ export default {
     },
     handlePreview(file) {
       // console.log(file);
+    },
+    selectMark(name, id) {
+      if (this.tags.indexOf(id) > -1) return;
+      this.tags.push(id);
+      this.tagsName.push(name);
+      this.showMask = false;
+    },
+    closeMask() {
+      this.showMask = false
     }
   },
   mounted() {
-     this.$refs.upload.clearFiles();
+    this.$refs.upload.clearFiles();
   },
-  components: {AlertMsg},
+  components: { AlertMsg, MaskerNav },
   created() {
     let api_token = sessionStorage.getItem("TOKEN_KEY");
     this.uploadUrl =
@@ -148,147 +167,149 @@ export default {
       });
     }
     let arr = "";
-    Hub.$on("sendingnamee", (data, id) => {
-      if (this.tags.indexOf(id) > -1) {
-        this.$alert("重复标签");
-        return;
-      }
-      this.tags.push(id);
-      this.tagsName.push(data);
-    });
+    // Hub.$on("sendingnamee", (data, id) => {
+    //   if (this.tags.indexOf(id) > -1) {
+    //     this.$alert("重复标签");
+    //     return;
+    //   }
+    //   this.tags.push(id);
+    //   this.tagsName.push(data);
+    // });
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .Upload {
-    width: 1200px;
-    margin: 20px auto;
-    border: 1px solid #ddd;
-    margin-bottom: 40px;
-    background-color: #fff;
-    text-align: left;
-    .titlee {
-        min-height: 40px;
-        height: 40px;
-        line-height: 40px;
+  width: 1200px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  margin-bottom: 40px;
+  background-color: #fff;
+  text-align: left;
+  .titlee {
+    min-height: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    background-color: #58b59d;
+    border-bottom: none;
+    color: #fff;
+    span {
+      padding-left: 20px;
+    }
+  }
+  .content {
+    width: 800px;
+    margin: 0 auto;
+    padding: 50px;
+    p {
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      .titletex {
+        width: 60%;
+        height: 30px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0 16px;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+      }
+      .titletex:focus {
+        border-color: #58b59d;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #58b59d;
+      }
+      .textarea {
+        outline: none;
+        resize: none;
+        height: 70px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 0 16px;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        width: 280px;
+        margin-top: 10px;
+        padding: 15px;
+      }
+      .textarea:focus {
+        border-color: #58b59d;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #58b59d;
+      }
+      .sureupload {
+        width: 200px;
+        height: 39px;
         font-size: 16px;
-        background-color: #58b59d;
-        border-bottom: none;
-        color: #fff;
-        span {
-            padding-left: 20px;
-        }
-    }
-    .content {
-        width: 800px;
-        margin: 0 auto;
-        padding: 50px;
-        p {
-            height: 40px;
-            line-height: 40px;
-            font-size: 14px;
-            .titletex {
-                width: 60%;
-                height: 30px;
-                background-color: #fff;
-                border: 1px solid #ccc;
-                padding: 0 16px;
-                border-radius: 4px;
-                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-                transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-            }
-            .titletex:focus {
-                border-color: #58b59d;
-                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #58b59d;
-            }
-            .textarea {
-                outline: none;
-                resize: none;
-                height: 70px;
-                background-color: #fff;
-                border: 1px solid #ccc;
-                padding: 0 16px;
-                border-radius: 4px;
-                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-                transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-                width: 280px;
-                margin-top: 10px;
-                padding: 15px;
-            }
-            .textarea:focus {
-                border-color: #58b59d;
-                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #58b59d;
-            }
-            .sureupload {
-                width: 200px;
-                height: 39px;
-                font-size: 16px;
-            }
+      }
 
-            span.title {
-                font-size: 12px;
-                padding: 5px;
-            }
-        }
-        .radio {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            line-height: 20px;
-        }
-        .surep {
-            height: 80px;
-            font-size: 16px;
-            line-height: 80px;
-            text-align: center;
-            border-top: 1px dashed #ada0a0;
-            margin-top: 20px;
-        }
-        button {
-            padding: 6px 12px;
-            border-radius: 4px;
-            background: #58b59d;
-            color: #fff;
-            font-size: 12px;
-        }
-        .infotext {
-            height: 80px;
-            font-size: 16px;
-            line-height: 25px;
-        }
-        .choese {
-            height: 100%;
-            line-height: 100%;
-            .sendingtext {
-                height: 27px;
-                line-height: 26px;
-                display: inline-block;
-                padding-left: 20px;
-                font-size: 16px;
-                .el-upload__tip {}
-            }
-            .tageclosed {}
-        }
-        .textareap {
-            height: 120px;
-            span {
-                float: left;
-            }
-        }
-        .title {
-            padding-right: 10px;
-        }
-        .info {
-            font-size: 16px;
-            color: #e47c21;
-        }
-        .el-tag + .el-tag {
-            margin-left: 10px;
-        }
-        .el-tag {
-            color: #fff;
-        }
+      span.title {
+        font-size: 12px;
+        padding: 5px;
+      }
     }
+    .radio {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+    }
+    .surep {
+      height: 80px;
+      font-size: 16px;
+      line-height: 80px;
+      text-align: center;
+      border-top: 1px dashed #ada0a0;
+      margin-top: 20px;
+    }
+    button {
+      padding: 6px 12px;
+      border-radius: 4px;
+      background: #58b59d;
+      color: #fff;
+      font-size: 12px;
+    }
+    .infotext {
+      height: 80px;
+      font-size: 16px;
+      line-height: 25px;
+    }
+    .choese {
+      height: 100%;
+      line-height: 100%;
+      .sendingtext {
+        height: 27px;
+        line-height: 26px;
+        display: inline-block;
+        padding-left: 20px;
+        font-size: 16px;
+        .el-upload__tip {
+        }
+      }
+      .tageclosed {
+      }
+    }
+    .textareap {
+      height: 120px;
+      span {
+        float: left;
+      }
+    }
+    .title {
+      padding-right: 10px;
+    }
+    .info {
+      font-size: 16px;
+      color: #e47c21;
+    }
+    .el-tag + .el-tag {
+      margin-left: 10px;
+    }
+    .el-tag {
+      color: #fff;
+    }
+  }
 }
 </style>

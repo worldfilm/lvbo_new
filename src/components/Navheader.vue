@@ -46,8 +46,8 @@
       </ul>
     </div>
   </nav>
-
-  <MaskerNav v-show='ShowMask' />
+  <MaskerNav v-show='ShowMask' @selected="selectMark" />
+  
 </div>
 </template>
 <script>
@@ -215,6 +215,16 @@ export default {
       } else {
         alert('Your browser cannot add bookmarks using this link. Please add this link manually.')
       }
+    },
+    selectMark(name, id) {
+      this.$router.push({
+        query:{titlename:name},
+        path: '/VideoMore',
+      })
+      this.ShowMask = false;
+    },
+    closed() {
+      this.ShowMask = false;
     }
   },
   props: [],

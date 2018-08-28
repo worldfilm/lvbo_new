@@ -3,10 +3,10 @@
 <div class="maskernav">
   <div class="container">
     <p class="title"><span>标签</span> <i class="close fas fa-times" @click='closed'></i></p>
-    <div class="navlist" v-for='item in navlist'>
+    <div class="navlist" v-for='(item, index) in navlist' :key="index">
       <p class="navtitle" v-text='item.title'></p>
       <ul>
-        <li v-for='itex in item.childs' v-text='itex.title' @click='sendname(itex.title,itex.id)'></li>
+        <li v-for='(itex, index) in item.childs' :key="index" v-text='itex.title' @click='sendname(itex.title,itex.id)'></li>
       </ul>
     </div>
   </div>
@@ -25,19 +25,10 @@ export default {
   },
   methods: {
     closed() {
-      Hub.$emit('closed', false);
+      this.$emit('closed');
     },
     sendname(name,id){
-      Hub.$emit('closed', false);
-      Hub.$emit('sendingnamee', name,id);
-      let path = this.$router.app._route.path
-      if(path!='/Upload'){
-        this.$router.push({
-          query:{titlename:name},
-          path: '/VideoMore',
-        })
-      }
-      console.log()
+      this.$emit('selected', name, id)
     },
     getlist(){
       network('/api/tag/list',null, data => {
