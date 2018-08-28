@@ -1,14 +1,14 @@
 <template>
 <div class='VideoList' >
-  <div class='content_1' v-for='item in list'>
+  <div class='content_1' v-for='item in videolist'>
     <p class="videos-title">
-      <i class="fas fa-gift"></i>
-      <span class='title_span' v-text='item.name'>最新视频</span>
+      <i :class="item.ChangeClass"></i>
+      <span class='title_span' v-text='item.name'></span>
       <a class="more" @click='more'>查看更多&gt;</a>
     </p>
     <!-- <VideoNav/> -->
     <ul class="videos-cont">
-      <li v-for="(item,idx) in list" class="item" @click='openvideo(item)'>
+      <li v-for="(item,idx) in detillist" class="item" @click='openvideo(item)'>
         <img class="video-cover" :src="item.thumb_href">
         <a class="hide">
           <img src="/static/playbtn.png" alt="">
@@ -28,7 +28,9 @@ export default {
   data() {
     return {
       title: 'home',
-      list: [],
+      detillist: [],
+      videolist: [],
+      // ChangeClass:null,
     }
   },
   name: 'home',
@@ -47,8 +49,20 @@ export default {
     getlist(){
       network('/api/category/list', null, data => {
         console.log(data.data)
-        this.list=data.data
-
+        var list=data.data
+        // this.videolist=data.data
+        var arr=['fas fa-gift','fas fa-film','fas fa-video']
+        for(var i in list){
+          if(list[i].name=='火爆自拍'){
+            list[i].ChangeClass=arr[2]
+          }
+          if(list[i].name=='中文字幕'){
+            list[i].ChangeClass=arr[0]
+          }else{
+            list[i].ChangeClass=arr[1]
+          }
+        }
+        this.videolist=list
       })
     },
     getdetillist(){
@@ -67,7 +81,6 @@ export default {
   },
   created() {
     Hub.$on('videonav', (data) => {
-      this.list = data.data
       this.navquery(data)
     });
     this.getlist();

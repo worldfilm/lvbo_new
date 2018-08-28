@@ -16,12 +16,13 @@
     <button type="button" class="surebtn changePassword" @click='changepsw'>更&nbsp;&nbsp;改</button>
       <p class="passwordtexx" v-text='passwordtexx'></p>
   </div>
+  <AlertMsg v-show='ShowCpswAlert'/>
 </div>
 </template>
 <script>
-import {
-  network
-} from '@/config/config';
+import {  network} from '@/config/config';
+import Hub from "@/components/Hub";
+import AlertMsg from '@/components/Alert/AlertMsg';
 export default {
   data() {
     return {
@@ -29,6 +30,7 @@ export default {
       newpsw:null,
       replapsw:null,
       passwordtexx:null,
+      ShowCpswAlert:false,
     }
   },
   methods: {
@@ -41,21 +43,33 @@ export default {
       },
       sendingpswdata(){
         if(this.newpsw==this.replapsw){
+          let Base64 = require('js-base64').Base64;
           let sha1 = require('sha1');
           let api_token = sessionStorage.getItem('TOKEN_KEY');
-          var newpsw = sha1(this.newpsw);
-          var repsw = sha1(this.replapsw);
+          let salt=sessionStorage.getItem('salt');
+          var newpsw = sha1(salt+this.newpsw);
+          var oldpsw = sha1(salt+this.oldpsw);
+              newpsw =Base64.encode(newpsw)
+              oldpsw =Base64.encode(oldpsw)
+
           network('/api/user/editPrivate', {
              api_token:api_token,
              type:'1',
-             private_str:newpsw,
-             new_private_str:repsw,
+             private_str:oldpsw,
+             new_private_str:newpsw,
              oldpsw:this.oldpsw
           }, data => {
             if (data.status == 0) {
+              Hub.$emit('changMsg', '修改密码成功!');
+              this.ShowCpswAlert=true
               this.passwordtexx=data.message
+              setTimeout(()=> {this.ShowCpswAlert=false}, 1000)
             }else{
+              let msg=data.data.message
+              Hub.$emit('changMsg', msg);
+              this.ShowCpswAlert=true
               this.passwordtexx=data.message
+              setTimeout(()=> {this.ShowCpswAlert=false}, 1000)
             }
           })
         }else{
@@ -68,7 +82,7 @@ export default {
       },
 
   },
-  components: {},
+  components: {AlertMsg},
   created() {
     this.getoldpsw()
 

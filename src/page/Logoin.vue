@@ -100,7 +100,8 @@ export default {
               sessionStorage.setItem('username', data.data.username)
               sessionStorage.setItem('email', data.data.email)
               sessionStorage.setItem('psw', this.password)
-
+              sessionStorage.setItem('salt', data.data.salt)
+              sessionStorage.setItem('is_set_pay', data.data.is_set_pay)// 有无设置支付密码
               this.$router.push({
                 path: '/Home'
               })

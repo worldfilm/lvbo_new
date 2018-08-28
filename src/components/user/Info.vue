@@ -69,7 +69,7 @@ export default {
       selfvideo: 0,
       score: 0,
       nickname: null,
-      sex: 0,
+      sex: 1,
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();

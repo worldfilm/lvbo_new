@@ -145,6 +145,8 @@ export default {
               sessionStorage.setItem('email', data.data.email)
               sessionStorage.setItem('psw', this.password)
               sessionStorage.setItem('imgsrc', this.avatar)
+              sessionStorage.setItem('salt', data.data.salt)
+              sessionStorage.setItem('is_set_pay', data.data.is_set_pay)// 有无设置支付密码
               Hub.$emit('ShowLog', false);
               Hub.$emit('ShowOnline', true);
               Hub.$emit('username', data.data.username);
