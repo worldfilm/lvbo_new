@@ -135,7 +135,7 @@ export default {
     }
   },
   mounted() {
-
+     this.$refs.upload.clearFiles();
   },
   components: {AlertMsg},
   created() {
