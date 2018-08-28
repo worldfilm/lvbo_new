@@ -2,62 +2,12 @@
 <div class="charge-box">
     <div class="recharge-top clearfix">
         <ul>
-            <li @click="selectedAmount()">
-                <label class="recharge-top-price">
-                    <label class="top-price-first">50元</label>
-                    <label class="top-price-second">5000积分/500钻石</label>
-                    <label class="top-price-float">推荐</label>
+            <li v-for="(item, index) in packageList" :key="index" @click="selectedAmount(item)">
+                <label class="recharge-top-price" :class="{'actived':amount===item.amount}">
+                    <label class="top-price-first">{{item.amount}}元</label>
+                    <label class="top-price-second">{{item.desc}}</label>
+                    <label class="top-price-float">{{item.mark}}</label>
                     <label class="top-price-select">
-                        <img src="/static/c-slted.png">
-                    </label>
-                </label>
-            </li>
-            <li>
-                <label for="recharge50" class="recharge-top-price">
-                    <label for="recharge50" class="top-price-first">50元</label>
-                    <label for="recharge50" class="top-price-second">5000积分/500钻石</label>
-                    <label for="recharge50" class="top-price-float">推荐</label>
-                    <label for="recharge50" class="top-price-select">
-                        <img src="/static/c-slted.png">
-                    </label>
-                </label>
-            </li>
-            <li>
-                <label for="recharge50" class="recharge-top-price">
-                    <label for="recharge50" class="top-price-first">50元</label>
-                    <label for="recharge50" class="top-price-second">5000积分/500钻石</label>
-                    <label for="recharge50" class="top-price-float">推荐</label>
-                    <label for="recharge50" class="top-price-select">
-                        <img src="/static/c-slted.png">
-                    </label>
-                </label>
-            </li>
-            <li>
-                <label for="recharge50" class="recharge-top-price">
-                    <label for="recharge50" class="top-price-first">50元</label>
-                    <label for="recharge50" class="top-price-second">5000积分/500钻石</label>
-                    <label for="recharge50" class="top-price-float">推荐</label>
-                    <label for="recharge50" class="top-price-select">
-                        <img src="/static/c-slted.png">
-                    </label>
-                </label>
-            </li>
-            <li>
-                <label for="recharge50" class="recharge-top-price">
-                    <label for="recharge50" class="top-price-first">50元</label>
-                    <label for="recharge50" class="top-price-second">5000积分/500钻石</label>
-                    <label for="recharge50" class="top-price-float">推荐</label>
-                    <label for="recharge50" class="top-price-select">
-                        <img src="/static/c-slted.png">
-                    </label>
-                </label>
-            </li>
-            <li>
-                <label for="recharge50" class="recharge-top-price">
-                    <label for="recharge50" class="top-price-first">50元</label>
-                    <label for="recharge50" class="top-price-second">5000积分/500钻石</label>
-                    <label for="recharge50" class="top-price-float">推荐</label>
-                    <label for="recharge50" class="top-price-select">
                         <img src="/static/c-slted.png">
                     </label>
                 </label>
@@ -68,10 +18,10 @@
         <label for="recharge-custom" class="recharge-bottom-input">
             <label for="input-recharge">自定义金额充值：</label>
             <label for="input-recharge" class="bottom-input-container">
-                <input type="text" id="input-recharge" placeholder="元">
+                <input type="text" class="input-recharge" v-model="amount" placeholder="元">
                 <button type="button" class="btn-up"></button>
                 <button type="button" class="btn-down"></button>
-                <label for="input-recharge" class="bottom-input-show">10500积分/1050钻石</label>
+                <label for="input-recharge" class="bottom-input-show">{{desc}}</label>
             </label>
             <label class="recharge-pay-type" style="margin-left: 28px;">
                 <el-radio v-model="payType" :label="0">
@@ -90,16 +40,51 @@
 </template>
 
 <script>
+let data = [
+  {
+    amount: '50',
+    desc: "5000积分/500钻石",
+    mark: "推荐"
+  },
+  {
+    amount: '100',
+    desc: "10500积分/10550钻石",
+    mark: "推荐"
+  },
+  {
+    amount: '150',
+    desc: "15750积分/1575钻石",
+    mark: "推荐"
+  },
+  {
+    amount: '300',
+    desc: "31500积分/3150钻石",
+    mark: "推荐"
+  },
+  {
+    amount: '800',
+    desc: "89600积分/8960钻石",
+    mark: "豪气"
+  },
+  {
+    amount: '1000',
+    desc: "112000积分/11200钻石",
+    mark: "豪气"
+  }
+];
 export default {
   data() {
     return {
       payType: 0,
-      amount: 100
+      amount: 100,
+      desc: '',
+      packageList: data
     };
   },
   methods: {
-    selectedAmount() {
-      this.$alert(`你选择了${this.amount}`);
+    selectedAmount(item) {
+      this.amount = item.amount;
+      this.desc = item.desc;
     }
   }
 };
@@ -109,6 +94,12 @@ export default {
 .pay-icon {
   height: 22px;
   vertical-align: middle;
+}
+.actived {
+  border: 1px solid #58b49d !important;
+  .top-price-select {
+    visibility: visible !important;
+  }
 }
 .recharge-top {
   margin-bottom: 30px;
@@ -127,6 +118,9 @@ export default {
       height: 100%;
       position: relative;
       padding-top: 35px;
+      &:hover {
+        @extend .actived;
+      }
       .top-price-first {
         font-size: 32px;
         color: #333;
@@ -151,6 +145,12 @@ export default {
         text-align: center;
       }
       .top-price-select {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 19px;
+        height: 19px;
+        margin-bottom: 0;
         visibility: hidden;
       }
     }
@@ -181,7 +181,7 @@ export default {
       position: relative;
       width: 150px;
       margin-left: 8px;
-      #input-recharge {
+      .input-recharge {
         line-height: 38px;
         height: 38px;
         width: 150px;
