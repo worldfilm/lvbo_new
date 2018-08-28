@@ -174,6 +174,9 @@ export default {
     return {
       payType: ""
     };
+  },
+  created() {
+      // alert(1)
   }
 };
 </script>

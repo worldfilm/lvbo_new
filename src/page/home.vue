@@ -39,7 +39,7 @@
       Hub.$on('closed', (data) => {
         this.barrage = data
       });
-      setTimeout(()=> {this.autoclosed()}, 2000)
+      setTimeout(()=> {this.autoclosed()}, 5000)
       var warning18=sessionStorage.getItem('warning18')
       if(warning18==undefined){
         sessionStorage.setItem('warning18', 'xxxx')

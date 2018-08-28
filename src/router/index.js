@@ -12,7 +12,7 @@ import VideoMore from '@/page/VideoMore'
 import VideoDetil from '@/page/VideoDetil'
 import LineStation from '@/page/LineStation'
 import Upload from '@/page/Upload'
-import integral from '@/page/integral'
+import Integral from '@/page/integral'
 
 export default new Router({
   routes: [
@@ -66,8 +66,8 @@ export default new Router({
       component: Upload
     }, {
       path: '/Integral',
-      name: 'integral',
-      component: integral
+      name: 'Integral',
+      component: Integral
     }
   ]
 })
