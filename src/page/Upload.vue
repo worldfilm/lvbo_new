@@ -89,7 +89,6 @@ export default {
     },
     // 添加文件
     addfile() {
-      this.$refs.upload.clearFiles();
       console.log(this.$refs.upload);
     },
     //上传到服务器
@@ -142,7 +141,7 @@ export default {
       // console.log(file);
     },
     selectMark(name, id) {
-      if (this.tags.indexOf(id) > -1) return;
+      if (this.tags.indexOf(id) > -1){this.showMask = false;return} ;
       this.tags.push(id);
       this.tagsName.push(name);
       this.showMask = false;

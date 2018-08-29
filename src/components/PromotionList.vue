@@ -32,7 +32,7 @@ export default {
             }
           }
           this.list = data.data
-          console.log(list)
+          // console.log(list)
         }
       })
     },

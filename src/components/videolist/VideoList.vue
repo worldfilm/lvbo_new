@@ -55,8 +55,9 @@ export default {
         for(var i in list){
           if(list[i].name=='火爆自拍'){
             list[i].ChangeClass=arr[2]
-          }
-          if(list[i].name=='中文字幕'){
+          }else if(list[i].name=='中文字幕'){
+            list[i].ChangeClass=arr[0]
+          }else if(list[i].name=='免费体验'){
             list[i].ChangeClass=arr[0]
           }else{
             list[i].ChangeClass=arr[1]

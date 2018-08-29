@@ -28,7 +28,8 @@ export default {
       this.$emit('closed');
     },
     sendname(name,id){
-      this.$emit('selected', name, id)
+      this.$emit('selected', name,id)
+      Hub.$emit('selected', name,id)
     },
     getlist(){
       network('/api/tag/list',null, data => {

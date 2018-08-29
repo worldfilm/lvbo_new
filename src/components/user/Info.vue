@@ -107,7 +107,6 @@ export default {
   height: auto;
   min-height: 600px;
   .Info-title {
-    width: 880px;
     height: 40px;
     background-color: #58b59d;
     padding-left: 20px;
@@ -118,7 +117,6 @@ export default {
   }
   .Info-box {
     padding-top: 20px;
-    width: 750px;
     text-align: left;
     padding-left: 150px;
     background: #fff;

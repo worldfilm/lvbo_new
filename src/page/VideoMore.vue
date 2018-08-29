@@ -67,11 +67,13 @@ export default {
     }
   },
   methods: {
-    // initial() {
-    //   // network('videoList', null, data => {
-    //   //   this.list = data.data
-    //   // })
-    // },
+    getlist(name,id) {
+      network('/api/video/list/all', {
+         category_id:id,
+      },data=>{
+        console.log(data)
+      })
+    },
     openvideo(item){
       this.$router.push({
         path: '/VideoDetil'
@@ -81,17 +83,19 @@ export default {
   mounted() {
     // this.initial()
     this.title=this.$route.query.titlename
-    Hub.$on('sendingnamee', (data) => {
-           this.title=data
-    });
-    console.log(this.title)
+    // Hub.$on('sendingnamee', data=> {
+    //        this.title=data
+    // });
   },
   created() {
-    network('/api/video/list/all', {
-       category_id:'MrgK',
-    }, data => {
-      console.log(data)
-    })
+
+    Hub.$on('selected', (name,id)=> {
+           console.log(name)
+           console.log(id)
+           this.getlist(name,id)
+           this.title=name
+    });
+
   },
   components: {Pagination,AdvertisHome}
 }
