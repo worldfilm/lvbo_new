@@ -46,7 +46,7 @@
       </ul>
     </div>
   </nav>
-  <MaskerNav v-show='ShowMask' @selected="selectMark" />
+  <MaskerNav v-show='ShowMask' @selected="selectMark" @closed="closed" />
   
 </div>
 </template>

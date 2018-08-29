@@ -15,7 +15,7 @@
                     </div>
                     <label class="div-left-pay-type">
                         <div>
-                            <el-radio v-model="payType" :label="0">
+                            <el-radio v-model="payType" :label="0" fill="#58b49d">
                                 <img src="/static/zhifubao.png" class="pay-icon" alt="">
                             </el-radio>
                         </div>

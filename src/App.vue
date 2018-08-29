@@ -6,42 +6,39 @@
 </div>
 </template>
 <script>
-import Navfooter from '@/components/Navfooter';
-import Navheader from '@/components/Navheader';
-import Hub from '@/components/Hub';
+import Navfooter from "@/components/Navfooter";
+import Navheader from "@/components/Navheader";
+import Hub from "@/components/Hub";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Navfooter,
-    Navheader,
+    Navheader
   },
   data() {
-    return {}
+    return {};
   },
-  methods: {
-
-  },
+  methods: {},
   props: [],
   created() {
-    Hub.$on('home', (data) => {
-      if(data){
+    Hub.$on("home", data => {
+      if (data) {
         this.$router.push({
-          path: '/Home'
-        })
+          path: "/Home"
+        });
       }
     });
     // Hub.$on('change1', (data) => {});
     // Hub.$on('change2', (data) => {});
-    
   }
-}
+};
 </script>
 <style>
 * {
   box-sizing: border-box;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -57,7 +54,7 @@ export default {
 
 a {
   text-decoration: none;
-      cursor: pointer;
+  cursor: pointer;
 }
 
 input {
@@ -94,10 +91,15 @@ body {
 }
 
 .pull-left {
-  float: left
+  float: left;
 }
 
 .pull-right {
-  float: right
+  float: right;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #58b49d;
+  background: #58b49d;
 }
 </style>
