@@ -35,9 +35,9 @@
           </div>
           <div v-show='ShowOnline' class="showonline">
             <span>欢迎</span>
-            <span class="username">{{username}}</span>
-            <i class="fas fa-chevron-circle-down hover" @click="showuserlist"></i>
-            <ul class="userdeitllist" v-show="ulist">
+            <span class="username" v-on:mouseenter="ShowUL($parent.$index)">{{username}}</span>
+            <i class="fas fa-chevron-circle-down hover"  v-on:mouseenter="ShowUL($parent.$index)"></i>
+            <ul class="userdeitllist" v-show="ulist" v-on:mouseenter="ShowUL($parent.$index)" v-on:mouseleave="HiddeUL($parent.$index)">
               <li v-for='item in usercenterlist' @click="userpag(item.component)">{{item.name}}</li>
             </ul>
             <span @click='logout' class="hover">退出</span>
@@ -89,6 +89,12 @@ export default {
     }
   },
   methods: {
+    ShowUL(e) {
+      this.ulist = true;
+    },
+    HiddeUL(e) {
+      this.ulist = false;
+    },
     search() {
       if (this.KeyWord == null) {} else {
         console.log(this.KeyWord)
@@ -163,12 +169,12 @@ export default {
         path: '/Register'
       })
     },
-    showuserlist() {
-      this.ulist = true
-      setTimeout(() => {
-        this.ulist = false
-      }, 5000)
-    },
+    // showuserlist() {
+    //   this.ulist = true
+    //   setTimeout(() => {
+    //     this.ulist = false
+    //   }, 5000)
+    // },
     userpag(component) {
       Hub.$emit('component', component);
       this.$router.push({
@@ -398,8 +404,8 @@ export default {
                             width: 100px;
                             float: left;
                             position: absolute;
-                            left: 60px;
-                            top: 32px;
+                            left: 67px;
+                            top: 29px;
                             background: #58b59d;
                             z-index: 1;
                             border-radius: 5px;

@@ -8,13 +8,13 @@
     </p>
     <!-- <VideoNav/> -->
     <ul class="videos-cont">
-      <li v-for="(item,idx) in detillist" class="item" @click='openvideo(item)'>
-        <img class="video-cover" :src="item.thumb_href">
+      <li v-for="(itex,idx) in item.videos" class="item" @click='openvideo(itex)' >
+        <img class="video-cover" :src="itex.thumb_img_url">
         <a class="hide">
           <img src="/static/playbtn.png" alt="">
         </a>
-        <p class="title" v-text='item.title'></p>
-        <p class="v-mask-layer"><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span></p>
+        <p class="title" v-text='itex.title'></p>
+        <p class="v-mask-layer"><span class="peoplenum" v-text='itex.view_times'></span><span>人观看</span><span class="beforeday">{{itex.duration}}</span><span>天前</span></p>
       </li>
     </ul>
   </div>
@@ -48,12 +48,11 @@ export default {
     // 获取分类列表
     getlist(){
       network('/api/category/list', null, data => {
-        console.log(data.data)
-        var list=data.data
-        // this.videolist=data.data
+        console.log(data.data.list)
+        var list=data.data.list
         var arr=['fas fa-gift','fas fa-film','fas fa-video']
         for(var i in list){
-          if(list[i].name=='火爆自拍'){
+          if(list[i].name=='原创自拍'){
             list[i].ChangeClass=arr[2]
           }else if(list[i].name=='中文字幕'){
             list[i].ChangeClass=arr[0]

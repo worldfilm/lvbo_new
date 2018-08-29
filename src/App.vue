@@ -101,7 +101,7 @@ body {
   background: #58b49d;
 }
 
-.el-radio__input.is-checked+.el-radio__label {
-    color: #333;
+.el-radio__input.is-checked+.el-radio__label{
+  color: #58b49d;
 }
 </style>
