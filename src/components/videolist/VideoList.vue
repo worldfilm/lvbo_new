@@ -4,7 +4,7 @@
     <p class="videos-title">
       <i :class="item.ChangeClass"></i>
       <span class='title_span' v-text='item.name'></span>
-      <a class="more" @click='more'>查看更多&gt;</a>
+      <a class="more" @click='more(item.name,item.id)'>查看更多&gt;</a>
     </p>
     <!-- <VideoNav/> -->
     <ul class="videos-cont">
@@ -48,8 +48,7 @@ export default {
     // 获取分类列表
     getlist(){
       network('/api/category/list', null, data => {
-        console.log(data.data.list)
-        var list=data.data.list
+        var list=data.data
         var arr=['fas fa-gift','fas fa-film','fas fa-video']
         for(var i in list){
           if(list[i].name=='原创自拍'){
@@ -68,10 +67,11 @@ export default {
     getdetillist(){
 
     },
-    more(){
-      this.$router.push({
-        path: '/VideoMore'
-      })
+    more(name,id){
+        Hub.$emit('selected',{ name,id});
+        this.$router.push({
+          path: '/VideoMore'
+        })
     },
     openvideo(item){
       this.$router.push({

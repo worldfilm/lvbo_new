@@ -64,12 +64,14 @@ export default {
       data: '最新',
       title:null,
       ShowAdvertisHome:true,
+      id:window.location.href.split("=")[1]
     }
   },
   methods: {
-    getlist(name,id) {
+    getlist(data) {
+      console.log(data.name)
       network('/api/video/list/all', {
-         category_id:id,
+         category_id:data.id,
       },data=>{
         console.log(data)
       })
@@ -89,11 +91,9 @@ export default {
   },
   created() {
 
-    Hub.$on('selected', (name,id)=> {
-           console.log(name)
-           console.log(id)
-           this.getlist(name,id)
-           this.title=name
+    Hub.$on('selected', data=> {
+           this.getlist(data)
+           this.title=data.name
     });
 
   },

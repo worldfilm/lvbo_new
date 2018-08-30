@@ -39,7 +39,6 @@
         this.barrage=false
       }
       network('/api/category/list', null, data => {
-        console.log(data)
         this.list=data.data.list
       })
     },

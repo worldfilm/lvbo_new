@@ -1,13 +1,11 @@
 <template>
 <div class="AdvertisHome">
 <ul>
-  <li><img src="/static/4.gif" alt=""></li>
-  <li><img src="/static/3.gif" alt=""></li>
-  <li><img src="/static/4.gif" alt=""></li>
-  <li><img src="/static/3.gif" alt=""></li>
-  <li><img src="/static/4.gif" alt=""></li>
-  <li><img src="/static/3.gif" alt=""></li>
-  <li><img src="/static/4.gif" alt=""></li>
+  <li>
+    <a href="">
+      <img src="/static/4.gif" alt="">
+    </a>
+  </li>
 </ul>
 </div>
 </template>
@@ -25,16 +23,15 @@ export default {
   },
   methods: {
     initial() {
-      // network('videoList', null, data => {
-      //   this.list = data.data
-      // })
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      network('/api/advert/list?cate_code=IndexHeader',null, data => {
+        this.list = data.data
+        console.log(api_token)
+      })
     },
   },
-  mounted() {
-    this.initial()
-  },
   created() {
-
+    this.initial();
   },
   components: {}
 }
