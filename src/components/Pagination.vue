@@ -83,13 +83,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .Pagination {
-  width: 1200px;
   margin: 0 auto;
   text-align: center;
   height: 100px;
-  float: right;
   .content {
-    width: 510px;
     margin: 0 auto;
     height: 40px;
     button,
@@ -100,7 +97,6 @@ export default {
       background-color: #aaa;
       margin: 3px;
       color: #fff;
-      float: left;
       cursor: pointer;
     }
     button:hover,
@@ -115,17 +111,13 @@ export default {
     }
     ul {
       display: inline-block;
-      float: left;
       max-width: 230px;
-      overflow: hidden;
-      height: 40px;
       li {
         display: inline-block;
         width: 40px;
         line-height: 36px;
         background-color: #aaa;
         color: #fff;
-        float: left;
         margin: 3px;
         cursor: pointer;
       }

@@ -13,41 +13,42 @@
             <img src="/static/playbtn.png" alt="">
           </a>
         <p class="title" v-text='item.title'></p>
-        <p class="v-mask-layer"><span class="peoplenum">{{item.views}}</span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span> </p>
+        <p class="v-mask-layer"><span class="peoplenum">{{item.views}}</span><span>人观看</span> </p>
       </li>
     </ul>
+    <Pagination/>
   </div>
   <div class="morevideo-right">
     <p class="videos-title">
-      <span class='title_span'>本周热门排行榜</span>
+      <span class='title_span'>热门视频</span>
     </p>
     <ul class="videos-cont">
-      <li v-for="(item,idx) in weekHotVideoList" :key="idx" class="item" @click='openvideo(item)'>
+      <li v-for="(item,idx) in hotVideoList" :key="idx" class="item" @click='openvideo(item)'>
         <div class="videonumber" v-text='idx+1'></div>
         <img class="video-cover" :src="item.thumb_href">
         <a class="hide">
             <img src="/static/playbtn.png" alt="">
         </a>
         <p class="title" v-text='item.title'></p>
-        <p><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span> </p>
+        <p><span class="peoplenum"></span><span>人观看</span> </p>
       </li>
     </ul>
     <p class="videos-title">
-      <span class='title_span'>本月度排行榜</span>
+      <span class='title_span'>最新视频</span>
     </p>
     <ul class="videos-cont">
-      <li v-for="(item,idx) in monthTopVideoList" :key="idx" class="item" @click='openvideo(item)'>
+      <li v-for="(item,idx) in newVideoList" :key="idx" class="item" @click='openvideo(item)'>
         <div class="videonumber"> 3 </div>
         <img class="video-cover" :src="item.thumb_href">
         <a class="hide">
             <img src="/static/playbtn.png" alt="">
         </a>
         <p class="title" v-text='item.title'></p>
-        <p><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span> </p>
+        <p><span class="peoplenum"></span><span>人观看</span> </p>
       </li>
     </ul>
   </div>
-  <Pagination/>
+  
 </div>
 </template>
 <script>
@@ -60,54 +61,69 @@ export default {
   data() {
     return {
       allVideoList: [],
-      weekHotVideoList: [],
-      monthTopVideoList: [],
+      hotVideoList: [],
+      newVideoList: [],
       data: "最新",
       title: null,
-      ShowAdvertisHome: true,
-      params: {
-        page_size: 20,
-        page: 1,
-        sort: ''
-      }
+      ShowAdvertisHome: true
     };
   },
   computed: {
     videoTag() {
-      return this.$route.query.name || this.$route.query.tag || ''
+      return this.$route.query.name || this.$route.query.tag || "";
     },
     categoryId() {
-      return this.$route.query.id || ''
+      return this.$route.query.id || "";
     }
   },
   watch: {
     videoTag() {
-      this.getlist()
+      this.getlist();
     }
   },
   methods: {
-    getlist(num = 1) {
-      this.params.page = num
+    getList(params, fn) {
+      http.get("/api/video/list/all", params).then(res => {
+        if (res.status === 0 && res.data.list) {
+          fn && fn(res);
+        }
+      });
+    },
+    getlistByTag(num = 1) {
+      this.params.page = num;
       let params = {
         tag: this.videoTag,
+        category_id: this.categoryId,
+        page_size: 20,
+        page: 1
+      };
+      this.getList(params, res => {
+        this.allVideoList = res.data.list;
+      });
+    },
+    getlistBySort(sort) {
+      let params = {
+        sort,
         category_id: this.categoryId
-      }
-      params = Object.assign(this.params, params)
-      http.get("/api/video/list/all", params).then(res => {
-        console.log(res)
-        if (res.status === 0 && res.data.list) {
-          this.allVideoList = res.data.list
+      };
+      this.getList(params, res => {
+        if (sort === 'views') {
+          this.newVideoList = res.data.list;
+        } else if(sort === 'news') {
+          this.hotVideoList = res.data.list;
         }
-      })
+      });
     },
     openvideo(item) {
       this.$router.push({
-        path: '/VideoDetil'
+        path: "/VideoDetil"
       });
     }
   },
   mounted() {
-    this.getlist();
+    this.getlistByTag();
+    this.getlistBySort("views");
+    this.getlistBySort("news");
   },
   components: { Pagination, AdvertisHome }
 };
@@ -187,8 +203,7 @@ export default {
         span {
         }
         .peoplenum {
-          width: 50%;
-          float: left;
+          color: #f00;
         }
         .beforeday {
         }
