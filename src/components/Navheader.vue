@@ -98,9 +98,10 @@ export default {
     search() {
       if (this.KeyWord == null) {} else {
         console.log(this.KeyWord)
-
+        let KeyWord=this.KeyWord
         this.$router.push({
-          path: '/VideoMore'
+          path: '/VideoMore',
+          query:{KeyWord}
         })
         let api_token = sessionStorage.getItem('TOKEN_KEY')
         // network('/api/user/', {api_token:api_token},data => {
