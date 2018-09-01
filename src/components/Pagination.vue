@@ -2,130 +2,141 @@
 <template>
 <div class="Pagination">
   <div class="content">
-    <span @click="first">首页</span><span @click="prev"><i class="fas fa-caret-left"></i></span>
+    <span @click="goFirst">首页</span>
+    <button @click="prev" :disabled="preDisabled" :class="{disabled: preDisabled}">
+      <i class="fas fa-caret-left"></i>
+    </button>
     <ul>
-      <li v-for='item in list' v-text='item' :class="{active:item==num}" @click='jumpag(item)'></li>
+      <li v-for="(n, index) in totalPages" :key="index" :class="{active: n-0 === curNum}" @click="goPage(n)">{{n}}</li>
     </ul>
-    <span @click="next"><i class="fas fa-caret-right"></i></span><span @click="last">尾页</span>
+    <button @click="next" :disabled="nextDisabled" :class="{disabled: nextDisabled}">
+      <i class="fas fa-caret-right"></i>
+    </button>
+    <span @click="goLast">尾页</span>
   </div>
 </div>
 </template>
 <script>
-import Hub from '@/components/Hub';
-import  {network} from '@/config/config';
 export default {
+  props: {
+    // 当前页码
+    currentNumber: {
+      type: [Number, String],
+      default: 1
+    },
+    // 每页显示条数
+    perPagesNumber: {
+      type: [Number, String],
+      default: 10
+    },
+    // 数据总条数
+    totalPageNumber: {
+      type: [Number, String],
+      default: 10
+    }
+  },
   data() {
     return {
-      list: [1,2,3,4,5],
-      num:0,
+      curNum: 1
+    };
+  },
+  computed: {
+    // 计算总页码数
+    totalPages() {
+      let total = this.totalPageNumber - 0
+      let per = this.perPagesNumber - 0
+      let result = Math.ceil(total / per)
+      return result < 1 ? 1 : result
+    },
+    // 上一页按钮是否禁用
+    preDisabled() {
+      return this.curNum === 1;
+    },
+    // 下一页按钮是否禁用
+    nextDisabled() {
+      return this.curNum === this.totalPages;
     }
   },
   methods: {
-    sendname(name) {
-      // Hub.$emit('sendingname', name);
-      // Hub.$emit('closed', false);
+    // 点击页码数
+    goPage(index) {
+      this.curNum = index;
     },
-    jumpag(index){
-      this.num = index;
-      this.gopage(this.num+'go')
+    // 跳转至第一页
+    goFirst() {
+      this.curNum = 1;
     },
-    first(){
-      this.num=1
-      this.list[0]=this.num
-      this.list[1]=this.num+1
-      this.list[2]=this.num+2
-      this.list[3]=this.num+3
-      this.list[4]=this.num+4
-      this.gopage(this.num+'go')
+    // 上一页
+    prev() {
+      this.curNum--;
     },
-    prev(){
-      if(this.num>1){
-        this.num=this.num-1
-        if(this.num<this.list[0]){
-          this.list[0]=this.num-4
-          this.list[1]=this.num-3
-          this.list[2]=this.num-2
-          this.list[3]=this.num-1
-          this.list[4]=this.num
-        }
-          this.gopage(this.num+'go')
-      }
+    // 下一页
+    next() {
+      this.curNum++;
     },
-    next(){
-      this.num=this.num+1
-      if(this.num>this.list[4]){
-        this.list[0]=this.num
-        this.list[1]=this.num+1
-        this.list[2]=this.num+2
-        this.list[3]=this.num+3
-        this.list[4]=this.num+4
-      }
-      this.gopage(this.num+'go')
-    },
-    last(){
-      this.num = this.list[4]
-      this.list[0]=this.list[0]
-      this.list[1]=this.list[1]
-      this.list[2]=this.list[2]
-      this.list[3]=this.list[3]
-      this.list[4]=this.list[4]
-      this.gopage(this.num+'go')
-    },
-    gopage(e){
-      // console.log(e)
-    },
-  },
-  components: {}
-}
+    // 跳转至最后一页
+    goLast() {
+      this.curNum = this.totalPages;
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .Pagination {
-    width: 1200px;
+  width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  height: 100px;
+  float: right;
+  .content {
+    width: 510px;
     margin: 0 auto;
-    text-align: center;
-    height: 100px;
-    float: right;
-    .content {
-        width: 510px;
-        margin: 0 auto;
-        height: 40px;
-        span {
-            display: inline-block;
-            width: 50px;
-            line-height: 36px;
-            background-color: #aaa;
-            margin: 3px;
-            color: #fff;
-            float: left;
-            cursor: pointer;
-        }
-        span:hover {
-            background-color: #58b59d;
-        }
-        ul {
-            display: inline-block;
-            float: left;
-            width: 230px;
-            overflow: hidden;height: 40px;
-            li {
-                display: inline-block;
-                width: 40px;
-                line-height: 36px;
-                background-color: #aaa;
-                color: #fff;
-                float: left;
-                margin: 3px;
-                cursor: pointer;
-            }
-            li:hover {
-                background-color: #58b59d;
-            }
-            .active {
-                  background-color: #58b59d;
-                  color: #eef1f0;
-              }
-        }
+    height: 40px;
+    button,
+    span {
+      display: inline-block;
+      width: 50px;
+      line-height: 36px;
+      background-color: #aaa;
+      margin: 3px;
+      color: #fff;
+      float: left;
+      cursor: pointer;
     }
-
+    button:hover,
+    span:hover {
+      background-color: #58b59d;
+    }
+    .disabled {
+      &:hover {
+        background-color: #aaa;
+      }
+      cursor: no-drop;
+    }
+    ul {
+      display: inline-block;
+      float: left;
+      max-width: 230px;
+      overflow: hidden;
+      height: 40px;
+      li {
+        display: inline-block;
+        width: 40px;
+        line-height: 36px;
+        background-color: #aaa;
+        color: #fff;
+        float: left;
+        margin: 3px;
+        cursor: pointer;
+      }
+      li:hover {
+        background-color: #58b59d;
+      }
+      .active {
+        background-color: #58b59d;
+        color: #eef1f0;
+      }
+    }
+  }
 }
 </style>
