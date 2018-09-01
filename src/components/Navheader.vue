@@ -50,43 +50,47 @@
 </div>
 </template>
 <script>
-import Hub from '@/components/Hub';
-import MaskerNav from '@/components/MaskerNav.vue';
-import {
-  network
-} from '@/config/config';
+import Hub from "@/components/Hub";
+import MaskerNav from "@/components/MaskerNav.vue";
+import { network } from "@/config/config";
 export default {
-  name: 'Navheader',
+  name: "Navheader",
   components: {
     MaskerNav
   },
   data() {
     return {
-      title: '首页',
+      title: "首页",
       ShowLog: true,
       ShowOnline: false,
-      username: 'null',
+      username: "null",
       ulist: false,
       ShowMask: false,
       KeyWord: null,
       sengdingname: null,
-      usercenterlist: [{
-        name: '我的账户',
-        component: 'Accunt'
-      }, {
-        name: '我的视频',
-        component: 'Video'
-      }, {
-        name: '我的资料',
-        component: 'Info'
-      }, {
-        name: '我的收藏',
-        component: 'Favorite'
-      }, {
-        name: '账户安全',
-        component: 'Safety'
-      }, ]
-    }
+      usercenterlist: [
+        {
+          name: "我的账户",
+          component: "Accunt"
+        },
+        {
+          name: "我的视频",
+          component: "Video"
+        },
+        {
+          name: "我的资料",
+          component: "Info"
+        },
+        {
+          name: "我的收藏",
+          component: "Favorite"
+        },
+        {
+          name: "账户安全",
+          component: "Safety"
+        }
+      ]
+    };
   },
   methods: {
     ShowUL(e) {
@@ -96,79 +100,80 @@ export default {
       this.ulist = false;
     },
     search() {
-      if (this.KeyWord == null) {} else {
-        console.log(this.KeyWord)
-        let KeyWord=this.KeyWord
+      if (this.KeyWord == null) {
+      } else {
+        console.log(this.KeyWord);
+        let tag = this.KeyWord;
         this.$router.push({
-          path: '/VideoMore',
-          query:{KeyWord}
-        })
-        let api_token = sessionStorage.getItem('TOKEN_KEY')
+          path: "/VideoMore",
+          query: { tag }
+        });
+        let api_token = sessionStorage.getItem("TOKEN_KEY");
         // network('/api/user/', {api_token:api_token},data => {
         //Hub.$emit('SearchResult', data);
         // })
       }
     },
     upload() {
-      this.checkuser()
+      this.checkuser();
       this.$router.push({
-        path: '/Upload'
-      })
+        path: "/Upload"
+      });
     },
     networkadress() {
-      this.checkuser()
+      this.checkuser();
       this.$router.push({
-        path: '/LineStation'
-      })
+        path: "/LineStation"
+      });
     },
     maskerc() {
-      this.checkuser()
-      this.ShowMask = true
+      this.checkuser();
+      this.ShowMask = true;
     },
     home() {
-      this.checkuser()
+      this.checkuser();
       this.$router.push({
-        path: '/Home'
-      })
+        path: "/Home"
+      });
     },
     vipag() {
-      this.checkuser()
+      this.checkuser();
       if (this.ShowOnline) {
-        Hub.$emit('ShowLog', false);
-        Hub.$emit('ShowOnline', true);
-        Hub.$emit('username', this.username);
-        Hub.$emit('ShowNoLogin', this.username);
+        Hub.$emit("ShowLog", false);
+        Hub.$emit("ShowOnline", true);
+        Hub.$emit("username", this.username);
+        Hub.$emit("ShowNoLogin", this.username);
       }
       this.$router.push({
-        path: '/Vip'
-      })
+        path: "/Vip"
+      });
     },
     login() {
       this.$router.push({
-        path: '/Logoin'
-      })
+        path: "/Logoin"
+      });
     },
     logout() {
-      let api_token = sessionStorage.getItem('TOKEN_KEY')
-      network('/api/user/loginout?api_token=' + api_token, null, data => {
+      let api_token = sessionStorage.getItem("TOKEN_KEY");
+      network("/api/user/loginout?api_token=" + api_token, null, data => {
         if (data.status == 0) {
-          sessionStorage.removeItem('username')
-          sessionStorage.removeItem('email')
-          sessionStorage.removeItem('TOKEN_KEY')
-          sessionStorage.removeItem('is_set_pay')
-          sessionStorage.removeItem('salt')
-          sessionStorage.removeItem('imgsrc')
-          sessionStorage.removeItem('psw')
-          sessionStorage.removeItem('warning18')
-          this.checkuser()
-          Hub.$emit('home', true);
+          sessionStorage.removeItem("username");
+          sessionStorage.removeItem("email");
+          sessionStorage.removeItem("TOKEN_KEY");
+          sessionStorage.removeItem("is_set_pay");
+          sessionStorage.removeItem("salt");
+          sessionStorage.removeItem("imgsrc");
+          sessionStorage.removeItem("psw");
+          sessionStorage.removeItem("warning18");
+          this.checkuser();
+          Hub.$emit("home", true);
         }
-      })
+      });
     },
     register() {
       this.$router.push({
-        path: '/Register'
-      })
+        path: "/Register"
+      });
     },
     // showuserlist() {
     //   this.ulist = true
@@ -177,56 +182,62 @@ export default {
     //   }, 5000)
     // },
     userpag(component) {
-      Hub.$emit('component', component);
+      Hub.$emit("component", component);
       this.$router.push({
-        path: '/UserCenter'
-      })
+        path: "/UserCenter"
+      });
     },
     checkuser() {
-      let username = sessionStorage.getItem('username')
+      let username = sessionStorage.getItem("username");
       if (username) {
-        this.ShowOnline = true
-        this.ShowLog = false
-        this.username = username
+        this.ShowOnline = true;
+        this.ShowLog = false;
+        this.username = username;
       } else {
-        this.ShowOnline = false
-        this.ShowLog = true
-        this.username = null
+        this.ShowOnline = false;
+        this.ShowLog = true;
+        this.username = null;
       }
     },
     addBookmark() {
       let url = window.location.href;
-      let title
+      let title;
       if (!url) {
-        url = window.location
+        url = window.location;
       }
       if (!title) {
-        title = document.title
+        title = document.title;
       }
       var browser = navigator.userAgent.toLowerCase();
-      if (window.sidebar) { // Mozilla, Firefox, Netscape
+      if (window.sidebar) {
+        // Mozilla, Firefox, Netscape
         window.sidebar.addPanel(title, url, "");
-      } else if (window.external) { // IE or chrome
-        if (browser.indexOf('chrome') == -1) { // ie
+      } else if (window.external) {
+        // IE or chrome
+        if (browser.indexOf("chrome") == -1) {
+          // ie
           window.external.AddFavorite(url, title);
-        } else { // chrome
-          alert('加入收藏失败，请使用Ctrl+D进行添加');
+        } else {
+          // chrome
+          alert("加入收藏失败，请使用Ctrl+D进行添加");
         }
       } else if (window.opera && window.print) {
         return true;
-      } else if (browser.indexOf('konqueror') != -1) {
-        alert('加入收藏失败，请使用CTRL+B进行添加');
-      } else if (browser.indexOf('webkit') != -1) {
-        alert('加入收藏失败，请使用CTRL+B 或者 Command+D 进行添加');
+      } else if (browser.indexOf("konqueror") != -1) {
+        alert("加入收藏失败，请使用CTRL+B进行添加");
+      } else if (browser.indexOf("webkit") != -1) {
+        alert("加入收藏失败，请使用CTRL+B 或者 Command+D 进行添加");
       } else {
-        alert('Your browser cannot add bookmarks using this link. Please add this link manually.')
+        alert(
+          "Your browser cannot add bookmarks using this link. Please add this link manually."
+        );
       }
     },
     selectMark(name, id) {
       this.$router.push({
-        query:{titlename:name},
-        path: '/VideoMore',
-      })
+        query: { tag: name },
+        path: "/VideoMore"
+      });
       this.ShowMask = false;
     },
     closed() {
@@ -235,211 +246,211 @@ export default {
   },
   props: [],
   created() {
-    this.checkuser()
-    Hub.$on('ShowLog', (data) => {
-      this.ShowLog = data
+    this.checkuser();
+    Hub.$on("ShowLog", data => {
+      this.ShowLog = data;
     });
-    Hub.$on('ShowOnline', (data) => {
-      this.ShowOnline = data
+    Hub.$on("ShowOnline", data => {
+      this.ShowOnline = data;
     });
-    Hub.$on('closed', (data) => {
-      this.ShowMask = data
+    Hub.$on("closed", data => {
+      this.ShowMask = data;
     });
-    Hub.$on('ShowMask', (data) => {
-      this.ShowMask = true
+    Hub.$on("ShowMask", data => {
+      this.ShowMask = true;
     });
-    Hub.$on('username', (data) => {
-      this.username = data
+    Hub.$on("username", data => {
+      this.username = data;
     });
-    Hub.$on('sendingname', (data) => {
-      this.sengdingname = data
+    Hub.$on("sendingname", data => {
+      this.sengdingname = data;
     });
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", e => {
       if (!this.$el.contains(e.target)) {
         this.ulist = false;
       }
-    })
-  },
-
-}
+    });
+  }
+};
 </script>
 <style lang="scss" >
 .header {
-    .xingyu-topnav {
-        background-color: #58b59d;
+  .xingyu-topnav {
+    background-color: #58b59d;
+    height: 60px;
+    .v-container {
+      width: 1200px;
+      margin: 0 auto;
+      height: 60px;
+      .topnav-mainnav {
+        float: left;
+        display: table;
+        .mainnav-nav-div {
+          display: table-cell;
+          vertical-align: middle;
+          ul {
+            font-size: 0;
+            line-height: 0;
+            li {
+              width: 70px;
+              text-align: center;
+              height: 60px;
+              line-height: 60px;
+              font-size: 16px;
+              color: #fff;
+              display: inline-block;
+              cursor: pointer;
+            }
+            li:hover {
+              background: #fff;
+              color: #58b59d;
+            }
+          }
+        }
+      }
+      .topnav-mainnav-right {
+        float: right;
+        line-height: 60px;
         height: 60px;
-        .v-container {
-            width: 1200px;
-            margin: 0 auto;
-            height: 60px;
-            .topnav-mainnav {
-                float: left;
-                display: table;
-                .mainnav-nav-div {
-                    display: table-cell;
-                    vertical-align: middle;
-                    ul {
-                        font-size: 0;
-                        line-height: 0;
-                        li {
-                            width: 70px;
-                            text-align: center;
-                            height: 60px;
-                            line-height: 60px;
-                            font-size: 16px;
-                            color: #fff;
-                            display: inline-block;
-                            cursor: pointer;
-                        }
-                        li:hover {
-                            background: #fff;
-                            color: #58b59d;
-                        }
-                    }
-                }
-            }
-            .topnav-mainnav-right {
-                float: right;
-                line-height: 60px;
-                height: 60px;
-                li {
-                    display: inline-block;
-                    height: 32px;
-                    line-height: 32px;
-                    color: #fff;
-                    cursor: pointer;
-                    float: left;
-                    margin: 14px 8px;
-                }
-                .xingyu-search {
-                    width: 210px;
-                    border: 1px solid #fff;
-                    text-align: center;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    overflow: hidden;
-                    input {
-                        outline: none;
-                        background: none;
-                        border: none;
-                    }
-                    button {
-                        height: 32px;
-                        width: 37px;
-                        border: none;
-                        position: relative;
-                        right: -16px;
-                        outline: none;
-                        background: #fff;
-                        i {
-                            font-size: 19px;
-                            font-weight: bold;
-                            color: #6f6b6b;
-                            width: 20px;
-                            height: 20px;
-                            padding-right: 5px;
-                        }
-                    }
-                }
-                .top-main-nav-collection {
-                    width: 110px;
-                    background-color: #4fa28d;
-                    text-align: center;
-                    border-radius: 4px;
-                    font-size: 14px;
-                }
-                .top-nav-guide {
-                    width: 100px;
-                    background-color: #4fa28d;
-                    text-align: center;
-                    border-radius: 4px;
-                }
-                .top-main-nav-collection:hover,
-                .top-nav-guide:hover,
-                .xingyu-btn-login:hover,
-                .xingyu-btn-register:hover {
-                    background-color: #fff;
-                    color: #4fa28d;
-                }
-                .topnav-btn-group {
-                    font-size: 16px;
-                    a {
-                        background-color: #4fa28d;
-                        color: #fff;
-                        border-radius: 4px;
-                        margin-left: 30px;
-                        font-size: 14px;
-                        text-align: center;
-                        padding: 5px 11px;
-                    }
-                    .showonline {
-                        padding: 0 10px;
-                        float: left;
-                        position: relative;
-                        span {
-                            display: inline-block;
-                            float: left;
-                            padding: 0 3px;
-                            border-radius: 5px;
-                        }
-                        .hover:hover {
-                            box-shadow: 3px 1px 10px 0 #5f5a5a;
-                        }
-                        i {
-                            display: inline-block;
-                            float: left;
-                            padding: 0 3px;
-                            border-radius: 5px;
-                            height: 21px;
-                            width: 27px;
-                            padding-top: 8px;
-                            margin-right: 5px;
-                        }
-                        .arrow {
-                            width: 30px;
-                            height: 30px;
-                            line-height: 32px;
-                        }
-                        .userdeitllist {
-                            display: inline-block;
-                            width: 100px;
-                            float: left;
-                            position: absolute;
-                            left: 67px;
-                            top: 29px;
-                            background: #58b59d;
-                            z-index: 1;
-                            border-radius: 5px;
-                            box-shadow: 1px -1px 7px -1px #5f5a5a;
-                            li {
-                                overflow: inherit;
-                                margin: 0;
-                                width: 100px;
-                            }
-                            li:hover {
-                                background: #93c5b8;
-                            }
-
-                        }
-                        .username {
-                            height: 30px;
-                            width: 80px;
-                            text-align: center;
-                        }
-                    }
-                }
-            }
+        li {
+          display: inline-block;
+          height: 32px;
+          line-height: 32px;
+          color: #fff;
+          cursor: pointer;
+          float: left;
+          margin: 14px 8px;
         }
-    }
-    .logo {
-        height: 60px;float: left;
-        .nav-logo {
-            width: 184px;
-            height: 60px;
-            line-height: 60px;
-            background: url("/static/logo.png") no-repeat 0 5px;
-            cursor: pointer;display: inline-block;
+        .xingyu-search {
+          width: 210px;
+          border: 1px solid #fff;
+          text-align: center;
+          border-radius: 4px;
+          font-size: 14px;
+          overflow: hidden;
+          input {
+            outline: none;
+            background: none;
+            border: none;
+          }
+          button {
+            height: 32px;
+            width: 37px;
+            border: none;
+            position: relative;
+            right: -16px;
+            outline: none;
+            background: #fff;
+            i {
+              font-size: 19px;
+              font-weight: bold;
+              color: #6f6b6b;
+              width: 20px;
+              height: 20px;
+              padding-right: 5px;
+            }
+          }
         }
+        .top-main-nav-collection {
+          width: 110px;
+          background-color: #4fa28d;
+          text-align: center;
+          border-radius: 4px;
+          font-size: 14px;
+        }
+        .top-nav-guide {
+          width: 100px;
+          background-color: #4fa28d;
+          text-align: center;
+          border-radius: 4px;
+        }
+        .top-main-nav-collection:hover,
+        .top-nav-guide:hover,
+        .xingyu-btn-login:hover,
+        .xingyu-btn-register:hover {
+          background-color: #fff;
+          color: #4fa28d;
+        }
+        .topnav-btn-group {
+          font-size: 16px;
+          a {
+            background-color: #4fa28d;
+            color: #fff;
+            border-radius: 4px;
+            margin-left: 30px;
+            font-size: 14px;
+            text-align: center;
+            padding: 5px 11px;
+          }
+          .showonline {
+            padding: 0 10px;
+            float: left;
+            position: relative;
+            span {
+              display: inline-block;
+              float: left;
+              padding: 0 3px;
+              border-radius: 5px;
+            }
+            .hover:hover {
+              box-shadow: 3px 1px 10px 0 #5f5a5a;
+            }
+            i {
+              display: inline-block;
+              float: left;
+              padding: 0 3px;
+              border-radius: 5px;
+              height: 21px;
+              width: 27px;
+              padding-top: 8px;
+              margin-right: 5px;
+            }
+            .arrow {
+              width: 30px;
+              height: 30px;
+              line-height: 32px;
+            }
+            .userdeitllist {
+              display: inline-block;
+              width: 100px;
+              float: left;
+              position: absolute;
+              left: 67px;
+              top: 29px;
+              background: #58b59d;
+              z-index: 1;
+              border-radius: 5px;
+              box-shadow: 1px -1px 7px -1px #5f5a5a;
+              li {
+                overflow: inherit;
+                margin: 0;
+                width: 100px;
+              }
+              li:hover {
+                background: #93c5b8;
+              }
+            }
+            .username {
+              height: 30px;
+              width: 80px;
+              text-align: center;
+            }
+          }
+        }
+      }
     }
+  }
+  .logo {
+    height: 60px;
+    float: left;
+    .nav-logo {
+      width: 184px;
+      height: 60px;
+      line-height: 60px;
+      background: url("/static/logo.png") no-repeat 0 5px;
+      cursor: pointer;
+      display: inline-block;
+    }
+  }
 }
 </style>

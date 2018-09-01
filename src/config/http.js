@@ -35,7 +35,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     // Access-Control-Allow-Origin:*
     // console.log(response)
-    return response.data
+    return response
 }, error => {
     return Promise.resolve(error.response)
 })
@@ -46,26 +46,31 @@ const http = {
     all: ''
 }
 
+
+// get请求
 http.get = (api = '', data = {}) => {
     let params = data //qs.stringify(data)
     return new Promise((resolve, reject) => {
         axios.get(api, {
             params
         }).then(res => {
-            resolve(res)
+            resolve(res.data)
         })
     })
 }
 
+// post请求
 http.post = (api = '', data = {}) => {
     let params = qs.stringify(data)
     return new Promise((resolve, reject) => {
         axios.post(api, params).then(res => {
-            resolve(res)
+            resolve(res.data)
         })
     })
 }
 
+
+// 暂时有问题  待完善
 http.all = (...params) => {
     console.log(params)
     let args = params

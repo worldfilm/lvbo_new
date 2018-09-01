@@ -4,7 +4,7 @@
   <div class="morevideo-left">
     <p class="videos-title">
       <i class="fas fa-newspaper"></i>
-      <span class='title_span'>全部视频<span style="color:#f00;">（{{videoType}}）</span></span>
+      <span class='title_span'>全部视频<span v-if="videoTag" style="color:#f00;">（{{videoTag}}）</span></span>
     </p>
     <ul class="videos-cont">
       <li v-for="(item,idx) in allVideoList" class="item" :key="idx" @click='openvideo(item)'>
@@ -65,29 +65,49 @@ export default {
       data: "最新",
       title: null,
       ShowAdvertisHome: true,
-      category_id: null,
-      videoType: null
+      params: {
+        page_size: 20,
+        page: 1,
+        sort: ''
+      }
     };
   },
+  computed: {
+    videoTag() {
+      return this.$route.query.name || this.$route.query.tag || ''
+    },
+    categoryId() {
+      return this.$route.query.id || ''
+    }
+  },
+  watch: {
+    videoTag() {
+      this.getlist()
+    }
+  },
   methods: {
-    getlist($id) {
-      http.get("/api/video/list/all", { category_id: $id }).then(res => {
+    getlist(num = 1) {
+      this.params.page = num
+      let params = {
+        tag: this.videoTag,
+        category_id: this.categoryId
+      }
+      params = Object.assign(this.params, params)
+      http.get("/api/video/list/all", params).then(res => {
+        console.log(res)
         if (res.status === 0 && res.data.list) {
-          this.allVideoList = res.data.list;
+          this.allVideoList = res.data.list
         }
       })
     },
     openvideo(item) {
       this.$router.push({
-        path: "/VideoDetil"
+        path: '/VideoDetil'
       });
     }
   },
-  mounted() {},
-  created() {
-    this.videoType = this.$route.query.name;
-    this.category_id = this.$route.query.id;
-    this.getlist(this.category_id);
+  mounted() {
+    this.getlist();
   },
   components: { Pagination, AdvertisHome }
 };
