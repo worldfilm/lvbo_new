@@ -7,12 +7,13 @@
       <i class="fas fa-caret-left"></i>
     </button>
     <ul>
-      <li v-for="(n, index) in totalPages" :key="index" :class="{active: n-0 === curNum}" @click="goPage(n)">{{n}}</li>
+      <li v-for="(n, index) in numberList" :key="index" :class="{active: n-0 === curNum}" @click="goPage(n)">{{n}}</li>
     </ul>
     <button @click="next" :disabled="nextDisabled" :class="{disabled: nextDisabled}">
       <i class="fas fa-caret-right"></i>
     </button>
     <span @click="goLast">尾页</span>
+    前往 <input type="text" v-model="toNum" @blur="curNum = toNum - 0" class="num-box"> 页
   </div>
 </div>
 </template>
@@ -25,7 +26,7 @@ export default {
       default: 1
     },
     // 每页显示条数
-    perPagesNumber: {
+    perPageNumber: {
       type: [Number, String],
       default: 10
     },
@@ -37,16 +38,17 @@ export default {
   },
   data() {
     return {
-      curNum: 1
+      curNum: 1,
+      toNum: 1
     };
   },
   computed: {
     // 计算总页码数
     totalPages() {
-      let total = this.totalPageNumber - 0
-      let per = this.perPagesNumber - 0
-      let result = Math.ceil(total / per)
-      return result < 1 ? 1 : result
+      let total = this.totalPageNumber - 0;
+      let per = this.perPageNumber - 0;
+      let result = Math.ceil(total / per);
+      return result < 1 ? 1 : result;
     },
     // 上一页按钮是否禁用
     preDisabled() {
@@ -55,12 +57,39 @@ export default {
     // 下一页按钮是否禁用
     nextDisabled() {
       return this.curNum === this.totalPages;
+    },
+    // 分页按钮列表
+    numberList() {
+      if (this.curNum > 3 && this.curNum < this.totalPages - 2) {
+        return [
+          this.curNum - 2,
+          this.curNum - 1,
+          this.curNum,
+          this.curNum + 1,
+          this.curNum + 2
+        ];
+      } else if (this.curNum > this.totalPages - 3) {
+        return [
+          this.totalPages - 4,
+          this.totalPages - 3,
+          this.totalPages - 2,
+          this.totalPages - 1,
+          this.totalPages
+        ];
+      } else {
+        return [1, 2, 3, 4, 5];
+      }
+    }
+  },
+  watch: {
+    curNum(newVal) {
+      this.$parent.curPage = newVal;
     }
   },
   methods: {
     // 点击页码数
-    goPage(index) {
-      this.curNum = index;
+    goPage(n) {
+      this.curNum = n;
     },
     // 跳转至第一页
     goFirst() {
@@ -128,6 +157,14 @@ export default {
         background-color: #58b59d;
         color: #eef1f0;
       }
+    }
+    .num-box {
+      width: 40px;
+      height: 35px;
+      border: 1px solid #58b59d;
+      text-align: center;
+      border-radius: 4px;
+      font-size: 14px;
     }
   }
 }

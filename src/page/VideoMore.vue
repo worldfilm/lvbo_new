@@ -4,11 +4,13 @@
   <div class="morevideo-left">
     <p class="videos-title">
       <i class="fas fa-newspaper"></i>
-      <span class='title_span'>全部视频<span v-if="videoTag" style="color:#f00;">（{{videoTag}}）</span></span>
+      <span class='title_span'>全部视频<span v-if="videoTag || videoType" style="color:#f00;">（{{videoTag || videoType}}）</span></span>
     </p>
     <ul class="videos-cont">
       <li v-for="(item,idx) in allVideoList" class="item" :key="idx" @click='openvideo(item)'>
-        <img class="video-cover" :src="item.thumb_img_url">
+        <div class="img-box">
+          <img class="video-cover" :src="item.thumb_img_url">
+        </div>
         <a class="hide">
             <img src="/static/playbtn.png" alt="">
           </a>
@@ -16,7 +18,7 @@
         <p class="v-mask-layer"><span class="peoplenum">{{item.views}}</span><span>人观看</span> </p>
       </li>
     </ul>
-    <Pagination/>
+    <pagination :total-page-number="totalVideos" :current-number="curPage" :per-page-number="perPageNum"></pagination>
   </div>
   <div class="morevideo-right">
     <p class="videos-title">
@@ -25,12 +27,12 @@
     <ul class="videos-cont">
       <li v-for="(item,idx) in hotVideoList" :key="idx" class="item" @click='openvideo(item)'>
         <div class="videonumber" v-text='idx+1'></div>
-        <img class="video-cover" :src="item.thumb_href">
+        <img class="video-cover" :src="item.thumb_img_url">
         <a class="hide">
             <img src="/static/playbtn.png" alt="">
         </a>
         <p class="title" v-text='item.title'></p>
-        <p><span class="peoplenum"></span><span>人观看</span> </p>
+        <p><span class="peoplenum">{{item.views}}</span><span>人观看</span> </p>
       </li>
     </ul>
     <p class="videos-title">
@@ -38,13 +40,13 @@
     </p>
     <ul class="videos-cont">
       <li v-for="(item,idx) in newVideoList" :key="idx" class="item" @click='openvideo(item)'>
-        <div class="videonumber"> 3 </div>
-        <img class="video-cover" :src="item.thumb_href">
+        <div class="videonumber"> {{idx+1}} </div>
+        <img class="video-cover" :src="item.thumb_img_url">
         <a class="hide">
             <img src="/static/playbtn.png" alt="">
         </a>
         <p class="title" v-text='item.title'></p>
-        <p><span class="peoplenum"></span><span>人观看</span> </p>
+        <p><span class="peoplenum">{{item.views}}</span><span>人观看</span> </p>
       </li>
     </ul>
   </div>
@@ -65,20 +67,30 @@ export default {
       newVideoList: [],
       data: "最新",
       title: null,
-      ShowAdvertisHome: true
+      ShowAdvertisHome: true,
+      totalVideos: 0,
+      perPageNum: 28,
+      curPage: 1
     };
   },
   computed: {
     videoTag() {
-      return this.$route.query.name || this.$route.query.tag || "";
+      return this.$route.query.tag || "";
     },
     categoryId() {
       return this.$route.query.id || "";
+    },
+    videoType() {
+      return this.$route.query.name;
     }
   },
   watch: {
     videoTag() {
-      this.getlist();
+      this.curPage = 1;
+      this.getlistByTag();
+    },
+    curPage() {
+      this.getlistByTag();
     }
   },
   methods: {
@@ -89,27 +101,26 @@ export default {
         }
       });
     },
-    getlistByTag(num = 1) {
-      this.params.page = num;
+    getlistByTag() {
       let params = {
         tag: this.videoTag,
         category_id: this.categoryId,
-        page_size: 20,
-        page: 1
+        page_size: this.perPageNum,
+        page: this.curPage
       };
       this.getList(params, res => {
         this.allVideoList = res.data.list;
+        this.totalVideos = res.data.page.totalVideo;
       });
     },
     getlistBySort(sort) {
       let params = {
-        sort,
-        category_id: this.categoryId
+        sort
       };
       this.getList(params, res => {
-        if (sort === 'views') {
+        if (sort === "views") {
           this.newVideoList = res.data.list;
-        } else if(sort === 'news') {
+        } else if (sort === "news") {
           this.hotVideoList = res.data.list;
         }
       });
@@ -189,10 +200,14 @@ export default {
         overflow: hidden;
         white-space: nowrap;
       }
-      img {
-        position: relative;
-        width: 185px;
-        height: 110px;
+      .img-box {
+        text-align: center;
+        background: #fff;
+        height: 118px;
+        img {
+          //width: 100%;
+          height: 100%;
+        }
       }
       .v-mask-layer {
         margin: 0 auto;
@@ -289,6 +304,7 @@ export default {
       .peoplenum {
         width: 50%;
         float: left;
+        color: #f00;
       }
       .beforeday {
       }
