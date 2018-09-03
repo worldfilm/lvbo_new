@@ -60,6 +60,13 @@ export default {
     },
     // 分页按钮列表
     numberList() {
+      if (this.totalPages <= 5) {
+        let arr = [];
+        for (let i = 0; i < this.totalPages; i++) {
+          arr[i] = i + 1;
+        }
+        return arr;
+      }
       if (this.curNum > 3 && this.curNum < this.totalPages - 2) {
         return [
           this.curNum - 2,
@@ -91,10 +98,6 @@ export default {
     goPage(n) {
       this.curNum = n;
     },
-    // 跳转至第一页
-    goFirst() {
-      this.curNum = 1;
-    },
     // 上一页
     prev() {
       this.curNum--;
@@ -103,8 +106,14 @@ export default {
     next() {
       this.curNum++;
     },
+    // 跳转至第一页
+    goFirst() {
+      if (this.curNum === 1) return;
+      this.curNum = 1;
+    },
     // 跳转至最后一页
     goLast() {
+      if (this.curNum === this.totalPages) return;
       this.curNum = this.totalPages;
     }
   }
