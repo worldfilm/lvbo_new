@@ -24,117 +24,116 @@
 </div>
 </template>
 <script>
-import {  network} from '@/config/config';
-import Hub from '@/components/Hub';
+import Hub from "@/components/Hub";
 export default {
   data() {
     return {
-      Showlist:false,
-      ShowNothing:true,
-      list: [{
-                id: 20,
-                "user_id": 1625,
-                "outtradeno": "EX2018011911261768141446",
-                "points": 166.67,
-                "money": 100,
-                "type": 2,
-                "status": 7,
-                "admin_id": null,
-                "remark": null,
-                "created_at": "2018-01-22 07:08:29",
-                "updated_at": "2018-01-22 07:08:35"
-            },{
-                "id": 19,
-                "user_id": 1625,
-                "outtradeno": "EX2018011603495882875401",
-                "points": 166.67,
-                "money": 100,
-                "type": 2,
-                "status": 7,
-                "admin_id": null,
-                "remark": null,
-                "created_at": "2018-01-22 07:08:34",
-                "updated_at": "2018-01-22 07:08:40"
-            }]
-
-
-    }
+      Showlist: false,
+      ShowNothing: true,
+      list: [
+        {
+          id: 20,
+          user_id: 1625,
+          outtradeno: "EX2018011911261768141446",
+          points: 166.67,
+          money: 100,
+          type: 2,
+          status: 7,
+          admin_id: null,
+          remark: null,
+          created_at: "2018-01-22 07:08:29",
+          updated_at: "2018-01-22 07:08:35"
+        },
+        {
+          id: 19,
+          user_id: 1625,
+          outtradeno: "EX2018011603495882875401",
+          points: 166.67,
+          money: 100,
+          type: 2,
+          status: 7,
+          admin_id: null,
+          remark: null,
+          created_at: "2018-01-22 07:08:34",
+          updated_at: "2018-01-22 07:08:40"
+        }
+      ]
+    };
   },
-  methods: {
-
-  },
+  methods: {},
   components: {},
   created() {
-    let api_token = sessionStorage.getItem('TOKEN_KEY')
-    network('/api/user/getExchanges?api_token='+api_token, null, data => {
+    this.$http.get("/api/user/getExchanges").then(data => {
       if (data.status == 0) {
-        this.Showlist=true
-        this.ShowNothing=false
-       console.log(data)
+        this.Showlist = true;
+        this.ShowNothing = false;
+        console.log(data);
       }
-    })
-  },
-}
+    });
+  }
+};
 </script>
 <style lang="scss" scoped>
 .RedemptionCode {
+  width: 900px;
+  display: inline-block;
+  height: auto;
+  min-height: 600px;
+  .myvideo-title {
     width: 900px;
-    display: inline-block;
-    height: auto;    min-height: 600px;
-    .myvideo-title {
-        width: 900px;
-        height: 40px;
-        background-color: #58b59d;
-        padding-left: 20px;
-        font-size: 18px;
-        color: #FFF;
-        line-height: 2.4;
-        text-align: left;
-    }
-    .myvideo-upload {
-        width: 900px;
-        height: 88px;
-        border-bottom: 1px solid #ddd;
-        .myvideo-upload-desc {
-            height: 48px;
-            width: 280px;
-            margin: auto;
-            position: relative;
-            a {
-                background-position: 0 48px;
-                position: absolute;
-                height: 48px;
-                line-height: 48px;
-                color: #fff;
-                width: 280px;
-                top: 20px;
-                left: 0;
-                background: #58b59d;
-                border-radius: 10px;
-                i {
-                    font-size: 23px;
-                    padding: 10px;
-                    line-height: 25px;
-                }
-            }
+    height: 40px;
+    background-color: #58b59d;
+    padding-left: 20px;
+    font-size: 18px;
+    color: #fff;
+    line-height: 2.4;
+    text-align: left;
+  }
+  .myvideo-upload {
+    width: 900px;
+    height: 88px;
+    border-bottom: 1px solid #ddd;
+    .myvideo-upload-desc {
+      height: 48px;
+      width: 280px;
+      margin: auto;
+      position: relative;
+      a {
+        background-position: 0 48px;
+        position: absolute;
+        height: 48px;
+        line-height: 48px;
+        color: #fff;
+        width: 280px;
+        top: 20px;
+        left: 0;
+        background: #58b59d;
+        border-radius: 10px;
+        i {
+          font-size: 23px;
+          padding: 10px;
+          line-height: 25px;
         }
+      }
     }
-    .myvideo-videolist-box {
-        margin-top: 20px;
-        width: 915px;
-        .myvideo-nothing {
-            text-align: center;
-            line-height: 155px;
-            height: 155px;
-            font-size: 18px;
-            color: #b5b5b5;
-            span {
-                margin-right: 5px;
-            }
-            a{
-              color: #58b59d;    cursor: pointer;
-            }
-        }
+  }
+  .myvideo-videolist-box {
+    margin-top: 20px;
+    width: 915px;
+    .myvideo-nothing {
+      text-align: center;
+      line-height: 155px;
+      height: 155px;
+      font-size: 18px;
+      color: #b5b5b5;
+      span {
+        margin-right: 5px;
+      }
+      a {
+        color: #58b59d;
+        cursor: pointer;
+      }
     }
+  }
 }
 </style>

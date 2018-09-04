@@ -26,7 +26,7 @@
   </div>
   <div class="infooption">
     <ul>
-      <li v-for='item in usercenterlist' @click="userlist(item.component)"><i :class="['fas', item.icon]"></i><span v-text="item.name"></span></li>
+      <li v-for='(item, index) in usercenterlist' @click="userlist(item.component)" :key="index"><i :class="['fas', item.icon]"></i><span v-text="item.name"></span></li>
     </ul>
   </div>
 </div>

@@ -58,7 +58,6 @@
 </template>
 <script>
 import Hub from "@/components/Hub";
-import { network } from "@/config/config";
 export default {
   data() {
     return {
@@ -75,21 +74,25 @@ export default {
           return time.getTime() > Date.now();
         }
       },
-      birthday: ''
+      birthday: ""
     };
   },
   methods: {
     infobtn() {
-      let api_token = sessionStorage.getItem("TOKEN_KEY");
-      network('/api/user/edit', {
-        api_token:api_token,
-         sex:this.sex,
-         birthday:this.birthday,
-         signature:this.textareatex,
-         type:1,
-      }, data => {
-        console.log(data)
-      })
+      let params = {
+        sex: this.sex,
+        birthday: this.birthday,
+        signature: this.textareatex,
+        type: 1
+      };
+      this.$http.post("/api/user/edit", params).then(res => {
+        if (res.status === 0) {
+          this.$message({
+            message: "编辑成功",
+            type: "success"
+          });
+        }
+      });
     }
   },
   components: {},

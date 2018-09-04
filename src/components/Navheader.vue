@@ -52,7 +52,6 @@
 <script>
 import Hub from "@/components/Hub";
 import MaskerNav from "@/components/MaskerNav.vue";
-import { network } from "@/config/config";
 export default {
   name: "Navheader",
   components: {
@@ -102,16 +101,11 @@ export default {
     search() {
       if (this.KeyWord == null) {
       } else {
-        console.log(this.KeyWord);
         let tag = this.KeyWord;
         this.$router.push({
           path: "/VideoMore",
           query: { tag }
         });
-        let api_token = sessionStorage.getItem("TOKEN_KEY");
-        // network('/api/user/', {api_token:api_token},data => {
-        //Hub.$emit('SearchResult', data);
-        // })
       }
     },
     upload() {
@@ -154,9 +148,12 @@ export default {
       });
     },
     logout() {
-      let api_token = sessionStorage.getItem("TOKEN_KEY");
-      network("/api/user/loginout?api_token=" + api_token, null, data => {
+      this.$http.get('/api/user/loginout').then(data => {
         if (data.status == 0) {
+          this.$message({
+            message: '退出登录成功！',
+            type: 'success'
+          })
           sessionStorage.removeItem("username");
           sessionStorage.removeItem("email");
           sessionStorage.removeItem("TOKEN_KEY");
@@ -168,7 +165,7 @@ export default {
           this.checkuser();
           Hub.$emit("home", true);
         }
-      });
+      })
     },
     register() {
       this.$router.push({

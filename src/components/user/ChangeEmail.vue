@@ -26,9 +26,6 @@
 </template>
 <script>
 import Hub from '@/components/Hub';
-import {
-  network
-} from '@/config/config';
 export default {
   data() {
     return {
@@ -41,8 +38,7 @@ export default {
   },
   methods: {
     sending() {
-      let api_token = sessionStorage.getItem('TOKEN_KEY')
-      network('/api/user/sendMail?api_token='+api_token, null, data => {
+      this.$http.get('/api/user/sendMail').then(data => {
         if (data.status == 0) {
           this.warningt=data.message
         }
@@ -54,11 +50,10 @@ export default {
       if (!emailReg.test(this.newEmail)) {
         this.warningt = "请检查您输入的邮箱~";
       }else{
-        network('/api/user/editEmail', {
-          api_token: api_token,
+        this.$http.post('/api/user/editEmail', {
           new_email: this.newEmail,
           code:this.verification
-        }, data => {
+        }).then( data => {
           if (data.status == 0) {
             this.warningt=data.message
           }

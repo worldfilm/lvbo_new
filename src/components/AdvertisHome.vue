@@ -11,7 +11,6 @@
 </template>
 <script>
 import Hub from "@/components/Hub";
-import { network } from "@/config/config";
 export default {
   data() {
     return {
@@ -21,11 +20,9 @@ export default {
   },
   methods: {
     initial() {
-      let api_token = sessionStorage.getItem("TOKEN_KEY");
-      network("/api/advert/list?cate_code=IndexHeader", null, data => {
-        if (data.data&&data.data.lengt !== 0) {
+      this.$http.get("/api/advert/list", {cate_code: 'IndexHeader'}).then(data => {
+        if (data.data && data.data.lengt !== 0) {
           this.list = data.data;
-          console.log(api_token);
         }
       });
     }

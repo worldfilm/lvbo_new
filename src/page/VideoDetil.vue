@@ -10,7 +10,6 @@
 </template>
 <script>
 import Hub from '@/components/Hub';
-import {network} from '@/config/config';
 import AdvertisHome from '@/components/AdvertisHome';
 import VideoPlay from '@/components/VideoPlay';
 import VideoPlayRightList from '@/components/VideoPlayRightList';

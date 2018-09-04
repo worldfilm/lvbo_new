@@ -63,10 +63,7 @@
 </template>
 
 <script>
-import Hub from '@/components/Hub';
-import {
-  network
-} from '@/config/config';
+import Hub from "@/components/Hub";
 
 export default {
   data() {
@@ -79,28 +76,28 @@ export default {
       tex: null,
       data: {},
       chose: true,
-      disable: 'disable',
+      disable: "disable",
       texusername: null,
       texpassword: null,
       texconfirmPassword: null,
       texemail: null,
-      imgsrc:null,
-    }
+      imgsrc: null
+    };
   },
   methods: {
     closed() {
-      Hub.$emit('closed', false);
+      Hub.$emit("closed", false);
     },
     condition() {
       this.$router.push({
-        path: '/Protocol'
-      })
+        path: "/Protocol"
+      });
     },
     checkd() {
       this.chose ? (this.chose = false) : (this.chose = true);
     },
     VerifyCode() {
-      console.log('验证码')
+      console.log("验证码");
     },
     btnRegister() {
       let verifycodeReg = /^[a-zA-Z0-9]{4,12}$/;
@@ -130,31 +127,32 @@ export default {
         this.texemail = "请检查您输入的邮箱~";
       } else {
         if (this.chose) {
-          network('/api/user/register/pc', {
+          let params = {
             username: this.username,
             email: this.email,
-            password: this.password,
-          }, data => {
-            console.log(data)
+            password: this.password
+          };
+          this.$http.post("/api/user/register/pc", params).then(data => {
+            console.log(data);
             if (data.status == 0) {
               this.tex = data.message;
-              this.imgsrc=data.data.avatar
-              sessionStorage.setItem('imgsrc', this.imgsrc)
-              sessionStorage.setItem('TOKEN_KEY', data.data.api_token)
-              sessionStorage.setItem('username', data.data.username)
-              sessionStorage.setItem('email', data.data.email)
-              sessionStorage.setItem('psw', this.password)
-              sessionStorage.setItem('imgsrc', this.avatar)
-              sessionStorage.setItem('salt', data.data.salt)
-              sessionStorage.setItem('is_set_pay', data.data.is_set_pay)// 有无设置支付密码
-              Hub.$emit('ShowLog', false);
-              Hub.$emit('ShowOnline', true);
-              Hub.$emit('username', data.data.username);
+              this.imgsrc = data.data.avatar;
+              sessionStorage.setItem("imgsrc", this.imgsrc);
+              sessionStorage.setItem("TOKEN_KEY", data.data.api_token);
+              sessionStorage.setItem("username", data.data.username);
+              sessionStorage.setItem("email", data.data.email);
+              sessionStorage.setItem("psw", this.password);
+              sessionStorage.setItem("imgsrc", this.avatar);
+              sessionStorage.setItem("salt", data.data.salt);
+              sessionStorage.setItem("is_set_pay", data.data.is_set_pay); // 有无设置支付密码
+              Hub.$emit("ShowLog", false);
+              Hub.$emit("ShowOnline", true);
+              Hub.$emit("username", data.data.username);
               this.$router.push({
-                path: '/Home'
-              })
+                path: "/Home"
+              });
             }
-          })
+          });
         } else {
           this.tex = "不勾选表示不同意网站协议，不能注册！";
         }
@@ -169,7 +167,7 @@ export default {
         this.texpassword = "密码不得为空!";
         this.texconfirmPassword = null;
         this.texemail = null;
-      } else if (this.confirmPassword == '' || this.confirmPassword == null) {
+      } else if (this.confirmPassword == "" || this.confirmPassword == null) {
         this.texusername = null;
         this.texpassword = null;
         this.texconfirmPassword = "请再次输入密码!";
@@ -181,8 +179,8 @@ export default {
         this.texemail = "邮箱不得为空!";
       }
     }
-  },
-}
+  }
+};
 // verifycode: this.verifycode
 //  else if (!verifycodeReg.test(this.verifycode)) {
 //   this.tex = "请检查您输入的验证码~";
@@ -194,119 +192,120 @@ export default {
 
 <style lang="scss" scoped>
 .register-pop {
-    overflow: hidden;
-    width: 1200px;
-    margin: 0 auto;
-    .left-m {
-        display: inline-block;
-        width: 500px;
-        height: 545px;
-        padding: 44px 0;
-        float: left;
+  overflow: hidden;
+  width: 1200px;
+  margin: 0 auto;
+  .left-m {
+    display: inline-block;
+    width: 500px;
+    height: 545px;
+    padding: 44px 0;
+    float: left;
+  }
+  .register-pop-container {
+    width: 500px;
+    height: 545px;
+    margin: 44px 0;
+    float: right;
+    background-color: #fff;
+    margin-right: 80px;
+    float: left;
+    .login-title {
+      position: relative;
+      height: 38px;
+      background-color: #58b59d;
+      color: #fff;
+      line-height: 38px;
+      font-size: 16px;
+      text-align: left;
+      padding-left: 30px;
+      .loginclose {
+        background-image: url("../../static/v2-login-pop-close.png");
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
     }
-    .register-pop-container {
-        width: 500px;
-        height: 545px;
-        margin: 44px 0;
-        float: right;
-        background-color: #fff;
-        margin-right: 80px;
-        float: left;
-        .login-title {
-            position: relative;
-            height: 38px;
-            background-color: #58b59d;
-            color: #fff;
-            line-height: 38px;
-            font-size: 16px;
-            text-align: left;
-            padding-left: 30px;
-            .loginclose {
-                background-image: url("../../static/v2-login-pop-close.png");
-                width: 18px;
-                height: 18px;
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                cursor: pointer;
-            }
+  }
+  .register-pop-content {
+    form {
+      color: #909090;
+      padding: 60px 0;
+      .form-group {
+        margin-left: -15px;
+        margin-right: -15px;
+        label {
+          font-size: 16px;
+          font-weight: 400;
+          padding: 7px 0;
+          width: 70px;
+          text-align: right;
+          padding-right: 20px;
         }
-    }
-    .register-pop-content {
-        form {
-            color: #909090;
-            padding: 60px 0;
-            .form-group {
-                margin-left: -15px;
-                margin-right: -15px;
-                label {
-                    font-size: 16px;
-                    font-weight: 400;
-                    padding: 7px 0;
-                    width: 70px;
-                    text-align: right;
-                    padding-right: 20px;
-                }
-                .form-control {
-                    height: 35px;
-                    line-height: 35px;
-                    font-size: 14px;
-                    color: #666;
-                    border: 1px solid #ddd;
-                    border-radius: 2px;
-                    width: 270px;
-                    padding: 0 12px;
-                }
-                .input-group-addon {
-                    img {}
-                }
-                .text-danger {
-                    height: 30px;
-                    line-height: 30px;
-                    margin-top: 10px;
-                    label {
-                        font-size: 13px;
-                        width: 123px;
-                        padding: 0;
-                        color: #f07;
-                    }
-                }
-            }
-            .sure {
-                label {
-                    display: inline-block;
-                    max-width: 100%;
-                    margin-bottom: 5px;
-                    .form-check-input {
-                        margin-right: 8px;
+        .form-control {
+          height: 35px;
+          line-height: 35px;
+          font-size: 14px;
+          color: #666;
+          border: 1px solid #ddd;
+          border-radius: 2px;
+          width: 270px;
+          padding: 0 12px;
+        }
+        .input-group-addon {
+          img {
+          }
+        }
+        .text-danger {
+          height: 30px;
+          line-height: 30px;
+          margin-top: 10px;
+          label {
+            font-size: 13px;
+            width: 123px;
+            padding: 0;
+            color: #f07;
+          }
+        }
+      }
+      .sure {
+        label {
+          display: inline-block;
+          max-width: 100%;
+          margin-bottom: 5px;
+          .form-check-input {
+            margin-right: 8px;
 
-                        font-size: 12px;
-                        color: #333;
-                        -webkit-font-smoothing: antialiased;
-                    }
-                }
-                .condition {
-                    color: #f07;
-                    cursor: pointer;
-                }
-            }
-            .warn {
-                color: #f07;
-                padding: 7px;
-            }
-            .butn {
-                text-align: center;
-                button {
-                    height: 38px;
-                    width: 270px;
-                    line-height: 38px;
-                    background-color: #58b59d;
-                    font-size: 16px;
-                    border-radius: 2px;
-                    color: #fff;
-                }
-            }
+            font-size: 12px;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+          }
         }
+        .condition {
+          color: #f07;
+          cursor: pointer;
+        }
+      }
+      .warn {
+        color: #f07;
+        padding: 7px;
+      }
+      .butn {
+        text-align: center;
+        button {
+          height: 38px;
+          width: 270px;
+          line-height: 38px;
+          background-color: #58b59d;
+          font-size: 16px;
+          border-radius: 2px;
+          color: #fff;
+        }
+      }
     }
+  }
 }
 </style>

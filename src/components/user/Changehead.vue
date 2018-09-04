@@ -32,7 +32,6 @@
 <script>
 import Hub from "@/components/Hub";
 import AlertMsg from "@/components/Alert/AlertMsg";
-import { network } from "@/config/config";
 export default {
   data() {
     return {

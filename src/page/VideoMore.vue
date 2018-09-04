@@ -57,7 +57,6 @@
 import Hub from "@/components/Hub";
 import Pagination from "@/components/Pagination"; //分页
 import AdvertisHome from "@/components/AdvertisHome";
-import { network } from "@/config/config";
 export default {
   data() {
     return {

@@ -22,7 +22,6 @@
 </template>
 <script>
 import Hub from "@/components/Hub";
-import { network } from "@/config/config";
 import VideoNav from "@/components/VideoNav";
 export default {
   data() {
@@ -38,16 +37,10 @@ export default {
     VideoNav
   },
   methods: {
-    navquery(data) {
-      // network('NavList', {
-      //   title: data
-      // }, data => {
-      //   this.list = data.data
-      // })
-    },
+    navquery(data) {},
     // 获取分类列表
     getlist() {
-      network("/api/category/list", null, data => {
+      this.$http.get("/api/category/list").then(data => {
         var list = data.data;
         var arr = ["fas fa-gift", "fas fa-film", "fas fa-video"];
         for (var i in list) {

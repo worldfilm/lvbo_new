@@ -13,7 +13,6 @@
   import AdvertisHome from '@/components/AdvertisHome';
   import ZhiboList from '@/components/videolist/ZhiboList';
   import VideoList from '@/components/videolist/VideoList';
-  import  {network} from '@/config/config';
 
   export default {
     data() {
@@ -38,7 +37,7 @@
       }else{
         this.barrage=false
       }
-      network('/api/category/list', null, data => {
+      this.$http.get('/api/category/list').then(data => {
         this.list=data.data.list
       })
     },

@@ -7,7 +7,6 @@
 </div>
 </template>
 <script>
-import  {network} from '@/config/config';
 import Hub from '@/components/Hub';
 export default {
   data() {

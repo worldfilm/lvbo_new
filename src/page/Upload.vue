@@ -51,7 +51,6 @@
 </template>
 <script>
 import Hub from "@/components/Hub";
-import { network } from "@/config/config";
 import AlertMsg from "@/components/Alert/AlertMsg";
 import MaskerNav from "@/components/MaskerNav";
 export default {
@@ -102,33 +101,29 @@ export default {
     // 确认上传
     surebtn() {
       let api_token = sessionStorage.getItem("TOKEN_KEY");
-      network(
-        "/api/video/addMyVideo",
-        {
-          api_token: api_token,
-          title: this.titletex,
-          description: this.textareatex,
-          tags: this.tags,
-          is_anonymous: Number(this.isAnonymous),
-          video_url: this.videoUrl
-        },
-        data => {
-          if (data.status == 0) {
-            Hub.$emit("changMsg", "上传成功!");
-            this.ShowUmsg = true;
-            setTimeout(() => {
-              this.ShowUmsg = false;
-            }, 1000);
-          } else {
-            let msg = data.message;
-            Hub.$emit("changMsg", msg);
-            this.ShowUmsg = true;
-            setTimeout(() => {
-              this.ShowUmsg = false;
-            }, 1000);
-          }
+      let params = {
+        title: this.titletex,
+        description: this.textareatex,
+        tags: this.tags,
+        is_anonymous: Number(this.isAnonymous),
+        video_url: this.videoUrl
+      };
+      this.$http.post("/api/video/addMyVideo", params).then(data => {
+        if (data.status == 0) {
+          Hub.$emit("changMsg", "上传成功!");
+          this.ShowUmsg = true;
+          setTimeout(() => {
+            this.ShowUmsg = false;
+          }, 1000);
+        } else {
+          let msg = data.message;
+          Hub.$emit("changMsg", msg);
+          this.ShowUmsg = true;
+          setTimeout(() => {
+            this.ShowUmsg = false;
+          }, 1000);
         }
-      );
+      });
     },
     tageclosed(index) {
       this.tagsName.splice(index, 1);
@@ -141,13 +136,16 @@ export default {
       // console.log(file);
     },
     selectMark(name, id) {
-      if (this.tags.indexOf(id) > -1){this.showMask = false;return} ;
+      if (this.tags.indexOf(id) > -1) {
+        this.showMask = false;
+        return;
+      }
       this.tags.push(id);
       this.tagsName.push(name);
       this.showMask = false;
     },
     closeMask() {
-      this.showMask = false
+      this.showMask = false;
     }
   },
   mounted() {

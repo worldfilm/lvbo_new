@@ -2,15 +2,12 @@
 <div class="PromotionList">
   <p>合作伙伴：</p>
   <ul>
-    <li v-for='item in list' ><a :href="item.url" v-text='item.title' :class="item.is_light"></a> </li>
+    <li v-for="(item, index) in list" :key="index"><a :href="item.url" v-text='item.title' :class="item.is_light"></a> </li>
   </ul>
 </div>
 </template>
 <script>
 import Hub from '@/components/Hub';
-import {
-  network
-} from '@/config/config';
 export default {
   data() {
     return {
@@ -20,7 +17,7 @@ export default {
   },
   methods: {
     getlist() {
-      network('/api/cooperation/list', null, data => {
+      this.$http.get('/api/cooperation/list').then(data => {
         if (data.status == 0) {
           let list =data.data
           for(var i=0;i<list.length;i++){

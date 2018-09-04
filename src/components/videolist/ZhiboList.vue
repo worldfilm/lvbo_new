@@ -20,7 +20,6 @@
 </div>
 </template>
 <script>
-import {network} from '@/config/config';
 // import newlist from '@/data/newlist';
 export default {
   data() {
@@ -36,9 +35,6 @@ export default {
   methods:{
     videonav(e,index){
       this.num = index
-      // network('http://192.168.0.110:3000/NavList', {title:e}, data => {
-      //   this.list=data.data
-      // })
     },
     more(){
       this.$router.push({
@@ -52,9 +48,6 @@ export default {
     },
   },
   mounted(){
-    // network('http://192.168.0.110:3000/videoList', null, data => {
-    //   this.list = data.data
-    // })
   },
 }
 </script>

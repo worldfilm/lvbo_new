@@ -30,7 +30,6 @@
 </template>
 <script>
 import Hub from '@/components/Hub';
-import {network} from '@/config/config';
 export default {
   data() {
     return {
@@ -57,7 +56,11 @@ export default {
     let api_token = sessionStorage.getItem('TOKEN_KEY')
     let pangnum=this.pangnum
     let page_size=this.page_size
-    network('/api/user/getMyVideo?api_token='+api_token+'&page='+pangnum+'&page_size='+page_size, null, data => {
+    let params = {
+        pangnum,
+        page_size
+    }
+    this.$http('/api/user/getMyVideo', params).then(data => {
       if (data.status == 0) {
          if(data.data.list.length>0){
            this.NoHaveVideo=false

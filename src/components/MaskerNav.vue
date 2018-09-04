@@ -14,9 +14,6 @@
 </template>
 <script>
 import Hub from '@/components/Hub';
-import {
-  network
-} from '@/config/config';
 export default {
   data() {
     return {
@@ -32,7 +29,7 @@ export default {
       Hub.$emit('selected', name,id)
     },
     getlist(){
-      network('/api/tag/list',null, data => {
+      this.$http.get('/api/tag/list').then(data => {
         if (data.status == 0) {
           this.navlist=data.data.list
         }
