@@ -18,6 +18,7 @@
       </li>
     </ul>
   </div>
+  <v-loading v-show="showLoading"></v-loading>
 </div>
 </template>
 <script>
@@ -28,7 +29,8 @@ export default {
     return {
       title: "home",
       detillist: [],
-      videolist: []
+      videolist: [],
+      showLoading: false
       // ChangeClass:null,
     };
   },
@@ -40,6 +42,7 @@ export default {
     navquery(data) {},
     // 获取分类列表
     getlist() {
+      this.showLoading = true;
       this.$http.get("/api/category/list").then(data => {
         var list = data.data;
         var arr = ["fas fa-gift", "fas fa-film", "fas fa-video"];
@@ -55,6 +58,7 @@ export default {
           }
         }
         this.videolist = list;
+        this.showLoading = false;
       });
     },
     getdetillist() {},

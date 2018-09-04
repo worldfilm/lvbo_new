@@ -10,6 +10,7 @@ import {
   MessageBox
 } from 'element-ui';
 import http from './config/http.js'
+import loading from './components/loading.vue'
 
 // Message和MessageBox需要通过Vue.protype处理
 Vue.prototype.$message = Message
@@ -23,6 +24,7 @@ Vue.use(Upload)
 Vue.use(Radio)
 Vue.use(Button)
 Vue.use(Switch)
+Vue.component('v-loading', loading)
 Vue.config.productionTip = false
 
 new Vue({

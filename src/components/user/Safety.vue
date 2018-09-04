@@ -33,7 +33,6 @@
       <ul>
         <li>
           <p class="up">支付密码</p>
-          <p>未设置</p>
         </li>
         <li></li>
         <li class="right">

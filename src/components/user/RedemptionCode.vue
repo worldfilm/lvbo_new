@@ -10,7 +10,7 @@
     </div>
     <div class="myvideo-nothing" v-show='Showlist'>
       <ul>
-        <li v-for="item in list">
+        <li v-for="(item, index) in list" :key="index">
           <!-- <span>兑换记录id:</span><span v-text="item"> -->
           <!-- </span><span>兑换星票数量:</span><span v-text='item.points'>
           <span>兑换金额:</span><span v-text='item.money'>

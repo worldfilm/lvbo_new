@@ -50,7 +50,7 @@
       </li>
     </ul>
   </div>
-  
+  <v-loading v-show="showLoading"></v-loading>
 </div>
 </template>
 <script>
@@ -68,7 +68,8 @@ export default {
       ShowAdvertisHome: true,
       totalVideos: 0,
       perPageNum: 28,
-      curPage: 1
+      curPage: 1,
+      showLoading: false
     };
   },
   computed: {
@@ -93,8 +94,10 @@ export default {
   },
   methods: {
     getList(params, fn) {
+      this.showLoading = true;
       this.$http.get("/api/video/list/all", params).then(res => {
         if (res.status === 0 && res.data.list) {
+          this.showLoading = false;
           fn && fn(res);
         }
       });

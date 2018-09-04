@@ -16,7 +16,7 @@
   </div>
   <div class="myvideo" v-show='HaveVideo'>
     <ul class="videos-cont">
-      <li v-for="(item,idx) in list" class="item" @click='openvideo(item)'>
+      <li v-for="(item,idx) in list" class="item" @click='openvideo(item)' :key="idx">
         <img class="video-cover" :src="item.thumb_href">
         <a class="hide">
           <img src="/static/playbtn.png" alt="">
