@@ -37,10 +37,7 @@
 </template>
 
 <script>
-import Hub from '@/components/Hub';
-import {
-  network
-} from '@/config/config';
+import Hub from "@/components/Hub";
 
 export default {
   data() {
@@ -50,24 +47,24 @@ export default {
       verifycode: null,
       logintex: null,
       data: {},
-      disable: 'disable',
+      disable: "disable",
       chose: true,
       texusername: null,
       texpassword: null,
-        imgsrc:null,
-    }
+      imgsrc: null
+    };
   },
   methods: {
     goregister() {
       this.$router.push({
-        path: '/Register'
-      })
+        path: "/Register"
+      });
     },
     checkd() {
       this.chose ? (this.chose = false) : (this.chose = true);
     },
     VerifyCode() {
-      console.log('验证码')
+      console.log("验证码");
     },
     btnLogin() {
       let verifycodeReg = /^[a-zA-Z0-9]{4,12}$/;
@@ -84,31 +81,37 @@ export default {
         if (this.chose) {
           this.texusername = null;
           this.texpassword = null;
-          network('/api/user/login/pc', {
+          let params = {
             username: this.username,
-            password: this.password,
-          }, data => {
-            this.logintex = data.message;
-            if (data.status == 0) {
-              console.log(data.data)
-              this.imgsrc=data.data.avatar
-              sessionStorage.setItem('imgsrc', this.imgsrc)
-              Hub.$emit('ShowLog', false);
-              Hub.$emit('ShowOnline', true);
-              Hub.$emit('username', data.data.username);
-              sessionStorage.setItem('TOKEN_KEY', data.data.api_token)
-              sessionStorage.setItem('username', data.data.username)
-              sessionStorage.setItem('email', data.data.email)
-              sessionStorage.setItem('psw', this.password)
-              sessionStorage.setItem('salt', data.data.salt)
-              sessionStorage.setItem('is_set_pay', data.data.is_set_pay)// 有无设置支付密码
-              this.$router.push({
-                path: '/Home'
-              })
-            }
-          })
+            password: this.password
+          };
+          this.$http.post("/api/user/login/pc", params).then(res => {
+            this.logintex = res.message;
+              if (res.status === 0) {
+                // let userInfoStr = JSON.stringify(res.data);
+                // sessionStorage.setItem("userInfo", userInfoStr);
+                this.$message({
+                  message: '登录成功',
+                  type: 'success'
+                })
+                this.imgsrc = res.data.avatar;
+                sessionStorage.setItem("imgsrc", this.imgsrc);
+                Hub.$emit("ShowLog", false);
+                Hub.$emit("ShowOnline", true);
+                Hub.$emit("username", res.data.username);
+                sessionStorage.setItem("TOKEN_KEY", res.data.api_token);
+                sessionStorage.setItem("username", res.data.username);
+                sessionStorage.setItem("email", res.data.email);
+                sessionStorage.setItem("psw", this.password);
+                sessionStorage.setItem("salt", res.data.salt);
+                sessionStorage.setItem("is_set_pay", res.data.is_set_pay); // 有无设置支付密码
+                this.$router.push({
+                  path: "/Home"
+                });
+              }
+          });
         } else {
-          this.logintex = "不勾选表示不同意网站协议，不能注册！";
+          this.logintex = "不勾选表示不同意网站协议，不能！";
         }
       }
       if (!this.username) {
@@ -119,135 +122,134 @@ export default {
         this.texpassword = "密码不得为空!";
       }
     }
-  },
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 .register-pop {
-    overflow: hidden;
-    width: 1200px;
-    margin: 0 auto;
-    .left-m {
-        display: inline-block;
-        width: 500px;
-        height: 545px;
-        padding: 44px 0;
-        float: left;
+  overflow: hidden;
+  width: 1200px;
+  margin: 0 auto;
+  .left-m {
+    display: inline-block;
+    width: 500px;
+    height: 545px;
+    padding: 44px 0;
+    float: left;
+  }
+  .register-pop-container {
+    width: 500px;
+    height: 545px;
+    margin: 44px 0;
+    float: right;
+    margin-right: 80px;
+    background-color: #fff;
+    float: left;
+    .login-title {
+      position: relative;
+      height: 38px;
+      background-color: #58b59d;
+      color: #fff;
+      line-height: 38px;
+      font-size: 16px;
+      text-align: left;
+      padding-left: 30px;
+      .loginclose {
+        background-image: url("../../static/v2-login-pop-close.png");
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
     }
-    .register-pop-container {
-        width: 500px;
-        height: 545px;
-        margin: 44px 0;
-        float: right;
-        margin-right: 80px;
-        background-color: #fff;
-        float: left;
-        .login-title {
-            position: relative;
-            height: 38px;
-            background-color: #58b59d;
-            color: #fff;
-            line-height: 38px;
-            font-size: 16px;
-            text-align: left;
-            padding-left: 30px;
-            .loginclose {
-                background-image: url("../../static/v2-login-pop-close.png");
-                width: 18px;
-                height: 18px;
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                cursor: pointer;
-            }
+  }
+  .register-pop-content {
+    form {
+      color: #909090;
+      padding: 60px 0;
+      .form-group {
+        margin-left: -15px;
+        margin-right: -15px;
+        label {
+          font-size: 16px;
+          font-weight: 400;
+          padding: 7px 0;
+          width: 70px;
+          text-align: right;
+          padding-right: 20px;
         }
-    }
-    .register-pop-content {
-
-        form {
-            color: #909090;
-            padding: 60px 0;
-            .form-group {
-                margin-left: -15px;
-                margin-right: -15px;
-                label {
-                    font-size: 16px;
-                    font-weight: 400;
-                    padding: 7px 0;
-                    width: 70px;
-                    text-align: right;
-                    padding-right: 20px;
-                }
-                .form-control {
-                    height: 35px;
-                    line-height: 35px;
-                    font-size: 14px;
-                    color: #666;
-                    border: 1px solid #ddd;
-                    border-radius: 2px;
-                    width: 270px;
-                    padding: 0 12px;
-                }
-                .input-group-addon {
-                    img {}
-                }
-                .text-danger {
-                    height: 30px;
-                    line-height: 30px;
-                    margin-top: 10px;
-                    label {
-                        font-size: 13px;
-                        width: 123px;
-                        padding: 0;
-                        color: #f07;
-                    }
-                }
-            }
-            .sure {
-                label {
-                    display: inline-block;
-                    max-width: 100%;
-                    margin-bottom: 5px;
-                    .form-check-input {
-                        margin-right: 8px;
-
-                        font-size: 12px;
-                        color: #333;
-                        -webkit-font-smoothing: antialiased;
-                    }
-                }
-            }
-            .warn {
-                color: #f07;
-                padding: 7px;
-            }
-            .butn {
-                text-align: center;
-                button {
-                    height: 38px;
-                    width: 270px;
-                    line-height: 38px;
-                    background-color: #58b59d;
-                    font-size: 16px;
-                    border-radius: 2px;
-                    color: #fff;
-
-                }
-            }
-            .goregister {
-                height: 38px;
-                line-height: 38px;
-                font-size: 14px;
-                span {
-                    padding: 0 10px;
-                }
-                .movetoregister {
-                    color: #fb0505;
-                    cursor: pointer;
-                }
-            }
+        .form-control {
+          height: 35px;
+          line-height: 35px;
+          font-size: 14px;
+          color: #666;
+          border: 1px solid #ddd;
+          border-radius: 2px;
+          width: 270px;
+          padding: 0 12px;
         }
+        .input-group-addon {
+          img {
+          }
+        }
+        .text-danger {
+          height: 30px;
+          line-height: 30px;
+          margin-top: 10px;
+          label {
+            font-size: 13px;
+            width: 123px;
+            padding: 0;
+            color: #f07;
+          }
+        }
+      }
+      .sure {
+        label {
+          display: inline-block;
+          max-width: 100%;
+          margin-bottom: 5px;
+          .form-check-input {
+            margin-right: 8px;
+
+            font-size: 12px;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+          }
+        }
+      }
+      .warn {
+        color: #f07;
+        padding: 7px;
+      }
+      .butn {
+        text-align: center;
+        button {
+          height: 38px;
+          width: 270px;
+          line-height: 38px;
+          background-color: #58b59d;
+          font-size: 16px;
+          border-radius: 2px;
+          color: #fff;
+        }
+      }
+      .goregister {
+        height: 38px;
+        line-height: 38px;
+        font-size: 14px;
+        span {
+          padding: 0 10px;
+        }
+        .movetoregister {
+          color: #fb0505;
+          cursor: pointer;
+        }
+      }
     }
+  }
 }
 </style>
