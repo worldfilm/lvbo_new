@@ -10,11 +10,15 @@ const config = {
     timeout: 30000
 }
 
-let cancel, promiseArr = {}
+let cancel, promiseArr = {},
+    api_token = sessionStorage.getItem('TOKEN_KEY')
 axios.defaults.baseURL = config.baseURL
 axios.defaults.timeout = config.timeout
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+if (api_token) {
+    axios.defaults.headers.api_token = api_token
+}
 // axios.defaults.headers['Access-Control-Allow-Origin'] = '*'
 
 // 请求拦截器
@@ -81,4 +85,10 @@ http.all = (...params) => {
     })
 }
 
-export default http
+const install = Vue => {
+    Vue.prototype.$http = http
+}
+
+export default {
+    install
+}

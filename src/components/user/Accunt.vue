@@ -1,6 +1,6 @@
 <template>
 <div class="accunt">
-  <div class="accountInfo">
+  <div class="accountInfo clearfix">
     <div class="account-left">
       <p class="account-title">账户余额:</p>
       <p>
@@ -20,26 +20,26 @@
       <p class="account-title">
         <span>账户充值</span>
         <i class="fas fa-exclamation-circle" v-on:mouseenter="dataDetails($parent.$index)" v-on:mouseleave="hiddenDetail($parent.$index)"></i>
-        <span class="info">充值满100返5%,满500返8%,满800返12%</span>
+        <!-- <span class="info">充值满100返5%,满500返8%,满800返12%</span> -->
       </p>
-      <div class="accountInfo-hide" v-show='ShowInfo'><span>1元可购买100积分或10钻石，积分可以用来下载视频，钻石可在直播频道打赏主播。</span></div>
+      <!-- <div class="accountInfo-hide" v-show='ShowInfo'><span>1元可购买100积分或10钻石，积分可以用来下载视频，钻石可在直播频道打赏主播。</span></div> -->
       <p class="recharge-detail">
-        <span v-for="(item,index) in list" :key="index" v-text='item.name' @click="selectmoney(item.num,index)" :class="{active:index == number}"></span>
-        <input type="text" placeholder="自定义" v-model="obj.moneytext" maxlength=13>
-        <button type="button" class="up" @click="btnup"><i class="fas fa-caret-up"></i></button>
-        <button type="button" class="down" @click="btndown"><i class="fas fa-caret-down"></i></button>
+        <span v-for="(item,index) in chargeList" :key="index" @click="selectmoney(item.money,item.id)" :class="{active:amount === item.money}">{{parseInt(item.money)}}元</span>
+        <!-- <span class="custom-amount">
+          <input type="text" placeholder="自定义金额" v-model="amount" maxlength=13>
+          <button type="button" class="up" @click="btnup"><i class="fas fa-caret-up"></i></button>
+          <button type="button" class="down" @click="btndown"><i class="fas fa-caret-down"></i></button>
+        </span> -->
       </p>
       <p class="payment-way">
-        <el-radio v-model="payType" :label="0">
-          <img src="/static/zhifubao.png" class="pay-icon" alt="">
-        </el-radio>
-        <el-radio v-model="payType" :label="1">
-          <img src="/static/weixin.png" class="pay-icon" alt="">
+        <el-radio v-for="(item, index) in payChannelList" :key="index" v-model="payType" :label="item.method">
+          <!-- <img src="/static/zhifubao.png" class="pay-icon" alt=""> -->
+          {{item.name}}
         </el-radio>
       </p>
       <p class="btn-p">
-        <button class="button-pay" @click='pay'>立即充值</button>
-        <span class="span-score" v-text="integraltext"></span><span>积分/</span>
+        <button class="button-pay" @click="pay">立即充值</button>
+        <!-- <span class="span-score" v-text="integraltext"></span><span>积分/</span> -->
         <span class="span-diamond" v-text="diamondtext"></span><span>钻石</span>
       </p>
     </div>
@@ -58,33 +58,24 @@ import payContain from "@/components/user/payContain.vue";
 import PaySuccess from "@/components/Alert/PaySuccess.vue";
 // var i = 0
 export default {
+  components: {
+    Payicons,
+    Paypackge,
+    payContain,
+    PaySuccess
+  },
   data() {
     return {
-      list: [
-        {
-          name: "10元",
-          num: "10"
-        },
-        {
-          name: "50元",
-          num: "50"
-        },
-        {
-          name: "100元",
-          num: "100"
-        },
-        {
-          name: "150元",
-          num: "150"
-        },
-        {
-          name: "300元",
-          num: "300"
-        }
-      ],
-      payType: 0, // 支付方式
-      integraltext: "1000",
-      diamondtext: "100",
+      // 充值金额列表
+      chargeList: [],
+      // 付款渠道列表
+      payChannelList: [],
+      // 支付方式
+      payType: 0,
+      // 充值金额
+      amount: 0,
+      // 充值金额ID
+      amountId: null,
       ShowInfo: false,
       zhifubao: true,
       weixin: false,
@@ -92,14 +83,25 @@ export default {
       pick: null,
       ShowpayContain: false,
       ShowPaySuccess: false,
-      number: "0",
-      obj: {
-        moneytext: "10"
-      }
     };
   },
-
+  computed: {
+    // integraltext() {
+    //   return 1000;
+    // },
+    diamondtext() {
+      return parseInt(this.amount);
+    }
+  },
   methods: {
+    getPayList() {
+      this.$http.get("/api/pay/payList").then(res => {
+        if (res.status === 0) {
+          this.chargeList = res.data.rechargeList;
+          this.payChannelList = res.data.channelList;
+        }
+      });
+    },
     order() {
       Hub.$emit("component", "Oder");
     },
@@ -113,24 +115,22 @@ export default {
       var i = 0;
       i += 10;
       this.obj.moneytext = parseInt(this.obj.moneytext) + i;
-      this.integraltext = 1000 + i;
-      this.diamondtext = 100 + i;
     },
     btndown() {
       var i = 0;
-      if (
-        parseInt(this.obj.moneytext) < 10 &&
-        parseInt(this.obj.moneytext) > 0
-      ) {
-        this.obj.moneytext = 0;
-      }
+      // if (
+      //   parseInt(this.obj.moneytext) < 10 &&
+      //   parseInt(this.obj.moneytext) > 0
+      // ) {
+      //   this.obj.moneytext = 0;
+      // }
 
-      if (parseInt(this.obj.moneytext) > 9) {
-        i += 10;
-        this.obj.moneytext = parseInt(this.obj.moneytext) - i;
-        this.integraltext = this.integraltext - 10;
-        this.diamondtext = this.diamondtext - 10;
-      }
+      // if (parseInt(this.obj.moneytext) > 9) {
+      //   i += 10;
+      //   this.obj.moneytext = parseInt(this.obj.moneytext) - i;
+      //   this.integraltext = this.integraltext - 10;
+      //   this.diamondtext = this.diamondtext - 10;
+      // }
     },
     dataDetails(e) {
       this.ShowInfo = true;
@@ -138,32 +138,36 @@ export default {
     hiddenDetail(e) {
       this.ShowInfo = false;
     },
-    zhifubaoc() {
-      this.zhifubao = true;
-      this.weixin = false;
-    },
-    weixinc() {
-      this.zhifubao = false;
-      this.weixin = true;
-    },
     pay() {
-      console.log("checked=" + this.checked + ",pick=" + this.pick);
-      if (this.zhifubao) {
-        console.log("zhifubao+", true);
+      if(!this.amount) {
+        this.$alert('请选择充值金额')
+        return false;
       }
-      if (this.weixin) {
-        console.log("weixin+", true);
+      if(!this.payType) {
+        this.$alert('请选择充值方式')
+        return false;
       }
-      this.ShowPaySuccess = true;
+      let params = {
+        pay_method: this.payType,
+        id: this.amountId,
+        money: this.amount
+      };
+      this.$http.get("/api/pay/pay", params).then(res => {
+        if (res.status === 0) {
+          location.href = res.data.result
+        } else {
+          this.$message(res.message);
+        }
+      });
     },
-    selectmoney(e, index) {
-      console.log(e);
-      this.number = index;
-      this.obj.moneytext = e;
-      Hub.$emit("paymoney", this.obj.moneytext);
+    selectmoney(amount, id) {
+      this.amount = amount;
+      this.amountId = id;
+      // Hub.$emit("paymoney", this.obj.moneytext);
     }
   },
   created() {
+    this.getPayList();
     Hub.$on("PayDialog", data => {
       this.ShowpayContain = data;
     });
@@ -172,24 +176,18 @@ export default {
     });
   },
   watch: {
-    obj: {
-      handler(newName, oldName) {
-        this.integraltext = this.obj.moneytext * 100;
-        this.diamondtext = this.obj.moneytext * 10;
-        if (parseInt(this.obj.moneytext) < 0) {
-          this.integraltext = 0;
-          this.diamondtext = 0;
-        }
-      },
-      immediate: true,
-      deep: true
-    }
-  },
-  components: {
-    Payicons,
-    Paypackge,
-    payContain,
-    PaySuccess
+    // obj: {
+    //   handler(newName, oldName) {
+    //     this.integraltext = this.obj.moneytext * 100;
+    //     this.diamondtext = this.obj.moneytext * 10;
+    //     if (parseInt(this.obj.moneytext) < 0) {
+    //       this.integraltext = 0;
+    //       this.diamondtext = 0;
+    //     }
+    //   },
+    //   immediate: true,
+    //   deep: true
+    // }
   }
 };
 </script>
@@ -202,7 +200,6 @@ export default {
   min-height: 600px;
   .accountInfo {
     width: 100%;
-    height: 225px;
     border: 1px solid #ddd;
     margin-bottom: 30px;
     .account-left {
@@ -240,7 +237,6 @@ export default {
     }
     .account-right {
       float: left;
-      height: 180px;
       padding: 23px;
       .account-title {
         text-align: left;
@@ -268,7 +264,6 @@ export default {
         padding: 10px 20px;
       }
       .recharge-detail {
-        position: relative;
         .active {
           border: 1px solid #58b59d;
           background: url("/static/selected.png") no-repeat 38px 17px;
@@ -284,36 +279,47 @@ export default {
           cursor: pointer;
           top: 3px;
         }
-        input {
-          display: inline-block;
-          width: 81px;
+        .custom-amount {
+          position: relative;
+          width: 150px;
           height: 32px;
-          text-align: left;
-          padding-left: 5px;
-        }
-        button {
           display: inline-block;
-          position: absolute;
-          cursor: pointer;
-          height: 17px;
-          right: 1px;
-          i {
-            width: 20px;
-            height: 20px;
+          input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 125px;
+            height: 30px;
+            border: 0;
+            text-align: left;
+            padding-left: 5px;
+            background: transparent;
           }
-        }
-        .up {
-          right: 1px;
-          top: 4px;
-        }
-        .down {
-          right: 1px;
-          top: 21px;
+
+          button {
+            display: inline-block;
+            position: absolute;
+            cursor: pointer;
+            height: 17px;
+            right: 1px;
+            i {
+              width: 20px;
+              height: 20px;
+            }
+          }
+          .up {
+            right: 0px;
+            top: 0px;
+          }
+          .down {
+            right: 0px;
+            bottom: 0;
+          }
         }
       }
       p {
         text-align: left;
-        height: 40px;
+        // height: 40px;
         line-height: 40px;
         overflow: hidden;
         max-width: 499px;

@@ -58,7 +58,6 @@ import Hub from "@/components/Hub";
 import Pagination from "@/components/Pagination"; //分页
 import AdvertisHome from "@/components/AdvertisHome";
 import { network } from "@/config/config";
-import http from "@/config/http.js";
 export default {
   data() {
     return {
@@ -95,7 +94,7 @@ export default {
   },
   methods: {
     getList(params, fn) {
-      http.get("/api/video/list/all", params).then(res => {
+      this.$http.get("/api/video/list/all", params).then(res => {
         if (res.status === 0 && res.data.list) {
           fn && fn(res);
         }
