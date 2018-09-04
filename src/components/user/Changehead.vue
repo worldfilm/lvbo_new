@@ -66,7 +66,8 @@ export default {
       let imgsrc = sessionStorage.getItem('imgsrc')
       this.imgsrc = imgsrc
       let api_token = sessionStorage.getItem('TOKEN_KEY')
-      network('/api/head/list?api_token=' + api_token, null, data => {
+      let url = `/api/head/list?api_token=${api_token}?avatar=${this.imgUrl}`
+      network(url, null, data => {
         if (data.status == 0) {
           this.list = data.data
         }
