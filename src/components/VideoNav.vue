@@ -2,7 +2,7 @@
 <template>
 <div class="videonav">
   <ul class="nav">
-    <li class="item" v-for='(item,index) in navlist' @click='videonav(item.name,index)' :class="{isactive:index == num}">{{item.name}}</li>
+    <li class="item" v-for='(item,index) in navlist' :key="index" @click='videonav(item.name,index)' :class="{isactive:index == num}">{{item.name}}</li>
   </ul>
 </div>
 </template>

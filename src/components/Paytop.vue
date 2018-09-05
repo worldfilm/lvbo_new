@@ -6,7 +6,7 @@
         <div class="top-left-title">V2会员特权</div>
         <div class="top-left-desc">
           <ul>
-            <li v-for='item in list' v-text='item.text'>海量激情自拍,免费下载到本地;</li>
+            <li v-for='(item, index) in list' v-text='item.text' :key="index">海量激情自拍,免费下载到本地;</li>
           </ul>
         </div>
       </div>

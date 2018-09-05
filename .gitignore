@@ -4,3 +4,4 @@ node_modules/
 .idea/
 webpack.config.js
 package-lock.json
+dist/
