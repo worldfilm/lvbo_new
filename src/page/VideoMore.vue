@@ -1,65 +1,87 @@
 <template>
-<div class="VideoMore">
-<AdvertisHome v-show="ShowAdvertisHome"/>
-  <div class="morevideo-left">
-    <p class="videos-title">
-      <i class="fas fa-newspaper"></i>
-      <span class='title_span'>全部视频<span v-if="videoTag || videoType" style="color:#f00;">（{{videoTag || videoType}}）</span></span>
-    </p>
-    <ul class="videos-cont">
-      <li v-for="(item,idx) in allVideoList" class="item" :key="idx" @click='openvideo(item)'>
-        <div class="img-box">
-          <img class="video-cover" :src="item.thumb_img_url">
-        </div>
-        <a class="hide">
-            <img src="/static/playbtn.png" alt="">
+  <div class="VideoMore">
+    <AdvertisHome v-show="ShowAdvertisHome" />
+    <div class="morevideo-left">
+      <p class="videos-title">
+        <i class="iconfont icon-01"></i>
+        <span class='title_span'>全部视频
+          <span v-if="videoTag || videoType" style="color:#f00;">（{{videoTag || videoType}}）</span>
+        </span>
+      </p>
+      <ul class="videos-cont">
+        <li v-for="(item,idx) in allVideoList" class="item" :key="idx">
+          <a :href="`http://wwwvideo.6fg645fsd.com/v/${item.id}`" target="_blank">
+            <div class="img-box">
+              <img class="video-cover" :src="item.thumb_img_url">
+            </div>
+            <a class="hide">
+              <img src="/static/playbtn.png" alt="">
+            </a>
+            <p class="title" v-text='item.title'></p>
+            <p class="v-mask-layer">
+              <span class="peoplenum">{{item.views}}</span>
+              <span>人观看</span>
+            </p>
           </a>
-        <p class="title" v-text='item.title'></p>
-        <p class="v-mask-layer"><span class="peoplenum">{{item.views}}</span><span>人观看</span> </p>
-      </li>
-    </ul>
-    <pagination :total-page-number="totalVideos" :current-number="curPage" :per-page-number="perPageNum"></pagination>
+        </li>
+      </ul>
+      <NotDate v-show='ShowNoData'/>
+      <pagination :total-page-number="totalVideos" :current-number="curPage" :per-page-number="perPageNum"></pagination>
+        <FavorVideoList v-show='showfavorlist'/>
+    </div>
+    <div class="morevideo-right">
+      <p class="videos-title">
+        <span class='title_span'>热门视频</span>
+      </p>
+      <ul class="videos-cont">
+        <li v-for="(item,idx) in hotVideoList" :key="idx" class="item">
+          <a :href="`http://wwwvideo.6fg645fsd.com/v/${item.id}`" target="_blank">
+            <div class="videonumber" v-text='idx+1'></div>
+            <img class="video-cover" :src="item.thumb_img_url">
+            <a class="hide">
+              <img src="/static/playbtn.png" alt="">
+            </a>
+            <p class="title" v-text='item.title'></p>
+            <p>
+              <span class="peoplenum">{{item.views}}</span>
+              <span>人观看</span>
+            </p>
+          </a>
+        </li>
+      </ul>
+      <p class="videos-title">
+        <span class='title_span'>最新视频</span>
+      </p>
+      <ul class="videos-cont">
+        <li v-for="(item,idx) in newVideoList" :key="item.id" class="item">
+          <a :href="`http://wwwvideo.6fg645fsd.com/v/${item.id}`" target="_blank">
+            <div class="videonumber"> {{idx+1}} </div>
+            <img class="video-cover" :src="item.thumb_img_url">
+            <a class="hide">
+              <img src="/static/playbtn.png" alt="">
+            </a>
+            <p class="title" v-text='item.title'></p>
+            <p>
+              <span class="peoplenum">{{item.views}}</span>
+              <span>人观看</span>
+            </p>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <v-loading v-show="showLoading"></v-loading>
   </div>
-  <div class="morevideo-right">
-    <p class="videos-title">
-      <span class='title_span'>热门视频</span>
-    </p>
-    <ul class="videos-cont">
-      <li v-for="(item,idx) in hotVideoList" :key="idx" class="item" @click='openvideo(item)'>
-        <div class="videonumber" v-text='idx+1'></div>
-        <img class="video-cover" :src="item.thumb_img_url">
-        <a class="hide">
-            <img src="/static/playbtn.png" alt="">
-        </a>
-        <p class="title" v-text='item.title'></p>
-        <p><span class="peoplenum">{{item.views}}</span><span>人观看</span> </p>
-      </li>
-    </ul>
-    <p class="videos-title">
-      <span class='title_span'>最新视频</span>
-    </p>
-    <ul class="videos-cont">
-      <li v-for="(item,idx) in newVideoList" :key="idx" class="item" @click='openvideo(item)'>
-        <div class="videonumber"> {{idx+1}} </div>
-        <img class="video-cover" :src="item.thumb_img_url">
-        <a class="hide">
-            <img src="/static/playbtn.png" alt="">
-        </a>
-        <p class="title" v-text='item.title'></p>
-        <p><span class="peoplenum">{{item.views}}</span><span>人观看</span> </p>
-      </li>
-    </ul>
-  </div>
-  <v-loading v-show="showLoading"></v-loading>
-</div>
 </template>
 <script>
 import Hub from "@/components/Hub";
 import Pagination from "@/components/Pagination"; //分页
 import AdvertisHome from "@/components/AdvertisHome";
+import FavorVideoList from "@/components/videolist/FavorVideoList";
+import NotDate from "@/components/NotDate";
 export default {
   data() {
     return {
+      ShowNoData:false,
       allVideoList: [],
       hotVideoList: [],
       newVideoList: [],
@@ -69,7 +91,8 @@ export default {
       totalVideos: 0,
       perPageNum: 28,
       curPage: 1,
-      showLoading: false
+      showLoading: false,
+      showfavorlist:false,
     };
   },
   computed: {
@@ -85,7 +108,7 @@ export default {
   },
   watch: {
     videoTag() {
-      this.curPage = 1;
+      // this.curPage = 1;
       this.getlistByTag();
     },
     curPage() {
@@ -93,6 +116,22 @@ export default {
     }
   },
   methods: {
+    // 猜你喜欢
+    favor(){
+      let params = {
+        tag: this.videoTag,
+        category_id: this.categoryId,
+        page_size: this.perPageNum,
+        page: this.curPage
+      };
+       this.$http.get('api/video/list/favor').then(res => {
+         if (res.status === 0) {
+           this.showfavorlist=true
+           this.ShowNoData=true
+          this.favorlist=res.data.list
+         }
+       });
+     },
     getList(params, fn) {
       this.showLoading = true;
       this.$http.get("/api/video/list/all", params).then(res => {
@@ -112,6 +151,9 @@ export default {
       this.getList(params, res => {
         this.allVideoList = res.data.list;
         this.totalVideos = res.data.page.totalVideo;
+        if(res.data.list.length<1){
+          this.favor();
+        }
       });
     },
     getlistBySort(sort) {
@@ -137,7 +179,7 @@ export default {
     this.getlistBySort("views");
     this.getlistBySort("news");
   },
-  components: { Pagination, AdvertisHome }
+  components: { Pagination, AdvertisHome,FavorVideoList,NotDate }
 };
 </script>
 
@@ -192,6 +234,9 @@ export default {
       cursor: pointer;
       .title:hover {
         color: #f07;
+      }
+      & > a {
+        color: #333;
       }
       p {
         padding-left: 5px;
@@ -284,6 +329,9 @@ export default {
       .title:hover {
         color: #f07;
       }
+      & > a {
+        color: #333;
+      }
       p {
         text-overflow: ellipsis;
         overflow: hidden;
@@ -295,7 +343,7 @@ export default {
       }
       img {
         position: relative;
-        width: 220px;
+        width: 184px;
         height: 113px;
         float: left;
       }
@@ -354,7 +402,7 @@ export default {
       width: 46px;
       height: 40px;
       position: relative;
-      right: 220px;
+      right: 184px;
       text-align: left;
       line-height: 27px;
       padding-left: 12px;

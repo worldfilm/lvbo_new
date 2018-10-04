@@ -1,21 +1,21 @@
 <!-- 分页 -->
 <template>
-<div class="Pagination">
-  <div class="content">
-    <span @click="goFirst">首页</span>
-    <button @click="prev" :disabled="preDisabled" :class="{disabled: preDisabled}">
-      <i class="fas fa-caret-left"></i>
-    </button>
-    <ul>
-      <li v-for="(n, index) in numberList" :key="index" :class="{active: n-0 === curNum}" @click="goPage(n)">{{n}}</li>
-    </ul>
-    <button @click="next" :disabled="nextDisabled" :class="{disabled: nextDisabled}">
-      <i class="fas fa-caret-right"></i>
-    </button>
-    <span @click="goLast">尾页</span>
-    前往 <input type="text" v-model="toNum" @blur="curNum = toNum - 0" class="num-box"> 页
+  <div class="Pagination">
+    <div class="content">
+      <span @click="goFirst">首页</span>
+      <button @click="prev" :disabled="preDisabled" :class="{disabled: preDisabled}">
+        <i class="iconfont icon-zuo"></i>
+      </button>
+      <ul>
+        <li v-for="(n, index) in numberList" :key="index" :class="{active: n-0 === curNum}" @click="goPage(n)">{{n}}</li>
+      </ul>
+      <button @click="next" :disabled="nextDisabled" :class="{disabled: nextDisabled}">
+        <i class="iconfont icon-you"></i>
+      </button>
+      <span @click="goLast">尾页</span>
+      前往 <input type="text" v-model="toNum" @blur="curNum = toNum - 0" class="num-box"> 页
   </div>
-</div>
+    </div>
 </template>
 <script>
 export default {
@@ -91,6 +91,9 @@ export default {
   watch: {
     curNum(newVal) {
       this.$parent.curPage = newVal;
+    },
+    totalPageNumber(newVal){
+      this.curNum = 1
     }
   },
   methods: {

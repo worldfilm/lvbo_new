@@ -2,7 +2,7 @@
 <template>
 <div class="maskernav">
   <div class="container">
-    <p class="title"><span>标签</span> <i class="close fas fa-times" @click='closed'></i></p>
+    <p class="title"><span>标签</span> <i class="close iconfont icon-guanbi" @click='closed'></i></p>
     <div class="navlist" v-for='(item, index) in navlist' :key="index">
       <p class="navtitle" v-text='item.title'></p>
       <ul>
@@ -50,7 +50,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    z-index:10;
+    z-index:15;
     overflow: auto;
     .container {
       width: 780px;
@@ -111,31 +111,3 @@ export default {
     }
 }
 </style>
-<!-- {
-    title: '地区',
-    list: ['日本', '大陆', '欧美', '非洲', '韩国', '亚太']
-  },
-  {
-    title: '动作',
-    list: ['69式', '后入式', '女上位', '打飞机', '深喉', '自慰', '肛交', '口爆', '潮吹', '无套内射', '吹萧', '手淫']
-  },
-  {
-    title: '部位',
-    list: ['巨乳', '平胸', '馒头', '黑木耳', '大屁股', '大公鸡', '蝴蝶逼', '巨根']
-  },
-  {
-    title: '癖好',
-    list: ['叫床', '3P', 'SM', '毒龙', '换妻', '恋足', '调教', '异装癖', '人妖', '捆绑', '鞭打', '偷窥', '自拍']
-  },
-  {
-    title: '场景',
-    list: ['KTV', '酒店', '车震', '公共厕所', '办公室', '客厅', '野外', '游泳池', '楼梯口', '教室']
-  },
-  {
-    title: '角色',
-    list: ['护士', '学生', '空姐', '小姐', '警察', '老师', '少妇', '秘书', '女仆', '人妻', '熟女', '新娘', '保姆', '嫩模']
-  },
-  {
-    title: '道具',
-    list: ['丝袜', '蕾丝', '假鸡巴', '跳蛋', '自慰棒', '眼罩', '丁字裤', '皮便', '手铐']
-  } -->

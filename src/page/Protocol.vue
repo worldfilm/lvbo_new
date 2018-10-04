@@ -466,7 +466,7 @@
           </div>
         </div>
         <div class="v-registrantion-btn">
-          <a href="/" class="btn">关闭本页 </a>
+          <a href="#/Register" class="btn">关闭本页 </a>
         </div>
       </div>
     </div>

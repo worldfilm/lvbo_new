@@ -1,6 +1,8 @@
 <template>
 <div class="home">
   <AdvertisHome v-show="ShowAdvertisHome"/>
+  <AdvertisRWM v-show='ShowAdvertisRWM'/>
+  <FloatAD/>
   <!-- <ZhiboList/> -->
   <VideoList/>
   <Barrage v-show="barrage"/>
@@ -11,6 +13,8 @@
 import Hub from "@/components/Hub";
 import Barrage from "@/components/Alert/Barrage";
 import AdvertisHome from "@/components/AdvertisHome";
+import AdvertisRWM from "@/components/AdvertisRWM";
+import FloatAD from "@/components/FloatAD";
 // import ZhiboList from '@/components/videolist/ZhiboList';
 import VideoList from "@/components/videolist/VideoList";
 
@@ -18,7 +22,8 @@ export default {
   data() {
     return {
       barrage: true,
-      ShowAdvertisHome: true
+      ShowAdvertisHome: true,
+      ShowAdvertisRWM:true,
     };
   },
   methods: {
@@ -39,11 +44,11 @@ export default {
     } else {
       this.barrage = false;
     }
-    this.$http.get("/api/category/list").then(data => {
-      this.list = data.data.list;
-    });
+    // this.$http.get("/api/category/list").then(data => {
+    //   this.list = data.data.list;
+    // });
   },
-  components: { VideoList, Barrage, AdvertisHome }
+  components: { VideoList, Barrage, AdvertisHome,AdvertisRWM, FloatAD,}
 };
 </script>
 

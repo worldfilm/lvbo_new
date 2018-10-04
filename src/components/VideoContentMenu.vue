@@ -10,7 +10,7 @@
       <button type="button" name="button">高速通道1</button>
     </li>
     <li>
-      <p><i class="fas fa-download"></i>下载</p>
+      <p><i class="iconfont icon-ziyuan"></i>下载</p>
       <button type="button" name="button">高速通道2</button>
     </li>
     <li>

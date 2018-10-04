@@ -9,8 +9,12 @@ import {
   Message,
   MessageBox,
   DatePicker,
-  Tag
+  Tag,
+  Steps,
+  Step
 } from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css'
+import './assets/iconfont/iconfont.css'
 import http from './utils/http.js'
 import loading from './components/loading.vue'
 
@@ -28,6 +32,8 @@ Vue.use(Button)
 Vue.use(Switch)
 Vue.use(DatePicker)
 Vue.use(Tag)
+Vue.component('el-steps', Steps)
+Vue.component('el-step', Step)
 Vue.component('v-loading', loading)
 Vue.config.productionTip = false
 

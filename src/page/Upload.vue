@@ -2,7 +2,7 @@
 <div class="Upload">
   <p class="titlee"><span>上传视频</span> </p>
   <div class="content">
-    <p class="info"><i class="fas fa-cloud-upload-alt"></i><span>点击"上传"，既表示您同意服务条款，并且您愿意提供任何信息的要求。</span></p>
+    <p class="info"><i class="iconfont icon-ziyuan"></i><span>点击"上传"，既表示您同意服务条款，并且您愿意提供任何信息的要求。</span></p>
     <p>
       <span class="title">标题</span>
       <input maxlength="78" type="text" placeholder="视频标题" class="titletex" v-model='titletex'>
@@ -42,7 +42,7 @@
     </p>
     <!-- <p class="infotext"></p> -->
     <p class="surep">
-      <button type="button" name="button" :disabled='changedisable' class="sureupload" @click='surebtn'>确认上传</button>
+      <button type="button" name="button" :disabled='changedisable' :class="sureupload" @click='surebtn'>确认上传</button>
     </p>
   </div>
   <AlertMsg v-show='ShowUmsg'/>
@@ -61,12 +61,17 @@ export default {
       tags: [],
       tagsName: [],
       videoUrl: null,
-      uploadUrl:
-        "http://192.168.0.106/video_web/public/api/video/upload?api_token=",
+      successUpLoadVideo:false,
+      uploadUrl:null,//上传链接地址
       sendingtext: null,
       titletex: null,
       textareatex: null,
-      changedisable: false,
+      isText:false,
+      isUpload:false,
+      isTextare:false,
+      isTags:false,
+      changedisable: true,
+      sureupload:'dissureupload',
       api_token: sessionStorage.getItem("TOKEN_KEY"),
       filename: null,
       id: "xx",
@@ -81,14 +86,35 @@ export default {
   },
   methods: {
     success(response) {
-      this.videoUrl = response.data.video_url;
+      if(response.message=="请先登录"){
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("TOKEN_KEY");
+        sessionStorage.removeItem("is_set_pay");
+        sessionStorage.removeItem("salt");
+        sessionStorage.removeItem("imgsrc");
+        sessionStorage.removeItem("psw");
+        this.$message({
+          message: '帐号在其他设备或者不同浏览器登录，请重新登录',
+          type: 'success'
+        })
+        setTimeout(() => {
+          this.$router.push({
+            path: "/Logoin"
+          });
+        }, 3000);
+      }
+      if(response.status==0){
+        this.successUpLoadVideo=true
+        this.videoUrl = response.data.video_url;
+      }
     },
     maskerc() {
       this.showMask = true;
     },
     // 添加文件
     addfile() {
-      console.log(this.$refs.upload);
+      // console.log(this.$refs.upload);
     },
     //上传到服务器
     submitUpload() {
@@ -100,30 +126,39 @@ export default {
     },
     // 确认上传
     surebtn() {
-      let api_token = sessionStorage.getItem("TOKEN_KEY");
-      let params = {
-        title: this.titletex,
-        description: this.textareatex,
-        tags: this.tags,
-        is_anonymous: Number(this.isAnonymous),
-        video_url: this.videoUrl
-      };
-      this.$http.post("/api/video/addMyVideo", params).then(data => {
-        if (data.status == 0) {
-          Hub.$emit("changMsg", "上传成功!");
-          this.ShowUmsg = true;
-          setTimeout(() => {
-            this.ShowUmsg = false;
-          }, 1000);
-        } else {
-          let msg = data.message;
-          Hub.$emit("changMsg", msg);
-          this.ShowUmsg = true;
-          setTimeout(() => {
-            this.ShowUmsg = false;
-          }, 1000);
-        }
-      });
+      if(this.titletex&&this.textareatex&&this.videoUrl){
+        let api_token = sessionStorage.getItem("TOKEN_KEY");
+        let params = {
+          title: this.titletex,
+          description: this.textareatex,
+          tags: this.tags,
+          is_anonymous: Number(this.isAnonymous),
+          video_url: this.videoUrl,
+          api_token:api_token
+        };
+        this.$http.post("/api/video/addMyVideo", params).then(data => {
+          if (data.status == 0) {
+            Hub.$emit("changMsg", "上传成功!");
+            this.ShowUmsg = true;
+            setTimeout(() => {
+              this.ShowUmsg = false;
+            }, 1000);
+          } else {
+            let msg = data.message;
+            Hub.$emit("changMsg", msg);
+            this.ShowUmsg = true;
+            setTimeout(() => {
+              this.ShowUmsg = false;
+            }, 1000);
+          }
+        });
+      }else{
+        this.ShowUmsg = true;
+        Hub.$emit("changMsg","上传视频信息不完整，请检查");
+        setTimeout(() => {
+          this.ShowUmsg = false;
+        }, 1000);
+      }
     },
     tageclosed(index) {
       this.tagsName.splice(index, 1);
@@ -146,7 +181,13 @@ export default {
     },
     closeMask() {
       this.showMask = false;
-    }
+    },
+    checkInfo(){
+      if(this.isText&&this.isTextare&&this.isUpload&&this.isTags){
+        this.changedisable=false
+        this.sureupload='sureupload'
+      }
+    },
   },
   mounted() {
     this.$refs.upload.clearFiles();
@@ -154,25 +195,39 @@ export default {
   components: { AlertMsg, MaskerNav },
   created() {
     let api_token = sessionStorage.getItem("TOKEN_KEY");
-    this.uploadUrl =
-      "http://192.168.0.106/video_web/public/api/video/upload?api_token=" +
-      api_token;
-    let username = sessionStorage.getItem("username");
-    if (!username) {
+    this.uploadUrl="http://webvideo.6fg645fsd.com/api/video/upload?api_token="+api_token
+    if(!api_token){
       this.$router.push({
         path: "/Logoin"
       });
     }
-    let arr = "";
-    // Hub.$on("sendingnamee", (data, id) => {
-    //   if (this.tags.indexOf(id) > -1) {
-    //     this.$alert("重复标签");
-    //     return;
-    //   }
-    //   this.tags.push(id);
-    //   this.tagsName.push(data);
-    // });
-  }
+  },
+  watch: {
+    titletex: function(curVal,oldVal){
+        if(curVal){
+          this.isText=true
+        }
+      this.checkInfo()
+    },
+    textareatex: function(curVal,oldVal){
+        if(curVal){
+          this.isTextare=true
+        }
+        this.checkInfo()
+    },
+    successUpLoadVideo: function(curVal,oldVal){
+        if(curVal){
+          this.isUpload=true
+        }
+        this.checkInfo()
+    },
+    tags: function(curVal,oldVal){
+        if(curVal){
+          this.isTags=true
+        }
+        this.checkInfo()
+    },
+  },
 };
 </script>
 
@@ -241,7 +296,13 @@ export default {
         height: 39px;
         font-size: 16px;
       }
-
+      .dissureupload {
+        width: 200px;
+        height: 39px;
+        font-size: 16px;
+        background: #b4b6bb;
+        cursor:not-allowed;
+      }
       span.title {
         font-size: 12px;
         padding: 5px;

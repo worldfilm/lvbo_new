@@ -48,7 +48,6 @@ export default {
       this.checkuser()
     },
     checkuser(){
-      console.log('xxxxxsssss')
       let username=sessionStorage.getItem('username')
       if(username){
         this.ShowOnline=true

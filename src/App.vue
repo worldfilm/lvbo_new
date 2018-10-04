@@ -21,13 +21,14 @@ export default {
   methods: {},
   props: [],
   created() {
-    Hub.$on("home", data => {
-      if (data) {
-        this.$router.push({
-          path: "/Home"
-        });
-      }
-    });
+    // Hub.$on("home", data => {
+    //   debugger
+    //   if (data) {
+    //     this.$router.push({
+    //       path: "/Home"
+    //     });
+    //   }
+    // });
     // Hub.$on('change1', (data) => {});
     // Hub.$on('change2', (data) => {});
   }
@@ -103,5 +104,15 @@ body {
 
 .el-radio__input.is-checked+.el-radio__label{
   color: #58b49d;
+}
+.el-step__title.is-process{
+  color: #58b59d;
+}
+.el-step__title.is-success {
+    color: #58b59d;
+}
+.el-step__head.is-success {
+    color: #58b59d;
+    border-color: #58b59d;
 }
 </style>

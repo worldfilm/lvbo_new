@@ -3,8 +3,8 @@
 <div class="PaySuccess">
   <div class="PaySuccess-container">
     <div class="title">
-      <span class="l"><i class="fas fa-exclamation-circle"></i>消息提示</span>
-      <span class="r" @click='closed'><i class="fas fa-times"></i></span>
+      <span class="l"><i class="icon icon-tishi"></i>消息提示</span>
+      <span class="r" @click='closed'><i class="iconfont icon-guanbi"></i></span>
     </div>
     <div class="content">
       <p>若充值成功，请刷新界面!</p>

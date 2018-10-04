@@ -117,7 +117,7 @@ export default {
       width: 100%;
       height: 100%;
       position: relative;
-      padding-top: 35px;
+      padding-top: 15px;
       &:hover {
         @extend .actived;
       }
@@ -251,4 +251,3 @@ export default {
   }
 }
 </style>
-

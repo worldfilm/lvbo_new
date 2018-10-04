@@ -1,5 +1,7 @@
 <template>
+<div class="">
 
+</div>
 </template>
 <script>
 import Hub from '@/components/Hub';

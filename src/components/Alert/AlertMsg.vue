@@ -3,8 +3,8 @@
 <div class="AlertMsg">
   <div class="AlertMsg-container">
     <div class="title">
-      <span class="l"><i class="fas fa-exclamation-circle"></i>消息提示</span>
-      <span class="r" @click='closed'><i class="fas fa-times"></i></span>
+      <span class="l"><i class="iconfont icon-tishi"></i>消息提示</span>
+      <span class="r" @click='closed'><i class="iconfont icon-guanbi"></i></span>
     </div>
     <div class="content">
       <p v-text='msg'></p>
@@ -24,6 +24,8 @@ export default {
     closed() {
       Hub.$emit('PaySuccessClosed', false);
       Hub.$emit('ShowOk', false);
+      Hub.$emit('closedShowForgetPSW', false);
+      Hub.$emit('ShowAlertE', false);
     },
   },
   created() {

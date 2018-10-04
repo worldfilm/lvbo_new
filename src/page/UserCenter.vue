@@ -6,19 +6,19 @@
 </template>
 <script>
 import Hub from '@/components/Hub';
-import Accunt from '@/components/user/Accunt';
-import Favorite from '@/components/user/Favorite';
-import Info from '@/components/user/Info';
-import LeftMenu from '@/components/user/LeftMenu';
-import Safety from '@/components/user/Safety';
-import Video from '@/components/user/Video';
-import Oder from '@/components/user/Oder';
-import RedemptionCode from '@/components/user/RedemptionCode';
-import Transaction from '@/components/user/Transaction';
-import ChangeEmail from '@/components/user/ChangeEmail';
-import ChangePayPsw from '@/components/user/ChangePayPsw';
-import ChangePsw from '@/components/user/ChangePsw';
-import Changehead from '@/components/user/Changehead';
+// import Accunt from '@/page/user/Accunt';
+// import Favorite from '@/page/user/Favorite';
+// import Info from '@/page/user/Info';
+// import LeftMenu from '@/page/user/LeftMenu';
+// import Safety from '@/page/user/Safety';
+// import Video from '@/page/user/Video';
+// import Oder from '@/page/user/Oder';
+// import RedemptionCode from '@/page/user/RedemptionCode';
+// import Transaction from '@/page/user/Transaction';
+// import ChangeEmail from '@/page/user/ChangeEmail';
+// import ChangePayPsw from '@/page/user/ChangePayPsw';
+// import ChangePsw from '@/page/user/ChangePsw';
+// import Changehead from '@/page/user/Changehead';
 
 export default {
   data() {
@@ -28,19 +28,19 @@ export default {
     }
   },
   components: {
-    Accunt,
-    Favorite,
-    Info,
-    LeftMenu,
-    Safety,
-    Video,
-    Oder,
-    RedemptionCode,
-    Transaction,
-    ChangeEmail,
-    ChangePayPsw,
-    ChangePsw,
-    Changehead,
+    // Accunt,
+    // Favorite,
+    // Info,
+    // LeftMenu,
+    // Safety,
+    // Video,
+    // Oder,
+    // RedemptionCode,
+    // Transaction,
+    // ChangeEmail,
+    // ChangePayPsw,
+    // ChangePsw,
+    // Changehead,
   },
   methods:{
   },

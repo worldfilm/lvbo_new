@@ -2,9 +2,12 @@
  * autor: Snake 2018.9.1
  * @ http请求
  */
+import router from '../router'
 import axios from 'axios'
 import qs from 'qs'
-
+import {
+  Message
+} from 'element-ui';
 const config = {
     baseURL: 'http://webvideo.6fg645fsd.com',
     timeout: 30000
@@ -23,7 +26,7 @@ if (api_token) {
 
 // 请求拦截器
 axios.interceptors.request.use(config => {
-    //发起请求时，取消掉当前正在进行的相同请求 
+    //发起请求时，取消掉当前正在进行的相同请求
     if (promiseArr[config.url]) {
         promiseArr[config.url]('操作取消')
         promiseArr[config.url] = cancel
@@ -58,6 +61,24 @@ http.get = (api = '', data = {}) => {
         axios.get(api, {
             params
         }).then(res => {
+          if(res.data.message=="请先登录"){
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("email");
+            sessionStorage.removeItem("TOKEN_KEY");
+            sessionStorage.removeItem("is_set_pay");
+            sessionStorage.removeItem("salt");
+            sessionStorage.removeItem("imgsrc");
+            sessionStorage.removeItem("psw");
+            Message({
+              message: '帐号在其他设备或者不同浏览器登录，请重新登录',
+              type: 'error'
+            })
+            setTimeout(() => {
+              router.push({
+                path: "/Logoin"
+              });
+            }, 3000);
+          }
             resolve(res.data)
         })
     })
@@ -68,6 +89,24 @@ http.post = (api = '', data = {}) => {
     let params = qs.stringify(data)
     return new Promise((resolve, reject) => {
         axios.post(api, params).then(res => {
+          if(res.data.message=="请先登录"){
+            sessionStorage.removeItem("username");
+            sessionStorage.removeItem("email");
+            sessionStorage.removeItem("TOKEN_KEY");
+            sessionStorage.removeItem("is_set_pay");
+            sessionStorage.removeItem("salt");
+            sessionStorage.removeItem("imgsrc");
+            sessionStorage.removeItem("psw");
+            Message({
+              message: '帐号在其他设备或者不同浏览器登录，请重新登录',
+              type: 'error'
+            })
+            setTimeout(() => {
+              router.push({
+                path: "/Logoin"
+              });
+            }, 3000);
+          }
             resolve(res.data)
         })
     })

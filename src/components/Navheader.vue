@@ -11,18 +11,18 @@
           <ul>
             <li @click='vipag'><a>VIP</a></li>
             <li @click='upload'><a>上传</a></li>
-            <li><a target="_blank">領紅包</a></li>
+            <li @click='advert'><a target="_blank">领红包</a></li>
             <li @click='maskerc'><a class="main-nav-tag">标签</a></li>
           </ul>
         </div>
       </div>
       <ul class="topnav-mainnav-right">
         <li class="xingyu-search">
-          <input type="text" class="form-control" name="title" placeholder="请输入关键字" v-model='KeyWord'>
-          <button type="button" name="button" @click='search'><i class="fas fa-search"></i></button>
+          <input type="text" class="form-control" name="title" placeholder="请输入关键字" v-model.trim='KeyWord'>
+          <button type="button" name="button" @click='search'><i class="iconfont icon-sousuo"></i></button>
         </li>
         <li class="top-main-nav-collection" @click='addBookmark'>
-          <i class="far fa-star"></i> <span>收藏书签</span>
+          <i class="iconfont icon-shoucang"></i> <span>收藏书签</span>
         </li>
 
         <li class="top-nav-guide" @click='networkadress'>
@@ -36,9 +36,9 @@
           <div v-show='ShowOnline' class="showonline">
             <span>欢迎</span>
             <span class="username" v-on:mouseenter="ShowUL($parent.$index)">{{username}}</span>
-            <i class="fas fa-chevron-circle-down hover"  v-on:mouseenter="ShowUL($parent.$index)"></i>
+            <i class="iconfont icon-selected hover" v-on:mouseenter="ShowUL($parent.$index)"></i>
             <ul class="userdeitllist" v-show="ulist" v-on:mouseenter="ShowUL($parent.$index)" v-on:mouseleave="HiddeUL($parent.$index)">
-              <li v-for='item in usercenterlist' @click="userpag(item.component)">{{item.name}}</li>
+              <li v-for='(item, index) in usercenterlist' :key="index" @click="userpag(item.component)">{{item.name}}</li>
             </ul>
             <span @click='logout' class="hover">退出</span>
           </div>
@@ -67,8 +67,7 @@ export default {
       ShowMask: false,
       KeyWord: null,
       sengdingname: null,
-      usercenterlist: [
-        {
+      usercenterlist: [{
           name: "我的账户",
           component: "Accunt"
         },
@@ -99,14 +98,17 @@ export default {
       this.ulist = false;
     },
     search() {
-      if (this.KeyWord == null) {
-      } else {
-        let tag = this.KeyWord;
-        this.$router.push({
-          path: "/VideoMore",
-          query: { tag }
-        });
+      let tag = this.KeyWord;
+      if (!tag) {
+        this.$alert("请输入关键字");
+        return;
       }
+      this.$router.push({
+        path: "/VideoMore",
+        query: {
+          tag
+        }
+      });
     },
     upload() {
       this.checkuser();
@@ -114,18 +116,20 @@ export default {
         path: "/Upload"
       });
     },
+    advert() {
+      this.$router.push({
+        path: "/Advert"
+      });
+    },
     networkadress() {
-      this.checkuser();
       this.$router.push({
         path: "/LineStation"
       });
     },
     maskerc() {
-      this.checkuser();
       this.ShowMask = true;
     },
     home() {
-      this.checkuser();
       this.$router.push({
         path: "/Home"
       });
@@ -148,24 +152,34 @@ export default {
       });
     },
     logout() {
-      this.$http.get('/api/user/loginout').then(data => {
+      let api_token = sessionStorage.getItem('TOKEN_KEY')
+      this.$http.get("/api/user/loginout?api_token=" + api_token).then(data => {
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("TOKEN_KEY");
+        sessionStorage.removeItem("is_set_pay");
+        sessionStorage.removeItem("salt");
+        sessionStorage.removeItem("imgsrc");
+        sessionStorage.removeItem("psw");
+        sessionStorage.removeItem("IS_VIP");
+        sessionStorage.removeItem("birthday");
+        sessionStorage.removeItem("signature");
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("sex");
+        sessionStorage.removeItem("is_set_pay");
+        sessionStorage.removeItem("videos");
+        sessionStorage.removeItem("created_at");
+        sessionStorage.removeItem("warning18");
         if (data.status == 0) {
           this.$message({
-            message: '退出登录成功！',
-            type: 'success'
-          })
-          sessionStorage.removeItem("username");
-          sessionStorage.removeItem("email");
-          sessionStorage.removeItem("TOKEN_KEY");
-          sessionStorage.removeItem("is_set_pay");
-          sessionStorage.removeItem("salt");
-          sessionStorage.removeItem("imgsrc");
-          sessionStorage.removeItem("psw");
-          sessionStorage.removeItem("warning18");
-          this.checkuser();
+            message: "退出登录成功！",
+            type: "success"
+          });
           Hub.$emit("home", true);
+          this.checkuser();
         }
-      })
+      });
+      this.checkuser();
     },
     register() {
       this.$router.push({
@@ -179,14 +193,15 @@ export default {
     //   }, 5000)
     // },
     userpag(component) {
-      Hub.$emit("component", component);
+      // Hub.$emit("component", component);
       this.$router.push({
-        path: "/UserCenter"
+        path: "/" + component
       });
     },
     checkuser() {
+      let api_token = sessionStorage.getItem("TOKEN_KEY");
       let username = sessionStorage.getItem("username");
-      if (username) {
+      if (api_token) {
         this.ShowOnline = true;
         this.ShowLog = false;
         this.username = username;
@@ -194,6 +209,9 @@ export default {
         this.ShowOnline = false;
         this.ShowLog = true;
         this.username = null;
+        this.$router.push({
+          path: "/Home"
+        });
       }
     },
     addBookmark() {
@@ -232,7 +250,9 @@ export default {
     },
     selectMark(name, id) {
       this.$router.push({
-        query: { tag: name },
+        query: {
+          tag: name
+        },
         path: "/VideoMore"
       });
       this.ShowMask = false;
@@ -243,7 +263,6 @@ export default {
   },
   props: [],
   created() {
-    this.checkuser();
     Hub.$on("ShowLog", data => {
       this.ShowLog = data;
     });
@@ -272,182 +291,183 @@ export default {
 </script>
 <style lang="scss" >
 .header {
-  .xingyu-topnav {
-    background-color: #58b59d;
-    height: 60px;
-    .v-container {
-      width: 1200px;
-      margin: 0 auto;
-      height: 60px;
-      .topnav-mainnav {
-        float: left;
-        display: table;
-        .mainnav-nav-div {
-          display: table-cell;
-          vertical-align: middle;
-          ul {
-            font-size: 0;
-            line-height: 0;
-            li {
-              width: 70px;
-              text-align: center;
-              height: 60px;
-              line-height: 60px;
-              font-size: 16px;
-              color: #fff;
-              display: inline-block;
-              cursor: pointer;
-            }
-            li:hover {
-              background: #fff;
-              color: #58b59d;
-            }
-          }
-        }
-      }
-      .topnav-mainnav-right {
-        float: right;
-        line-height: 60px;
+    .xingyu-topnav {
+        background-color: #58b59d;
         height: 60px;
-        li {
-          display: inline-block;
-          height: 32px;
-          line-height: 32px;
-          color: #fff;
-          cursor: pointer;
-          float: left;
-          margin: 14px 8px;
+        .v-container {
+            width: 1200px;
+            margin: 0 auto;
+            height: 60px;
+            .topnav-mainnav {
+                float: left;
+                display: table;
+                .mainnav-nav-div {
+                    display: table-cell;
+                    vertical-align: middle;
+                    ul {
+                        font-size: 0;
+                        line-height: 0;
+                        li {
+                            width: 70px;
+                            text-align: center;
+                            height: 60px;
+                            line-height: 60px;
+                            font-size: 16px;
+                            color: #fff;
+                            display: inline-block;
+                            cursor: pointer;
+                        }
+                        li:hover {
+                            background: #fff;
+                            color: #58b59d;
+                        }
+                    }
+                }
+            }
+            .topnav-mainnav-right {
+                float: right;
+                line-height: 60px;
+                height: 60px;
+                li {
+                    display: inline-block;
+                    height: 32px;
+                    line-height: 32px;
+                    color: #fff;
+                    cursor: pointer;
+                    float: left;
+                    margin: 14px 8px;
+                }
+                .xingyu-search {
+                    width: 210px;
+                    border: 1px solid #fff;
+                    text-align: center;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    overflow: hidden;
+                    input {
+                        outline: none;
+                        background: none;
+                        border: none;
+                        padding-left: 15px;
+                        width: 128px;
+                    }
+                    button {
+                        height: 32px;
+                        width: 37px;
+                        border: none;
+                        position: relative;
+                        right: -16px;
+                        outline: none;
+                        background: #fff;
+                        i {
+                            font-size: 19px;
+                            font-weight: bold;
+                            color: #6f6b6b;
+                            width: 20px;
+                            height: 20px;
+                            padding-right: 5px;
+                        }
+                    }
+                }
+                .top-main-nav-collection {
+                    width: 110px;
+                    background-color: #4fa28d;
+                    text-align: center;
+                    border-radius: 4px;
+                    font-size: 14px;
+                }
+                .top-nav-guide {
+                    width: 100px;
+                    background-color: #4fa28d;
+                    text-align: center;
+                    border-radius: 4px;
+                }
+                .top-main-nav-collection:hover,
+                .top-nav-guide:hover,
+                .xingyu-btn-login:hover,
+                .xingyu-btn-register:hover {
+                    background-color: #fff;
+                    color: #4fa28d;
+                }
+                .topnav-btn-group {
+                    font-size: 16px;
+                    a {
+                        background-color: #4fa28d;
+                        color: #fff;
+                        border-radius: 4px;
+                        margin-left: 30px;
+                        font-size: 14px;
+                        text-align: center;
+                        padding: 5px 11px;
+                    }
+                    .showonline {
+                        padding: 0 10px 0 0px;
+                        float: left;
+                        position: relative;
+                        span {
+                            display: inline-block;
+                            float: left;
+                            padding: 0 3px;
+                            border-radius: 5px;
+                        }
+                        .hover:hover {
+                            box-shadow: 3px 1px 10px 0 #5f5a5a;
+                        }
+                        i {
+                            display: inline-block;
+                            float: left;
+                            border-radius: 5px;
+                            height: 21px;
+                            width: 27px;
+                            padding: 1px 3px 8px;
+                            margin-right: 5px;
+                        }
+                        .arrow {
+                            width: 30px;
+                            height: 30px;
+                            line-height: 32px;
+                        }
+                        .userdeitllist {
+                            display: inline-block;
+                            width: 100px;
+                            float: left;
+                            position: absolute;
+                            left: 67px;
+                            top: 29px;
+                            background: #58b59d;
+                            z-index: 1;
+                            border-radius: 5px;
+                            box-shadow: 1px -1px 7px -1px #5f5a5a;
+                            li {
+                                overflow: inherit;
+                                margin: 0;
+                                width: 100px;
+                            }
+                            li:hover {
+                                background: #93c5b8;
+                            }
+                        }
+                        .username {
+                            height: 30px;
+                            // width: 80px;
+                            text-align: center;
+                        }
+                    }
+                }
+            }
         }
-        .xingyu-search {
-          width: 210px;
-          border: 1px solid #fff;
-          text-align: center;
-          border-radius: 4px;
-          font-size: 14px;
-          overflow: hidden;
-          input {
-            outline: none;
-            background: none;
-            border: none;
-          }
-          button {
-            height: 32px;
-            width: 37px;
-            border: none;
-            position: relative;
-            right: -16px;
-            outline: none;
-            background: #fff;
-            i {
-              font-size: 19px;
-              font-weight: bold;
-              color: #6f6b6b;
-              width: 20px;
-              height: 20px;
-              padding-right: 5px;
-            }
-          }
-        }
-        .top-main-nav-collection {
-          width: 110px;
-          background-color: #4fa28d;
-          text-align: center;
-          border-radius: 4px;
-          font-size: 14px;
-        }
-        .top-nav-guide {
-          width: 100px;
-          background-color: #4fa28d;
-          text-align: center;
-          border-radius: 4px;
-        }
-        .top-main-nav-collection:hover,
-        .top-nav-guide:hover,
-        .xingyu-btn-login:hover,
-        .xingyu-btn-register:hover {
-          background-color: #fff;
-          color: #4fa28d;
-        }
-        .topnav-btn-group {
-          font-size: 16px;
-          a {
-            background-color: #4fa28d;
-            color: #fff;
-            border-radius: 4px;
-            margin-left: 30px;
-            font-size: 14px;
-            text-align: center;
-            padding: 5px 11px;
-          }
-          .showonline {
-            padding: 0 10px;
-            float: left;
-            position: relative;
-            span {
-              display: inline-block;
-              float: left;
-              padding: 0 3px;
-              border-radius: 5px;
-            }
-            .hover:hover {
-              box-shadow: 3px 1px 10px 0 #5f5a5a;
-            }
-            i {
-              display: inline-block;
-              float: left;
-              padding: 0 3px;
-              border-radius: 5px;
-              height: 21px;
-              width: 27px;
-              padding-top: 8px;
-              margin-right: 5px;
-            }
-            .arrow {
-              width: 30px;
-              height: 30px;
-              line-height: 32px;
-            }
-            .userdeitllist {
-              display: inline-block;
-              width: 100px;
-              float: left;
-              position: absolute;
-              left: 67px;
-              top: 29px;
-              background: #58b59d;
-              z-index: 1;
-              border-radius: 5px;
-              box-shadow: 1px -1px 7px -1px #5f5a5a;
-              li {
-                overflow: inherit;
-                margin: 0;
-                width: 100px;
-              }
-              li:hover {
-                background: #93c5b8;
-              }
-            }
-            .username {
-              height: 30px;
-              width: 80px;
-              text-align: center;
-            }
-          }
-        }
-      }
     }
-  }
-  .logo {
-    height: 60px;
-    float: left;
-    .nav-logo {
-      width: 184px;
-      height: 60px;
-      line-height: 60px;
-      background: url("/static/logo.png") no-repeat 0 5px;
-      cursor: pointer;
-      display: inline-block;
+    .logo {
+        height: 60px;
+        float: left;
+        .nav-logo {
+            width: 184px;
+            height: 60px;
+            line-height: 60px;
+            background: url("/static/logo.png") no-repeat center;
+            cursor: pointer;
+            display: inline-block;
+        }
     }
-  }
 }
 </style>

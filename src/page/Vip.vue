@@ -1,10 +1,9 @@
 <template>
 <div class="vip">
-  <Paytop />
-  <Payicons/>
+  <Paytop/>
   <Paypackge/>
+  <Payicons/>
   <payContain v-show='ShowPayContain'/>
-
 </div>
 </template>
 <script>
@@ -12,7 +11,7 @@ import Hub from '@/components/Hub';
 import Paytop from '@/components/Paytop.vue';
 import Paypackge from '@/components/Paypackge.vue';
 import Payicons from '@/components/Payicons.vue';
-import payContain from '@/components/user/payContain.vue';
+import payContain from '@/page/user/payContain.vue';
 export default {
   data(){
     return {
@@ -23,6 +22,9 @@ export default {
     Paytop,Paypackge,Payicons,
     payContain
   },
+  methods: {
+
+  },
   created() {
     Hub.$on('PayDialog', (data) => {
       this.ShowPayContain = data
@@ -31,9 +33,6 @@ export default {
     });
     Hub.$on('ShowNoLogin', (data) => {
     });
-  },
-  methods: {
-
   },
 }
 </script>
