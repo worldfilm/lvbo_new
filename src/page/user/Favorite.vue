@@ -20,7 +20,7 @@
         </a>
           <p class="title" v-text='item.title'></p>
           <p class="v-mask-layer"><span class="peoplenum"></span><span>人观看</span><span class="beforeday">{{item.duration}}</span><span>天前</span></p>
-          <p><button type="button" name="button" @click='deletvideo(item)'>取消收藏</button></p>
+          <button type="button" name="button" @click='deletvideo(item)'>取消收藏</button>
         </li>
       </ul>
     </div>
@@ -39,26 +39,25 @@ export default {
     };
   },
   computed: {
-    NoHaveVideo(){
+    NoHaveVideo() {
       return this.list.length
     }
   },
   methods: {
-    openvideo(item) {
-    },
+    openvideo(item) {},
     deletvideo(item) {
       let id = item.id
       this.$http.get("api/video/cancelCollect/" + id).then(data => {
         if (data.status == 0) {
-            this.getvideolist()
-          if (data.data.list.length > 0) {
+          this.getvideolist()
+          if (data.data.list.length > -1) {
             this.list = data.data.list;
           }
 
         }
       });
     },
-    getvideolist(){
+    getvideolist() {
       let pangnum = this.pangnum;
       let page_size = this.page_size;
       let params = {
@@ -165,6 +164,11 @@ export default {
                     .title:hover {
                         color: #f07;
                     }
+                    button {
+                        padding: 3px;
+                        margin: 5px;
+                        border-radius: 3px;
+                    }
                     p {
                         height: 20px;
                         line-height: 20px;
@@ -194,7 +198,7 @@ export default {
                         position: absolute;
                         z-index: 10;
                         width: 100%;
-                        height: 60%;
+                        height: 56%;
                         top: 0;
                         left: 0;
                         background-color: rgba(0, 0, 0, 0.5);

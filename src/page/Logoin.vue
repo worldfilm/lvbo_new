@@ -115,7 +115,7 @@ export default {
               sessionStorage.setItem("sex", data.data.sex);
               sessionStorage.setItem("is_set_pay", data.data.is_set_pay);
               sessionStorage.setItem("videos", data.data.videos);
-              sessionStorage.setItem("created_at", data.data.created_at);
+              sessionStorage.setItem("created_at", data.data.created_at.date);
               axios.defaults.headers.api_token = data.data.api_token
               this.$router.push({
                 path: "/Home"
@@ -172,9 +172,34 @@ export default {
         this.changingClasspswr='red'
       }
     },
+    checkuser(){
+      Hub.$emit("ShowLog", true);
+      Hub.$emit("ShowOnline", false);
+      let api_token= sessionStorage.getItem("TOKEN_KEY");
+      if(!api_token){
+        Hub.$emit("ShowLog", true);
+        Hub.$emit("ShowOnline", false);
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("TOKEN_KEY");
+        sessionStorage.removeItem("is_set_pay");
+        sessionStorage.removeItem("salt");
+        sessionStorage.removeItem("imgsrc");
+        sessionStorage.removeItem("psw");
+        sessionStorage.removeItem("IS_VIP");
+        sessionStorage.removeItem("birthday");
+        sessionStorage.removeItem("signature");
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("sex");
+        sessionStorage.removeItem("is_set_pay");
+        sessionStorage.removeItem("videos");
+        sessionStorage.removeItem("created_at");
+        sessionStorage.removeItem("warning18");
+      }
+    }
   },
   created() {
-
+     this.checkuser()
   },
 };
 </script>

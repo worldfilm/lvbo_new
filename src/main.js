@@ -11,11 +11,14 @@ import {
   DatePicker,
   Tag,
   Steps,
-  Step
+  Step,
+  Form,
+  Checkbox
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/iconfont/iconfont.css'
 import http from './utils/http.js'
+import './utils/filters.js'
 import loading from './components/loading.vue'
 
 // Message和MessageBox需要通过Vue.protype处理
@@ -35,6 +38,10 @@ Vue.use(Tag)
 Vue.component('el-steps', Steps)
 Vue.component('el-step', Step)
 Vue.component('v-loading', loading)
+Vue.component('el-form', Form)
+Vue.component('el-form-item', Form)
+Vue.component('el-checkbox', Checkbox)
+Vue.component('el-checkbox-group', Checkbox)
 Vue.config.productionTip = false
 
 new Vue({

@@ -33,10 +33,17 @@
       <span class="title">是否匿名</span>
       <el-switch v-model="isAnonymous" active-color="#58b59d"></el-switch>
     </p>
+    <p>
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item>
+          <el-checkbox label="我已同意服务条款" name="type" v-model="checkedu"></el-checkbox>
+        </el-form-item>
+      </el-form>
+    </p>
     <p class="choese">
-      <el-upload class="upload-demo" ref="upload" :on-success='success' :action='uploadUrl' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
+      <el-upload class="upload-demo" ref="upload" :on-change='onchange' :on-success='success' :action='uploadUrl' :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary" @click='addfile'>选取文件</el-button>
-        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" :disabled='filedisable' :class="fileupload">上传到服务器</el-button>
         <div slot="tip" class="el-upload__tip">感谢您的每个视频，视频的发布和转换需要一点时间来处理，此过程需要24-48小时， 具体的时间取决与视频容量，格式，服务器负载等，发布完成后，会及时推送信息。</div>
       </el-upload>
     </p>
@@ -53,9 +60,23 @@
 import Hub from "@/components/Hub";
 import AlertMsg from "@/components/Alert/AlertMsg";
 import MaskerNav from "@/components/MaskerNav";
+import From from "@/components/MaskerNav";
+
 export default {
   data() {
     return {
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      },
+      checkedu:true,
+      filedisable:false,
       ShowUmsg: false,
       showMask: false,
       tags: [],
@@ -72,6 +93,7 @@ export default {
       isTags:false,
       changedisable: true,
       sureupload:'dissureupload',
+      fileupload:'filesureupload',
       api_token: sessionStorage.getItem("TOKEN_KEY"),
       filename: null,
       id: "xx",
@@ -81,10 +103,14 @@ export default {
           url: ""
         }
       ],
-      isAnonymous: false
+      isAnonymous: false,
+      imgurl:null,
     };
   },
   methods: {
+    onSubmit() {
+        console.log('submit!');
+      },
     success(response) {
       if(response.message=="请先登录"){
         sessionStorage.removeItem("username");
@@ -107,6 +133,7 @@ export default {
       if(response.status==0){
         this.successUpLoadVideo=true
         this.videoUrl = response.data.video_url;
+        this.imgurl=response.data.thumb_img_url
       }
     },
     maskerc() {
@@ -115,6 +142,19 @@ export default {
     // 添加文件
     addfile() {
       // console.log(this.$refs.upload);
+    },
+    onchange(file, fileList){
+        console.log(file.name);
+        let fileReg = /\w+(.flv|.rvmb|.mp4|.avi|.wmv)$/;
+        if(fileReg.test(file.name)){
+          this.fileupload=''
+        }else{
+          this.fileupload='filesureupload'
+          this.ShowUmsg=true
+          Hub.$emit('changMsg', '不支持改格式视频上传');
+          this.$refs.upload.clearFiles();
+        }
+        // console.log(fileList);
     },
     //上传到服务器
     submitUpload() {
@@ -131,10 +171,11 @@ export default {
         let params = {
           title: this.titletex,
           description: this.textareatex,
-          tags: this.tags,
+          tags: this.tagsName,
           is_anonymous: Number(this.isAnonymous),
           video_url: this.videoUrl,
-          api_token:api_token
+          api_token:api_token,
+          thumb_img_url:this.imgurl,
         };
         this.$http.post("/api/video/addMyVideo", params).then(data => {
           if (data.status == 0) {
@@ -183,9 +224,12 @@ export default {
       this.showMask = false;
     },
     checkInfo(){
-      if(this.isText&&this.isTextare&&this.isUpload&&this.isTags){
+      if(this.isText&&this.isTextare&&this.isUpload&&this.isTags&&this.checkedu){
         this.changedisable=false
         this.sureupload='sureupload'
+      }else{
+        this.changedisable=true
+        this.sureupload='dissureupload'
       }
     },
   },
@@ -194,6 +238,9 @@ export default {
   },
   components: { AlertMsg, MaskerNav },
   created() {
+    Hub.$on('ShowUmsg', data => {
+      this.ShowUmsg=data
+    });
     let api_token = sessionStorage.getItem("TOKEN_KEY");
     this.uploadUrl="http://webvideo.6fg645fsd.com/api/video/upload?api_token="+api_token
     if(!api_token){
@@ -226,6 +273,9 @@ export default {
           this.isTags=true
         }
         this.checkInfo()
+    },
+    checkedu:function(curVal,oldVal){
+           this.checkInfo()
     },
   },
 };
@@ -302,6 +352,11 @@ export default {
         font-size: 16px;
         background: #b4b6bb;
         cursor:not-allowed;
+      }
+      .filesureupload {
+        background: #b4b6bb;
+        cursor: not-allowed;
+        border: 1px #b4b6bb solid;
       }
       span.title {
         font-size: 12px;

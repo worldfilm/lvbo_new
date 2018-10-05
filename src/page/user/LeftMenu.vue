@@ -4,6 +4,7 @@
     <div class="infophoto">
       <a href="#/Changehead">
         <img :src="imgsrc">
+      <i class="icon iconfont icon-bianji"></i>
       </a>
     </div>
     <p class="infoname">
@@ -11,10 +12,10 @@
     </p>
     <div class="infolist">
       <ul>
-        <li>
+        <!-- <li>
           <p>积分</p>
           <p v-text="integral"></p>
-        </li>
+        </li> -->
         <li>
           <p @click='videolink' class="videolink">视频</p>
           <p v-text="videonum"></p>
@@ -81,6 +82,10 @@ export default {
   },
   components: {},
   created() {
+    let registetime=sessionStorage.getItem('created_at').split(' ')[0].split('-').join('/')
+    let videos=sessionStorage.getItem('videos')
+    this.videonum=videos
+    this.registetime=registetime
     let imgsrc=sessionStorage.getItem('imgsrc')
     this.imgsrc=imgsrc
     let username=sessionStorage.getItem('username')
@@ -114,6 +119,15 @@ export default {
                 width: 80px;
                 border-radius: 50%;
                 vertical-align: middle;
+            }
+            .iconfont{
+              display:inline-block;
+              width:30px;
+              height:30px;
+              position: relative;
+              top: -20px;
+              right: -3px;
+              font-size: 23px;
             }
         }
         .infoname {

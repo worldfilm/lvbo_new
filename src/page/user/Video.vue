@@ -19,7 +19,7 @@
     <div class="myvideo" v-show='HaveVideo'>
       <ul class="videos-cont">
         <li v-for="(item,idx) in list" class="item" @click='openvideo(item)' :key="idx">
-          <img class="video-cover" :src="item.thumb_href">
+          <img class="video-cover" :src="item.thumb_img_url">
           <a :href="`http://wwwvideo.6fg645fsd.com/v/${item.id}`" class="hide" target="_blank">
           <img src="/static/playbtn.png" alt="">
         </a>

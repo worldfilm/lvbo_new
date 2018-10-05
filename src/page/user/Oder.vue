@@ -21,7 +21,7 @@ import LeftMenu from '@/page/user/LeftMenu';
 export default {
   data() {
     return {
-      list: [{}]
+      list: []
     };
   },
   methods: {},

@@ -13,7 +13,7 @@
         <ul>
           <li><span class="title">帐号：</span><span v-text='username'></span> </li>
           <li><span class="title">会员状态：</span><span v-text='isvip'></span> </li>
-          <li><span class="title">自拍：</span><span v-text='selfvideo'></span> </li>
+          <li><span class="title">上传视频：</span><span v-text='selfvideo'></span><span>个</span> </li>
           <li><span class="title">性别：</span><span v-text='sex'></span> </li>
           <li><span class="title">生日：</span><span v-text='birthday'></span> </li>
           <li><span class="title">个性签名：</span><span v-text='signature'></span></li>
@@ -88,6 +88,26 @@ export default {
       this.ShowCanEdit=true
       this.showbtn=false
     },
+    getinfo(){
+      this.$http.get("/api/user/detail").then(data => {
+        if (data.status === 0) {
+           this.signature=data.data.signature
+           this.birthday=data.data.birthday
+           this.username=data.data.username
+           this.selfvideo=data.data.videos
+           let sex=data.data.sex
+           if(sex==1){
+             this.sex='男'
+           }
+           if(sex==2){
+             this.sex='女'
+           }
+           if(sex==0){
+             this.sex='未知 '
+           }
+        }
+      });
+    },
     infobtn() {
       let params = {
         sex: this.sex,
@@ -97,6 +117,7 @@ export default {
       };
       this.$http.post("/api/user/edit", params).then(res => {
         if (res.status === 0) {
+          this.getinfo()
           this.$message({
             message: "编辑成功",
             type: "success"
@@ -114,26 +135,13 @@ export default {
     LeftMenu
   },
   created() {
-    this.birthday=sessionStorage.getItem("birthday");
+    this.getinfo()
     this.getExchanges()
-    this.signature=sessionStorage.getItem("signature");
-    let username = sessionStorage.getItem("username");
-    this.username = username;
     let vip=sessionStorage.getItem("IS_VIP");
     if(vip){
       this.isvip='会员'
     }else{
       this.isvip='非会员'
-    }
-    let sex=sessionStorage.getItem("sex");
-    if(sex==1){
-      this.sex='男'
-    }
-    if(sex==2){
-      this.sex='女'
-    }
-    if(sex==0){
-      this.sex='未知 '
     }
   }
 };

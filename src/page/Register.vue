@@ -230,7 +230,7 @@ export default {
               sessionStorage.setItem("sex", data.data.sex);
               sessionStorage.setItem("is_set_pay", data.data.is_set_pay);
               sessionStorage.setItem("videos", data.data.videos);
-              sessionStorage.setItem("created_at", data.data.created_at);
+              sessionStorage.setItem("created_at", data.data.created_at.date);
               axios.defaults.headers.api_token = data.data.api_token
               Hub.$emit("ShowLog", false);
               Hub.$emit("ShowOnline", true);

@@ -26,6 +26,8 @@ export default {
       Hub.$emit('ShowOk', false);
       Hub.$emit('closedShowForgetPSW', false);
       Hub.$emit('ShowAlertE', false);
+      Hub.$emit('ShowUmsg', false);
+
     },
   },
   created() {

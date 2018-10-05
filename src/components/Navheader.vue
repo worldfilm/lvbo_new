@@ -263,6 +263,7 @@ export default {
   },
   props: [],
   created() {
+    this.checkuser()
     Hub.$on("ShowLog", data => {
       this.ShowLog = data;
     });
